@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Kerala — Aprende Malayalam</title>
+<style>
+:root{
+  --green:#1a7a4a;--green-light:#e8f5ee;--green-mid:#2da866;
+  --gold:#c9922a;--gold-light:#fdf3e3;
+  --red:#e24b4a;--red-light:#fef0f0;
+  --blue:#3b82f6;--blue-light:#eff6ff;
+  --purple:#7c3aed;--purple-light:#f5f3ff;
+  --orange:#ea580c;--orange-light:#fff7ed;
+  --gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;
+  --gray-300:#d1d5db;--gray-400:#9ca3af;--gray-500:#6b7280;
+  --gray-600:#4b5563;--gray-700:#374151;--gray-800:#1f2937;--gray-900:#111827;
+  --radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:24px;--radius-full:9999px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg:0 8px 32px rgba(0,0,0,0.10);
+  --transition:all 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;background:var(--gray-50);color:var(--gray-900);min-height:100vh;max-width:480px;margin:0 auto}
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.active{display:flex}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* HOME */
+#screen-home{background:linear-gradient(160deg,#0d4f2e 0%,#1a7a4a 40%,#2da866 100%);color:white;overflow-y:auto;padding-bottom:100px}
+.home-header{padding:52px 24px 0}
+.home-logo{display:flex;align-items:center;gap:10px;margin-bottom:32px}
+.logo-icon{width:40px;height:40px;background:rgba(255,255,255,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.logo-text{font-size:22px;font-weight:700;letter-spacing:-0.5px}
+.logo-sub{font-size:11px;opacity:.7;letter-spacing:1px;text-transform:uppercase}
+.home-hero{margin-bottom:24px}
+.home-hero h1{font-size:34px;font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:8px}
+.home-hero p{font-size:15px;opacity:.8;line-height:1.5}
+.home-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.stat-card{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:var(--radius-md);padding:14px 8px;text-align:center}
+.stat-value{font-size:22px;font-weight:800}
+.stat-label{font-size:11px;opacity:.75;margin-top:2px}
+.home-card{background:white;border-radius:28px 28px 0 0;padding:28px 20px 0;color:var(--gray-900);flex:1}
+.section-title{font-size:17px;font-weight:700;color:var(--gray-900);margin-bottom:14px;letter-spacing:-0.3px}
+
+/* UNITS */
+.unit-block{margin-bottom:24px}
+.unit-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:0 4px}
+.unit-number{width:32px;height:32px;border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+.unit-title{font-size:15px;font-weight:700}
+.unit-subtitle{font-size:12px;color:var(--gray-500)}
+.lessons-row{display:flex;flex-direction:column;gap:8px}
+.lesson-card{background:white;border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:14px 16px;cursor:pointer;transition:var(--transition);display:flex;align-items:center;gap:14px;position:relative;overflow:hidden}
+.lesson-card:active{transform:scale(0.98)}
+.lesson-card.locked{opacity:.45;cursor:not-allowed}
+.lesson-card.done{border-color:var(--green);background:var(--green-light)}
+.lesson-card .accent-bar{position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px}
+.lesson-icon{width:44px;height:44px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.lesson-info{flex:1}
+.lesson-name{font-size:14px;font-weight:700;margin-bottom:2px}
+.lesson-desc{font-size:12px;color:var(--gray-500)}
+.lesson-prog{margin-top:6px;height:3px;background:var(--gray-200);border-radius:var(--radius-full);overflow:hidden}
+.lesson-prog-fill{height:100%;border-radius:var(--radius-full);transition:width .5s ease}
+.lesson-badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:var(--radius-full);flex-shrink:0}
+.lesson-xp-badge{font-size:11px;color:var(--gray-400);font-weight:500}
+.streak-banner{background:linear-gradient(135deg,var(--gold-light),#fff8ed);border:1.5px solid #f0c070;border-radius:var(--radius-lg);padding:14px 18px;display:flex;align-items:center;gap:14px;margin-top:4px;margin-bottom:28px}
+.streak-icon{font-size:28px}
+.streak-text h3{font-size:14px;font-weight:700;color:var(--gold)}
+.streak-text p{font-size:12px;color:var(--gray-500);margin-top:2px}
+
+/* LESSON */
+#screen-lesson{background:white}
+.lesson-header{padding:52px 20px 14px;background:white;border-bottom:1px solid var(--gray-100)}
+.back-btn{display:flex;align-items:center;gap:6px;font-size:15px;color:var(--green);font-weight:600;background:none;border:none;cursor:pointer;padding:8px 0;margin-bottom:14px}
+.lesson-progress-bar{height:8px;background:var(--gray-100);border-radius:var(--radius-full);overflow:hidden;margin-bottom:6px}
+.lesson-progress-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--green-mid));border-radius:var(--radius-full);transition:width .4s cubic-bezier(0.4,0,0.2,1)}
+.lesson-progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--gray-400)}
+.lesson-body{flex:1;padding:28px 20px;display:flex;flex-direction:column;gap:20px;overflow-y:auto;padding-bottom:160px}
+.exercise-type-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:5px 12px;border-radius:var(--radius-full);letter-spacing:.3px;text-transform:uppercase}
+.exercise-question{font-size:26px;font-weight:800;line-height:1.2;letter-spacing:-.5px;color:var(--gray-900)}
+.exercise-subtitle{font-size:14px;color:var(--gray-500);margin-top:6px;line-height:1.5}
+
+/* FLASHCARD */
+.flashcard-scene{perspective:1200px;height:210px;cursor:pointer}
+.flashcard-obj{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(0.4,0,0.2,1)}
+.flashcard-obj.flipped{transform:rotateY(180deg)}
+.flashcard-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--radius-xl);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
+.flashcard-front{background:linear-gradient(145deg,#0d4f2e,#1a7a4a);color:white;box-shadow:var(--shadow-lg)}
+.flashcard-back{background:white;border:2px solid var(--gray-200);transform:rotateY(180deg);box-shadow:var(--shadow-lg)}
+.fc-mal{font-size:40px;font-weight:700;margin-bottom:6px}
+.fc-rom{font-size:16px;opacity:.8}
+.fc-tap{font-size:12px;opacity:.5;margin-top:12px;letter-spacing:.5px}
+.fc-trans{font-size:26px;font-weight:800;color:var(--gray-900);margin-bottom:6px}
+.fc-ex{font-size:12px;color:var(--gray-500);font-style:italic;line-height:1.5;margin-top:4px}
+.fc-note{font-size:11px;color:var(--green);margin-top:6px;font-weight:600}
+.fc-nav{display:flex;align-items:center;gap:10px}
+.fc-nav-btn{width:46px;height:46px;border-radius:var(--radius-full);border:1.5px solid var(--gray-200);background:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);box-shadow:var(--shadow-sm)}
+.fc-nav-btn:active{transform:scale(0.92)}
+.fc-counter{flex:1;text-align:center;font-size:13px;color:var(--gray-500);font-weight:500}
+.fc-actions{display:flex;gap:10px}
+.fc-action-btn{flex:1;padding:13px;border-radius:var(--radius-md);border:1.5px solid var(--gray-200);background:white;font-size:14px;font-weight:600;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center;gap:6px}
+.fc-action-btn.know{border-color:var(--green);color:var(--green)}
+.fc-action-btn.know:active{background:var(--green-light)}
+.fc-action-btn.skip{color:var(--gray-500)}
+.fc-action-btn.skip:active{background:var(--gray-100)}
+
+/* OPTIONS */
+.options-grid{display:flex;flex-direction:column;gap:9px}
+.option-btn{width:100%;padding:15px 18px;border-radius:var(--radius-md);border:1.5px solid var(--gray-200);background:white;font-size:15px;font-weight:500;text-align:left;cursor:pointer;transition:var(--transition);display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm)}
+.option-btn:active{transform:scale(0.98)}
+.option-btn.correct{border-color:var(--green);background:var(--green-light);color:var(--green)}
+.option-btn.wrong{border-color:var(--red);background:var(--red-light);color:var(--red)}
+.option-btn:disabled{cursor:not-allowed}
+.option-letter{width:28px;height:28px;border-radius:var(--radius-sm);background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.option-btn.correct .option-letter{background:var(--green);color:white}
+.option-btn.wrong .option-letter{background:var(--red);color:white}
+
+/* WRITE */
+.write-input{width:100%;padding:16px 18px;border-radius:var(--radius-md);border:2px solid var(--gray-200);font-size:17px;font-weight:500;background:white;color:var(--gray-900);outline:none;transition:var(--transition)}
+.write-input:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(26,122,74,.1)}
+.write-input.correct{border-color:var(--green);background:var(--green-light);color:var(--green)}
+.write-input.wrong{border-color:var(--red);background:var(--red-light);color:var(--red)}
+.check-btn{width:100%;padding:15px;border-radius:var(--radius-lg);border:none;font-size:16px;font-weight:700;cursor:pointer;transition:var(--transition);background:var(--green);color:white}
+.check-btn:active{opacity:.9;transform:scale(0.98)}
+
+/* FEEDBACK */
+.feedback-bar{padding:14px 20px 28px;border-top:1px solid var(--gray-100);display:none;background:white}
+.feedback-bar.show{display:block}
+.feedback-content{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.feedback-icon{width:36px;height:36px;border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.feedback-icon.ok{background:var(--green-light)}
+.feedback-icon.bad{background:var(--red-light)}
+.feedback-text h4{font-size:15px;font-weight:700;margin-bottom:3px}
+.feedback-text p{font-size:13px;color:var(--gray-600);line-height:1.5}
+.feedback-text.ok h4{color:var(--green)}
+.feedback-text.bad h4{color:var(--red)}
+.continue-btn{width:100%;padding:15px;border-radius:var(--radius-lg);border:none;font-size:16px;font-weight:700;cursor:pointer;transition:var(--transition)}
+.continue-btn.ok{background:var(--green);color:white}
+.continue-btn.bad{background:var(--red);color:white}
+.continue-btn:active{transform:scale(0.98);opacity:.9}
+
+/* RESULT */
+#screen-result{background:white;align-items:center;justify-content:center;padding:40px 28px;text-align:center}
+.result-circle{width:110px;height:110px;border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center;font-size:50px;margin:0 auto 24px}
+.result-circle.win{background:linear-gradient(145deg,#e8f5ee,#c6ebd9)}
+.result-circle.lose{background:var(--red-light)}
+.result-title{font-size:28px;font-weight:800;letter-spacing:-1px;margin-bottom:8px}
+.result-subtitle{font-size:14px;color:var(--gray-500);margin-bottom:32px;line-height:1.5}
+.result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;margin-bottom:32px}
+.result-stat{background:var(--gray-50);border-radius:var(--radius-md);padding:14px 6px;text-align:center}
+.result-stat-value{font-size:22px;font-weight:800}
+.result-stat-label{font-size:11px;color:var(--gray-500);margin-top:3px}
+.result-btn{width:100%;padding:15px;border-radius:var(--radius-lg);border:none;font-size:16px;font-weight:700;cursor:pointer;transition:var(--transition);margin-bottom:10px}
+.result-btn.primary{background:var(--green);color:white}
+.result-btn.secondary{background:var(--gray-100);color:var(--gray-700)}
+.result-btn:active{transform:scale(0.98);opacity:.9}
+
+/* VOCAB */
+#screen-vocab{background:var(--gray-50)}
+.vocab-header{background:white;padding:52px 24px 18px;border-bottom:1px solid var(--gray-100)}
+.vocab-header h2{font-size:24px;font-weight:800;letter-spacing:-.5px;margin-bottom:3px}
+.vocab-header p{font-size:14px;color:var(--gray-500)}
+.vocab-search{width:100%;padding:11px 16px;border-radius:var(--radius-md);border:1.5px solid var(--gray-200);font-size:14px;background:var(--gray-50);color:var(--gray-900);outline:none;margin-top:12px}
+.vocab-search:focus{border-color:var(--green)}
+.vocab-filters{display:flex;gap:8px;padding:14px 20px;overflow-x:auto;background:white;border-bottom:1px solid var(--gray-100);-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.vocab-filters::-webkit-scrollbar{display:none}
+.filter-chip{padding:7px 14px;border-radius:var(--radius-full);border:1.5px solid var(--gray-200);background:white;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:var(--transition);color:var(--gray-600)}
+.filter-chip.active{background:var(--green);color:white;border-color:var(--green)}
+.vocab-list{padding:14px 20px;display:flex;flex-direction:column;gap:8px;padding-bottom:100px}
+.vocab-item{background:white;border:1.5px solid var(--gray-100);border-radius:var(--radius-lg);padding:13px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm)}
+.vocab-cat-dot{width:9px;height:9px;border-radius:var(--radius-full);flex-shrink:0}
+.vocab-mal{font-size:20px;font-weight:700;flex:1}
+.vocab-right{text-align:right}
+.vocab-trans{font-size:13px;font-weight:600;color:var(--gray-700)}
+.vocab-rom{font-size:11px;color:var(--gray-400);margin-top:2px}
+.vocab-empty{text-align:center;padding:40px 20px;color:var(--gray-400);font-size:14px}
+
+/* PROFILE */
+#screen-profile{background:var(--gray-50);padding-bottom:100px;overflow-y:auto}
+.profile-header{background:linear-gradient(145deg,#0d4f2e,#1a7a4a);padding:52px 24px 28px;color:white}
+.profile-avatar{width:70px;height:70px;border-radius:var(--radius-full);background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;margin-bottom:12px;border:3px solid rgba(255,255,255,.4)}
+.profile-name{font-size:22px;font-weight:800;margin-bottom:3px}
+.profile-sub{font-size:13px;opacity:.75}
+.profile-level-row{display:flex;justify-content:space-between;margin-top:16px;font-size:12px;opacity:.8}
+.profile-xp-bar{margin-top:6px;background:rgba(255,255,255,.2);border-radius:var(--radius-full);height:7px;overflow:hidden}
+.profile-xp-fill{height:100%;background:#7fffc0;border-radius:var(--radius-full);transition:width .6s ease}
+.profile-stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:18px 20px 0}
+.profile-stat-card{background:white;border-radius:var(--radius-lg);padding:16px;box-shadow:var(--shadow-sm);border:1px solid var(--gray-100)}
+.profile-stat-icon{font-size:22px;margin-bottom:6px}
+.profile-stat-value{font-size:26px;font-weight:800;letter-spacing:-1px}
+.profile-stat-label{font-size:12px;color:var(--gray-500);margin-top:2px}
+.achievements-section{padding:18px 20px 0}
+.achievements-section h3{font-size:16px;font-weight:700;margin-bottom:10px}
+.achievement-list{display:flex;flex-direction:column;gap:8px}
+.achievement-item{background:white;border-radius:var(--radius-md);padding:13px 14px;display:flex;align-items:center;gap:12px;border:1px solid var(--gray-100);box-shadow:var(--shadow-sm)}
+.achievement-icon{width:42px;height:42px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.achievement-info h4{font-size:13px;font-weight:700}
+.achievement-info p{font-size:12px;color:var(--gray-500);margin-top:1px}
+.achievement-item.locked{opacity:.4}
+
+/* TOAST & NAV */
+.xp-toast{position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-16px);background:var(--gray-900);color:white;padding:9px 18px;border-radius:var(--radius-full);font-size:14px;font-weight:600;opacity:0;transition:all .3s cubic-bezier(0.4,0,0.2,1);pointer-events:none;z-index:999;white-space:nowrap}
+.xp-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:white;border-top:1px solid var(--gray-100);display:flex;padding:8px 0 20px;z-index:100}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 0;transition:var(--transition);border:none;background:none}
+.nav-icon{font-size:22px}
+.nav-label{font-size:10px;font-weight:600;color:var(--gray-400);letter-spacing:.3px}
+.nav-item.active .nav-label{color:var(--green)}
+.confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
+@keyframes slideUp{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+.animate-slide{animation:slideUp .25s ease both}
+</style>
+</head>
+<body>
+<h2 class="sr-only">Kerala — Aprende Malayalam desde cero hasta nivel A1</h2>
+<div id="xp-toast" class="xp-toast"></div>
+
+<!-- HOME -->
+<div id="screen-home" class="screen active">
+  <div class="home-header">
+    <div class="home-logo">
+      <div class="logo-icon">🌴</div>
+      <div><div class="logo-text">Kerala</div><div class="logo-sub">Aprende Malayalam</div></div>
+    </div>
+    <div class="home-hero">
+      <h1>¡Hola, Joel!</h1>
+      <p>Tu camino al nivel A1 de Malayalam</p>
+    </div>
+    <div class="home-stats">
+      <div class="stat-card"><div class="stat-value" id="stat-xp">0</div><div class="stat-label">XP total</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-streak">0🔥</div><div class="stat-label">Racha</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-words">0</div><div class="stat-label">Palabras</div></div>
+    </div>
+  </div>
+  <div class="home-card">
+    <div id="units-container"></div>
+    <div class="streak-banner">
+      <div class="streak-icon">🔥</div>
+      <div class="streak-text">
+        <h3 id="streak-title">¡Empieza tu racha hoy!</h3>
+        <p id="streak-desc">Practica cada día para mantener tu racha</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LESSON -->
+<div id="screen-lesson" class="screen">
+  <div class="lesson-header">
+    <button class="back-btn" onclick="goHome()">← Inicio</button>
+    <div class="lesson-progress-bar"><div class="lesson-progress-fill" id="lesson-prog-fill" style="width:0%"></div></div>
+    <div class="lesson-progress-label"><span id="lesson-prog-label">0 / 0</span><span id="lesson-xp-label">+0 XP</span></div>
+  </div>
+  <div class="lesson-body" id="lesson-body"></div>
+  <div class="feedback-bar" id="feedback-bar">
+    <div class="feedback-content">
+      <div class="feedback-icon" id="fb-icon"></div>
+      <div class="feedback-text" id="fb-text"><h4 id="fb-title"></h4><p id="fb-desc"></p></div>
+    </div>
+    <button class="continue-btn" id="continue-btn" onclick="nextExercise()">Continuar</button>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="screen-result" class="screen">
+  <div class="result-circle" id="result-circle"></div>
+  <h2 class="result-title" id="result-title"></h2>
+  <p class="result-subtitle" id="result-subtitle"></p>
+  <div class="result-stats">
+    <div class="result-stat"><div class="result-stat-value" id="res-correct" style="color:var(--green)">0</div><div class="result-stat-label">Correctas</div></div>
+    <div class="result-stat"><div class="result-stat-value" id="res-wrong" style="color:var(--red)">0</div><div class="result-stat-label">Errores</div></div>
+    <div class="result-stat"><div class="result-stat-value" id="res-xp" style="color:var(--gold)">0</div><div class="result-stat-label">XP ganado</div></div>
+  </div>
+  <button class="result-btn primary" onclick="restartLesson()">Repetir lección</button>
+  <button class="result-btn secondary" onclick="goHome()">Volver al inicio</button>
+</div>
+
+<!-- VOCAB -->
+<div id="screen-vocab" class="screen">
+  <div class="vocab-header">
+    <h2>Vocabulario</h2>
+    <p id="vocab-count"></p>
+    <input class="vocab-search" id="vocab-search" type="search" placeholder="Buscar palabra..." oninput="searchVocab(this.value)">
+  </div>
+  <div class="vocab-filters" id="vocab-filters">
+    <button class="filter-chip active" onclick="filterVocab('all',this)">Todas</button>
+    <button class="filter-chip" onclick="filterVocab('greeting',this)">Saludos</button>
+    <button class="filter-chip" onclick="filterVocab('pronoun',this)">Pronombres</button>
+    <button class="filter-chip" onclick="filterVocab('verb',this)">Verbos</button>
+    <button class="filter-chip" onclick="filterVocab('noun',this)">Sustantivos</button>
+    <button class="filter-chip" onclick="filterVocab('adj',this)">Adjetivos</button>
+    <button class="filter-chip" onclick="filterVocab('number',this)">Números</button>
+    <button class="filter-chip" onclick="filterVocab('time',this)">Tiempo</button>
+    <button class="filter-chip" onclick="filterVocab('place',this)">Lugares</button>
+    <button class="filter-chip" onclick="filterVocab('color',this)">Colores</button>
+    <button class="filter-chip" onclick="filterVocab('food',this)">Comida</button>
+    <button class="filter-chip" onclick="filterVocab('family',this)">Familia</button>
+    <button class="filter-chip" onclick="filterVocab('body',this)">Cuerpo</button>
+  </div>
+  <div class="vocab-list" id="vocab-list"></div>
+</div>
+
+<!-- PROFILE -->
+<div id="screen-profile" class="screen">
+  <div class="profile-header">
+    <div class="profile-avatar">J</div>
+    <div class="profile-name">Joel</div>
+    <div class="profile-sub">Aprendiz de Malayalam · Kerala</div>
+    <div class="profile-level-row"><span id="profile-xp-current">0 XP</span><span id="profile-level-label">Nivel 1</span></div>
+    <div class="profile-xp-bar"><div class="profile-xp-fill" id="profile-xp-fill" style="width:0%"></div></div>
+  </div>
+  <div class="profile-stats-grid">
+    <div class="profile-stat-card"><div class="profile-stat-icon">🔥</div><div class="profile-stat-value" id="p-streak">0</div><div class="profile-stat-label">Racha de días</div></div>
+    <div class="profile-stat-card"><div class="profile-stat-icon">⭐</div><div class="profile-stat-value" id="p-xp">0</div><div class="profile-stat-label">XP total</div></div>
+    <div class="profile-stat-card"><div class="profile-stat-icon">✅</div><div class="profile-stat-value" id="p-correct">0</div><div class="profile-stat-label">Respuestas correctas</div></div>
+    <div class="profile-stat-card"><div class="profile-stat-icon">📚</div><div class="profile-stat-value" id="p-words">0</div><div class="profile-stat-label">Palabras aprendidas</div></div>
+  </div>
+  <div class="achievements-section">
+    <h3>Logros</h3>
+    <div class="achievement-list" id="achievement-list"></div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="showScreen('home',this)"><span class="nav-icon">🏠</span><span class="nav-label">Inicio</span></button>
+  <button class="nav-item" onclick="showScreen('vocab',this)"><span class="nav-icon">📖</span><span class="nav-label">Vocabulario</span></button>
+  <button class="nav-item" onclick="showScreen('profile',this)"><span class="nav-icon">👤</span><span class="nav-label">Perfil</span></button>
+</nav>
+
+<script>
+const CAT_COLORS={greeting:'#1D9E75',pronoun:'#534AB7',verb:'#D85A30',noun:'#BA7517',adj:'#993556',number:'#185FA5',time:'#0F6E56',place:'#3B6D11',color:'#888780',food:'#c9922a',family:'#7c3aed',body:'#e24b4a'};
+
+const ALL_WORDS=[
+  // SALUDOS Y CORTESÍA
+  {mal:'നമസ്കാരം',rom:'namaskaram',trans:'hola / namaste',ex:'Saludo formal universal en Kerala',cat:'greeting'},
+  {mal:'സുപ്രഭാതം',rom:'suprabhatam',trans:'buenos días',ex:'',cat:'greeting'},
+  {mal:'ശുഭ രാത്രി',rom:'shubha raatri',trans:'buenas noches',ex:'',cat:'greeting'},
+  {mal:'സന്ധ്യ',rom:'sandhya',trans:'buenas tardes',ex:'',cat:'greeting'},
+  {mal:'നന്ദി',rom:'nandi',trans:'gracias',ex:'nandi = muchas gracias',cat:'greeting'},
+  {mal:'ശരി',rom:'shari',trans:'de acuerdo / vale',ex:'shari, nyaan varaam = vale, yo vendré',cat:'greeting'},
+  {mal:'ക്ഷമിക്കണം',rom:'kshamikkanam',trans:'perdón / lo siento',ex:'',cat:'greeting'},
+  {mal:'സ്വാഗതം',rom:'svagatam',trans:'bienvenido',ex:'Kerala svagatam = bienvenido a Kerala',cat:'greeting'},
+  {mal:'ശരി, പോകൂ',rom:'shari, pokoo',trans:'adiós / hasta luego',ex:'',cat:'greeting'},
+  {mal:'പേര് എന്താണ്?',rom:'peeru enthaanu?',trans:'¿cuál es tu nombre?',ex:'Pregunta formal',cat:'greeting'},
+  {mal:'എനിക്ക് മനസ്സിലായി',rom:'enikku manassilayi',trans:'entiendo / lo entendí',ex:'',cat:'greeting'},
+  {mal:'എനിക്ക് മനസ്സിലായില്ല',rom:'enikku manassilaayilla',trans:'no entiendo',ex:'',cat:'greeting'},
+  {mal:'ഒന്നുകൂടി പറയൂ',rom:'onnukoodi parayoo',trans:'repite por favor',ex:'',cat:'greeting'},
+  {mal:'ഹ്യാ',rom:'hya',trans:'sí',ex:'',cat:'greeting'},
+  {mal:'ഇല്ല',rom:'illa',trans:'no',ex:'illa = no (también negación)',cat:'greeting'},
+
+  // PRONOMBRES
+  {mal:'ഞാൻ',rom:'nyaan',trans:'yo (sujeto)',ex:'nyaan Joel aanu = yo soy Joel',cat:'pronoun'},
+  {mal:'നീ',rom:'nee',trans:'tú (muy informal)',ex:'Solo con amigos cercanos',cat:'pronoun'},
+  {mal:'നിങ്ങൾ',rom:'ningal',trans:'usted / vosotros (formal)',ex:'',cat:'pronoun'},
+  {mal:'അവൻ',rom:'avan',trans:'él',ex:'avan ente suhrutt aanu = él es mi amigo',cat:'pronoun'},
+  {mal:'അവൾ',rom:'aval',trans:'ella',ex:'',cat:'pronoun'},
+  {mal:'അത്',rom:'athu',trans:'eso / aquello (neutro)',ex:'athu enthaanu? = ¿qué es eso?',cat:'pronoun'},
+  {mal:'ഇത്',rom:'ithu',trans:'esto',ex:'ithu nalla aanu = esto es bueno',cat:'pronoun'},
+  {mal:'അവർ',rom:'avar',trans:'ellos / ellas',ex:'',cat:'pronoun'},
+  {mal:'നാം',rom:'naam',trans:'nosotros (inclusivo)',ex:'Incluye al oyente',cat:'pronoun'},
+  {mal:'ഞങ്ങൾ',rom:'njangal',trans:'nosotros (exclusivo)',ex:'Excluye al oyente',cat:'pronoun'},
+  {mal:'എന്റെ',rom:'ente',trans:'mi / mío',ex:'ente peeru = mi nombre',cat:'pronoun'},
+  {mal:'നിന്റെ',rom:'ninte',trans:'tu / tuyo (informal)',ex:'',cat:'pronoun'},
+  {mal:'നിങ്ങളുടെ',rom:'ningalude',trans:'su / de usted (formal)',ex:'',cat:'pronoun'},
+  {mal:'അവന്റെ',rom:'avante',trans:'su / de él',ex:'',cat:'pronoun'},
+  {mal:'അവളുടെ',rom:'avalude',trans:'su / de ella',ex:'',cat:'pronoun'},
+  {mal:'എനിക്ക്',rom:'enikku',trans:'a mí / para mí',ex:'enikku vellam veenam = yo quiero agua',cat:'pronoun'},
+  {mal:'നിനക്ക്',rom:'ninakku',trans:'a ti (en preguntas)',ex:'ninakku veenamo? = ¿tú quieres?',cat:'pronoun'},
+
+  // VERBOS ESENCIALES
+  {mal:'ആണ്',rom:'aanu',trans:'es / soy / eres (ser)',ex:'nyaan Malayalam padikunnu aanu = yo estoy aprendiendo malayalam',cat:'verb'},
+  {mal:'ഇല്ല',rom:'illa',trans:'no es / no hay (negación)',ex:'ente peeru Joel alla = mi nombre no es Joel',cat:'verb'},
+  {mal:'ഉണ്ട്',rom:'undu',trans:'hay / existe / tengo',ex:'enikku sambhavam undu = tengo un problema',cat:'verb'},
+  {mal:'വരുന്നു',rom:'varunnu',trans:'viene / vengo (presente)',ex:'nyaan varunnu = yo vengo',cat:'verb'},
+  {mal:'പോകുന്നു',rom:'pokunnu',trans:'va / voy (presente)',ex:'nyaan pokunnu = yo voy',cat:'verb'},
+  {mal:'വന്നു',rom:'vannu',trans:'vino / vine (pasado)',ex:'nyaan vannu = yo vine',cat:'verb'},
+  {mal:'പോയി',rom:'poyi',trans:'fue / fui (pasado)',ex:'nyaan poyi = yo fui',cat:'verb'},
+  {mal:'പറയുന്നു',rom:'parayunnu',trans:'dice / digo (presente)',ex:'nyaan parayunnu = yo digo',cat:'verb'},
+  {mal:'കേൾക്കുന്നു',rom:'kelkkunnu',trans:'escucha / escucho',ex:'',cat:'verb'},
+  {mal:'കാണുന്നു',rom:'kaanunnu',trans:'ve / veo',ex:'nyaan kaanunnu = yo veo',cat:'verb'},
+  {mal:'അറിയുന്നു',rom:'ariyunnu',trans:'sabe / sé',ex:'enikku ariyilla = yo no sé',cat:'verb'},
+  {mal:'മനസ്സിലാകുന്നു',rom:'manassilakunnu',trans:'entiende / entiendo',ex:'',cat:'verb'},
+  {mal:'ചെയ്യുന്നു',rom:'cheyyunnu',trans:'hace / hago',ex:'nyaan cheyyunnu = yo hago',cat:'verb'},
+  {mal:'തിന്നുന്നു',rom:'thinnunnu',trans:'come / como (presente)',ex:'nyaan thinnunnu = yo como',cat:'verb'},
+  {mal:'കഴിക്കുക',rom:'kazhikkua',trans:'comer (infinitivo)',ex:'enikku kazhikkua veenam = yo quiero comer',cat:'verb'},
+  {mal:'കഴിച്ചു',rom:'kazhichu',trans:'comí / comió (pasado)',ex:'nyaan kazhichu = yo comí',cat:'verb'},
+  {mal:'കഴിച്ചോ?',rom:'kazhicho?',trans:'¿comiste? (pregunta)',ex:'ninakku kazhicho? = ¿tú comiste?',cat:'verb'},
+  {mal:'കുടിക്കുന്നു',rom:'kudikkunnu',trans:'bebe / bebo',ex:'nyaan vellam kudikkunnu = yo bebo agua',cat:'verb'},
+  {mal:'ഉറങ്ങുന്നു',rom:'uranggunnu',trans:'duerme / duermo',ex:'',cat:'verb'},
+  {mal:'ഇരിക്കുന്നു',rom:'irikkunnu',trans:'está sentado / sentado',ex:'nyaan irikkunnu = yo estoy sentado',cat:'verb'},
+  {mal:'നടക്കുന്നു',rom:'nadakkunnu',trans:'camina / camino',ex:'',cat:'verb'},
+  {mal:'ഓടുന്നു',rom:'odunnu',trans:'corre / corro',ex:'',cat:'verb'},
+  {mal:'വായിക്കുന്നു',rom:'vaayikkunnu',trans:'lee / leo',ex:'nyaan vaayikkunnu = yo leo',cat:'verb'},
+  {mal:'എഴുതുന്നു',rom:'ezhuthunnu',trans:'escribe / escribo',ex:'',cat:'verb'},
+  {mal:'പഠിക്കുന്നു',rom:'padikkunnu',trans:'estudia / estudio',ex:'nyaan Malayalam padikkunnu = yo estudio Malayalam',cat:'verb'},
+  {mal:'വേണം',rom:'veenam',trans:'quiero / querer',ex:'enikku vellam veenam = yo quiero agua',cat:'verb'},
+  {mal:'വേണ്ട',rom:'veenda',trans:'no quiero / no gracias',ex:'',cat:'verb'},
+  {mal:'ഇഷ്ടമാണ്',rom:'ishtamaanu',trans:'me gusta / gusta',ex:'enikku Kerala ishtamaanu = me gusta Kerala',cat:'verb'},
+  {mal:'ഇഷ്ടമില്ല',rom:'ishtamilla',trans:'no me gusta',ex:'',cat:'verb'},
+  {mal:'കഴിയും',rom:'kazhiyum',trans:'puedo / puede',ex:'enikku kazhiyum = yo puedo',cat:'verb'},
+  {mal:'കഴിയില്ല',rom:'kazhiyilla',trans:'no puedo / no puede',ex:'',cat:'verb'},
+
+  // PREGUNTAS
+  {mal:'എന്ത്',rom:'enthu / entha',trans:'qué / cuál',ex:'entha ninte peeru? = ¿cuál es tu nombre?',cat:'noun'},
+  {mal:'എവിടെ',rom:'evide',trans:'dónde',ex:'ninte veedu evide? = ¿dónde está tu casa?',cat:'noun'},
+  {mal:'ആര്',rom:'aaru',trans:'quién',ex:'avan aaru? = ¿quién es él?',cat:'noun'},
+  {mal:'എപ്പോൾ',rom:'eppol',trans:'cuándo',ex:'eppol varum? = ¿cuándo vendrás?',cat:'noun'},
+  {mal:'എങ്ങനെ',rom:'engane',trans:'cómo',ex:'ningal engane undu? = ¿cómo estás?',cat:'noun'},
+  {mal:'എത്ര',rom:'ethra',trans:'cuánto',ex:'ethra roopa? = ¿cuánto cuesta?',cat:'noun'},
+  {mal:'എന്തുകൊണ്ട്',rom:'enthukond',trans:'por qué',ex:'',cat:'noun'},
+  {mal:'-ോ / -മോ',rom:'-o / -mo',trans:'partícula de pregunta',ex:'veenamo? = ¿quieres?',cat:'noun'},
+
+  // SUSTANTIVOS — PERSONAS Y OBJETOS
+  {mal:'പേര്',rom:'peeru',trans:'nombre',ex:'ente peeru Joel aanu = mi nombre es Joel',cat:'noun'},
+  {mal:'ആൾ',rom:'aal',trans:'persona',ex:'avan nalla aal aanu = él es buena persona',cat:'noun'},
+  {mal:'സ്ത്രീ',rom:'sthree',trans:'mujer',ex:'',cat:'noun'},
+  {mal:'പുരുഷൻ',rom:'purushan',trans:'hombre',ex:'',cat:'noun'},
+  {mal:'കുട്ടി',rom:'kutti',trans:'niño / niña',ex:'',cat:'noun'},
+  {mal:'സുഹൃത്ത്',rom:'suhruth',trans:'amigo / amiga',ex:'avan ente suhruth aanu = él es mi amigo',cat:'noun'},
+  {mal:'ഭാഷ',rom:'bhasha',trans:'idioma / lengua',ex:'Malayalam ente bhasha aanu = el malayalam es mi idioma',cat:'noun'},
+  {mal:'രാജ്യം',rom:'raajyam',trans:'país',ex:'',cat:'noun'},
+  {mal:'നഗരം',rom:'nagaram',trans:'ciudad',ex:'',cat:'noun'},
+  {mal:'ഫോൺ',rom:'phone',trans:'teléfono',ex:'ente phone evide? = ¿dónde está mi teléfono?',cat:'noun'},
+  {mal:'പുസ്തകം',rom:'pusthakam',trans:'libro',ex:'',cat:'noun'},
+  {mal:'വിലാസം',rom:'vilasam',trans:'dirección',ex:'ninte vilasam enthaanu? = ¿cuál es tu dirección?',cat:'noun'},
+  {mal:'പണം',rom:'panam',trans:'dinero',ex:'enikku panam illa = yo no tengo dinero',cat:'noun'},
+  {mal:'സമയം',rom:'samayam',trans:'tiempo / hora',ex:'enthu samayam aanu? = ¿qué hora es?',cat:'noun'},
+  {mal:'ദിവസം',rom:'divasam',trans:'día',ex:'',cat:'noun'},
+  {mal:'ആഴ്ച',rom:'azhcha',trans:'semana',ex:'',cat:'noun'},
+  {mal:'മാസം',rom:'maasam',trans:'mes',ex:'',cat:'noun'},
+  {mal:'വർഷം',rom:'varsham',trans:'año',ex:'',cat:'noun'},
+
+  // LUGARES
+  {mal:'സ്ഥലം',rom:'sthalam',trans:'lugar / sitio',ex:'',cat:'place'},
+  {mal:'നാട്',rom:'naadu',trans:'país / región / tierra natal',ex:'ente naadu Spain aanu = mi país es España',cat:'place'},
+  {mal:'വീട്',rom:'veedu',trans:'casa',ex:'ninte veedu evide? = ¿dónde está tu casa?',cat:'place'},
+  {mal:'ക്ലാസ്',rom:'class',trans:'clase / aula',ex:'',cat:'place'},
+  {mal:'ആശുപത്രി',rom:'aashupathri',trans:'hospital',ex:'',cat:'place'},
+  {mal:'ബസ് സ്റ്റേഷൻ',rom:'bus station',trans:'estación de autobús',ex:'',cat:'place'},
+  {mal:'ഹോട്ടൽ',rom:'hotel',trans:'hotel / restaurante',ex:'',cat:'place'},
+  {mal:'കടൽ',rom:'kadal',trans:'mar',ex:'Kerala-nte kadal sundaram aanu = el mar de Kerala es bonito',cat:'place'},
+  {mal:'മലനിര',rom:'malanira',trans:'montaña',ex:'',cat:'place'},
+  {mal:'നദി',rom:'nadi',trans:'río',ex:'',cat:'place'},
+  {mal:'വഴി',rom:'vazhi',trans:'camino / calle',ex:'',cat:'place'},
+  {mal:'ഇടത്',rom:'idathu',trans:'izquierda',ex:'',cat:'place'},
+  {mal:'വലത്',rom:'valathu',trans:'derecha',ex:'',cat:'place'},
+  {mal:'നേരെ',rom:'nere',trans:'recto / hacia adelante',ex:'',cat:'place'},
+
+  // FAMILIA
+  {mal:'അമ്മ',rom:'amma',trans:'madre / mamá',ex:'ente amma teacher aanu = mi madre es profesora',cat:'family'},
+  {mal:'അച്ഛൻ',rom:'achan',trans:'padre / papá',ex:'',cat:'family'},
+  {mal:'ചേച്ചി',rom:'chechi',trans:'hermana mayor',ex:'Término también de respeto para mujeres mayores',cat:'family'},
+  {mal:'ചേട്ടൻ',rom:'chetthan',trans:'hermano mayor',ex:'Término también de respeto para hombres mayores',cat:'family'},
+  {mal:'അനിയൻ',rom:'aniyan',trans:'hermano menor',ex:'',cat:'family'},
+  {mal:'അനിയത്തി',rom:'aniyathi',trans:'hermana menor',ex:'',cat:'family'},
+  {mal:'മകൻ',rom:'makan',trans:'hijo',ex:'',cat:'family'},
+  {mal:'മകൾ',rom:'makal',trans:'hija',ex:'',cat:'family'},
+  {mal:'ഭർത്താവ്',rom:'bharthavu',trans:'marido / esposo',ex:'',cat:'family'},
+  {mal:'ഭാര്യ',rom:'bhaarya',trans:'mujer / esposa',ex:'',cat:'family'},
+  {mal:'അമ്മൂമ്മ',rom:'ammumma',trans:'abuela',ex:'',cat:'family'},
+  {mal:'അപ്പൂപ്പൻ',rom:'appuppan',trans:'abuelo',ex:'',cat:'family'},
+
+  // CUERPO
+  {mal:'തല',rom:'thala',trans:'cabeza',ex:'ente thalayil vedana undu = tengo dolor de cabeza',cat:'body'},
+  {mal:'മുഖം',rom:'mukham',trans:'cara',ex:'',cat:'body'},
+  {mal:'കണ്ണ്',rom:'kann',trans:'ojo',ex:'',cat:'body'},
+  {mal:'ചെവി',rom:'chevi',trans:'oreja',ex:'',cat:'body'},
+  {mal:'മൂക്ക്',rom:'mookku',trans:'nariz',ex:'',cat:'body'},
+  {mal:'വായ',rom:'vaaya',trans:'boca',ex:'',cat:'body'},
+  {mal:'കൈ',rom:'kai',trans:'mano / brazo',ex:'',cat:'body'},
+  {mal:'കാൽ',rom:'kaal',trans:'pierna / pie',ex:'',cat:'body'},
+  {mal:'വയർ',rom:'vayar',trans:'estómago',ex:'ente vayaril vedana undu = tengo dolor de estómago',cat:'body'},
+  {mal:'മുതുക്',rom:'muthuku',trans:'espalda',ex:'',cat:'body'},
+  {mal:'വേദന',rom:'vedana',trans:'dolor',ex:'enikku vedana undu = tengo dolor',cat:'body'},
+  {mal:'പനി',rom:'pani',trans:'fiebre',ex:'enikku pani undu = tengo fiebre',cat:'body'},
+  {mal:'ഡോക്ടർ',rom:'doctor',trans:'médico',ex:'enikku doctor veenam = necesito un médico',cat:'body'},
+
+  // COMIDA Y BEBIDA
+  {mal:'ഭക്ഷണം',rom:'bakshanam',trans:'comida',ex:'enikku bakshanam veenam = yo quiero comida',cat:'food'},
+  {mal:'വെള്ളം',rom:'vellam',trans:'agua',ex:'enikku vellam veenam = yo quiero agua',cat:'food'},
+  {mal:'പാൽ',rom:'paalu',trans:'leche',ex:'',cat:'food'},
+  {mal:'ചോറ്',rom:'choru',trans:'arroz (cocinado)',ex:'Alimento básico de Kerala',cat:'food'},
+  {mal:'റൊട്ടി',rom:'rotti',trans:'pan / chapati',ex:'',cat:'food'},
+  {mal:'മുട്ട',rom:'mutta',trans:'huevo',ex:'',cat:'food'},
+  {mal:'മീൻ',rom:'meen',trans:'pescado',ex:'Kerala-nte meen prasiddham aanu = el pescado de Kerala es famoso',cat:'food'},
+  {mal:'ഇറച്ചി',rom:'irachi',trans:'carne',ex:'',cat:'food'},
+  {mal:'പഴം',rom:'pazham',trans:'fruta',ex:'',cat:'food'},
+  {mal:'പച്ചക്കറി',rom:'pachakkari',trans:'verdura',ex:'',cat:'food'},
+  {mal:'ചായ',rom:'chaaya',trans:'té',ex:'enikku chaaya veenam = yo quiero té',cat:'food'},
+  {mal:'കാപ്പി',rom:'kaappi',trans:'café',ex:'',cat:'food'},
+  {mal:'ശർക്കര',rom:'sharkkara',trans:'azúcar',ex:'',cat:'food'},
+  {mal:'ഉപ്പ്',rom:'uppu',trans:'sal',ex:'',cat:'food'},
+  {mal:'കുട',rom:'kuda',trans:'paraguas',ex:'',cat:'noun'},
+
+  // ADJETIVOS
+  {mal:'നല്ലത്',rom:'nallath',trans:'bueno / bien',ex:'nallath aanu = está bien',cat:'adj'},
+  {mal:'മോശം',rom:'mosham',trans:'malo / mal',ex:'',cat:'adj'},
+  {mal:'വലിയ',rom:'valiya',trans:'grande',ex:'valiya veedu = casa grande',cat:'adj'},
+  {mal:'ചെറിയ',rom:'cheriya',trans:'pequeño',ex:'cheriya kutti = niño pequeño',cat:'adj'},
+  {mal:'സുന്ദരം',rom:'sundaram',trans:'bonito / hermoso',ex:'Kerala sundaram aanu = Kerala es bonito',cat:'adj'},
+  {mal:'ചൂട്',rom:'choodu',trans:'caliente / cálido',ex:'choodu chaaya = té caliente',cat:'adj'},
+  {mal:'തണുപ്പ്',rom:'thanuppu',trans:'frío / fresco',ex:'',cat:'adj'},
+  {mal:'പുതിയ',rom:'puthiya',trans:'nuevo',ex:'',cat:'adj'},
+  {mal:'പഴയ',rom:'pazhaya',trans:'viejo / antiguo',ex:'',cat:'adj'},
+  {mal:'വേഗം',rom:'vegam',trans:'rápido / deprisa',ex:'vegam varao = ven rápido',cat:'adj'},
+  {mal:'പതുക്കെ',rom:'pathukkhe',trans:'lento / despacio',ex:'pathukkhe parayoo = habla despacio',cat:'adj'},
+  {mal:'ശരി',rom:'shari',trans:'correcto / bien',ex:'',cat:'adj'},
+  {mal:'തെറ്റ്',rom:'thettu',trans:'incorrecto / error',ex:'',cat:'adj'},
+  {mal:'സന്തോഷം',rom:'santhosham',trans:'feliz / alegre / felicidad',ex:'enikku santhosham undu = yo soy feliz',cat:'adj'},
+  {mal:'സങ്കടം',rom:'sankhadam',trans:'triste / tristeza',ex:'',cat:'adj'},
+  {mal:'ക്ഷീണം',rom:'kshinam',trans:'cansado',ex:'enikku kshinam undu = estoy cansado',cat:'adj'},
+  {mal:'വിശക്കുന്നു',rom:'vishakkunnu',trans:'tengo hambre',ex:'enikku vishakkunnu = tengo hambre',cat:'adj'},
+  {mal:'ദാഹിക്കുന്നു',rom:'daahikkunnu',trans:'tengo sed',ex:'enikku daahikkunnu = tengo sed',cat:'adj'},
+  {mal:'വേണം',rom:'veenam',trans:'quiero / querer',ex:'',cat:'adj'},
+  {mal:'വേണ്ട',rom:'veenda',trans:'no quiero / no gracias',ex:'',cat:'adj'},
+
+  // NÚMEROS
+  {mal:'പൂജ്യം',rom:'poojyam',trans:'0 — cero',ex:'',cat:'number'},
+  {mal:'ഒന്ന്',rom:'onnu',trans:'1 — uno',ex:'',cat:'number'},
+  {mal:'രണ്ട്',rom:'randu',trans:'2 — dos',ex:'',cat:'number'},
+  {mal:'മൂന്ന്',rom:'moonnu',trans:'3 — tres',ex:'',cat:'number'},
+  {mal:'നാല്',rom:'naalu',trans:'4 — cuatro',ex:'',cat:'number'},
+  {mal:'അഞ്ച്',rom:'anchu',trans:'5 — cinco',ex:'',cat:'number'},
+  {mal:'ആറ്',rom:'aaru',trans:'6 — seis',ex:'',cat:'number'},
+  {mal:'ഏഴ്',rom:'ezhu',trans:'7 — siete',ex:'',cat:'number'},
+  {mal:'എട്ട്',rom:'ettu',trans:'8 — ocho',ex:'',cat:'number'},
+  {mal:'ഒമ്പത്',rom:'ombathu',trans:'9 — nueve',ex:'',cat:'number'},
+  {mal:'പത്ത്',rom:'pathu',trans:'10 — diez',ex:'',cat:'number'},
+  {mal:'ഇരുപത്',rom:'irupathu',trans:'20 — veinte',ex:'',cat:'number'},
+  {mal:'മുപ്പത്',rom:'muppathu',trans:'30 — treinta',ex:'',cat:'number'},
+  {mal:'നൂറ്',rom:'nooru',trans:'100 — cien',ex:'',cat:'number'},
+
+  // TIEMPO
+  {mal:'ഇന്ന്',rom:'innu',trans:'hoy',ex:'innu nalla divasam aanu = hoy es un buen día',cat:'time'},
+  {mal:'നാളെ',rom:'naale',trans:'mañana',ex:'nyaan naale varum = yo vendré mañana',cat:'time'},
+  {mal:'ഇന്നലെ',rom:'innale',trans:'ayer',ex:'',cat:'time'},
+  {mal:'ഇപ്പോൾ',rom:'ippol',trans:'ahora',ex:'nyaan ippol pokunnu = yo me voy ahora',cat:'time'},
+  {mal:'പിന്നെ',rom:'pinne',trans:'después / luego',ex:'',cat:'time'},
+  {mal:'മുൻപ്',rom:'munpu',trans:'antes',ex:'',cat:'time'},
+  {mal:'രാവിലെ',rom:'raavile',trans:'por la mañana',ex:'',cat:'time'},
+  {mal:'ഉച്ചക്ക്',rom:'uchakku',trans:'al mediodía',ex:'',cat:'time'},
+  {mal:'വൈകുന്നേരം',rom:'vaykunneram',trans:'por la tarde',ex:'',cat:'time'},
+  {mal:'രാത്രി',rom:'raathri',trans:'por la noche',ex:'',cat:'time'},
+  {mal:'തിങ്കൾ',rom:'thingal',trans:'lunes',ex:'',cat:'time'},
+  {mal:'ചൊവ്വ',rom:'chova',trans:'martes',ex:'',cat:'time'},
+  {mal:'ബുധൻ',rom:'budhan',trans:'miércoles',ex:'',cat:'time'},
+  {mal:'വ്യാഴം',rom:'vyazham',trans:'jueves',ex:'',cat:'time'},
+  {mal:'വെള്ളി',rom:'velli',trans:'viernes',ex:'',cat:'time'},
+  {mal:'ശനി',rom:'shani',trans:'sábado',ex:'',cat:'time'},
+  {mal:'ഞായർ',rom:'nyayar',trans:'domingo',ex:'',cat:'time'},
+
+  // COLORES
+  {mal:'ചുവപ്പ്',rom:'chuvappu',trans:'rojo',ex:'',cat:'color',dot:'#E24B4A'},
+  {mal:'നീല',rom:'neela',trans:'azul',ex:'',cat:'color',dot:'#378ADD'},
+  {mal:'പച്ച',rom:'pacha',trans:'verde',ex:'',cat:'color',dot:'#639922'},
+  {mal:'മഞ്ഞ',rom:'manja',trans:'amarillo',ex:'',cat:'color',dot:'#EF9F27'},
+  {mal:'വെള്ള',rom:'vella',trans:'blanco',ex:'',cat:'color',dot:'#e5e7eb'},
+  {mal:'കറുപ്പ്',rom:'karuppu',trans:'negro',ex:'',cat:'color',dot:'#2C2C2A'},
+  {mal:'ഓറഞ്ച്',rom:'orange',trans:'naranja',ex:'',cat:'color',dot:'#D85A30'},
+  {mal:'പിങ്ക്',rom:'pink',trans:'rosa',ex:'',cat:'color',dot:'#D4537E'},
+  {mal:'തവിട്ട്',rom:'thavittu',trans:'marrón',ex:'',cat:'color',dot:'#92400e'},
+  {mal:'ചാര',rom:'chaara',trans:'gris',ex:'',cat:'color',dot:'#9ca3af'},
+  {mal:'ചെമ്പ്',rom:'chempu',trans:'dorado / color cobre',ex:'',cat:'color',dot:'#b45309'},
+];
+
+const PHRASES=[
+  {q:'Enikku paalu veenam',a:'Yo quiero leche',hint:'enikku = a mí, paalu = leche, veenam = quiero'},
+  {q:'Ninakku bakshanam veenamo?',a:'¿Tú quieres comida?',hint:'ninakku = a ti, bakshanam = comida, veenamo = ¿quieres?'},
+  {q:'Ninte naadu evide?',a:'¿Dónde es tu país?',hint:'ninte = tu, naadu = país, evide = dónde'},
+  {q:'Enikku choodu vellam veenam',a:'Yo quiero agua caliente',hint:'choodu = caliente, vellam = agua'},
+  {q:'Nyaan bakshanam kazhichu',a:'Yo comí / yo he comido',hint:'nyaan = yo, kazhichu = comí (pasado)'},
+  {q:'Ninakku mutta kazhicho?',a:'¿Tú comiste huevo?',hint:'mutta = huevo, kazhicho = ¿comiste?'},
+  {q:'Enikku kuda veenda',a:'Yo no quiero paraguas',hint:'kuda = paraguas, veenda = no quiero'},
+  {q:'Enikku thanuppu vellam veenda',a:'Yo no quiero agua fría',hint:'thanuppu = frío, veenda = no quiero'},
+  {q:'Nyaan mutta kazhikkua veenam',a:'Yo quiero comer huevo',hint:'kazhikkua = comer, mutta = huevo'},
+  {q:'Ente veedu chuvappu aanu',a:'Mi casa es roja',hint:'veedu = casa, chuvappu = rojo, aanu = es'},
+  {q:'Nyaan Malayalam padikkunnu',a:'Yo estudio Malayalam',hint:'padikkunnu = estudio/aprendo'},
+  {q:'Ente amma teacher aanu',a:'Mi madre es profesora',hint:'amma = madre, teacher = profesora, aanu = es'},
+  {q:'Enikku vishakkunnu',a:'Tengo hambre',hint:'vishakkunnu = tengo hambre'},
+  {q:'Nyaan ippol pokunnu',a:'Yo me voy ahora',hint:'ippol = ahora, pokunnu = voy'},
+  {q:'Ningal engane undu?',a:'¿Cómo estás?',hint:'ningal = usted, engane = cómo, undu = estás'},
+  {q:'Enikku santhosham undu',a:'Yo soy feliz / estoy feliz',hint:'santhosham = felicidad, undu = tengo/hay'},
+  {q:'Nyaan Kerala ishtamaanu',a:'Me gusta Kerala',hint:'ishtamaanu = me gusta'},
+  {q:'Ente peeru Joel aanu',a:'Mi nombre es Joel',hint:'peeru = nombre, aanu = es'},
+  {q:'Nyaan Spain-il ninnu varunnu',a:'Yo vengo de España',hint:'ninnu = desde, varunnu = vengo'},
+  {q:'Innu nalla divasam aanu',a:'Hoy es un buen día',hint:'innu = hoy, nalla = bueno, divasam = día'},
+  {q:'Enikku vellam veenamo?',a:'¿Quieres agua para mí? / ¿Me das agua?',hint:'Petición educada'},
+  {q:'Nyaan naale varum',a:'Yo vendré mañana',hint:'naale = mañana, varum = vendré'},
+  {q:'Avan ente suhruth aanu',a:'Él es mi amigo',hint:'avan = él, suhruth = amigo'},
+  {q:'Enikku doctor veenam',a:'Necesito un médico',hint:'doctor = médico, veenam = necesito'},
+  {q:'Nyaan kazhiyilla',a:'Yo no puedo',hint:'kazhiyilla = no puedo'},
+];
+
+const UNITS=[
+  {id:'u1',title:'Unidad 1',subtitle:'Primeros pasos',color:'#1a7a4a',lessons:[
+    {id:'l1',name:'Saludos esenciales',desc:'Hola, gracias, adiós',icon:'👋',color:'#1a7a4a',type:'fc',filter:w=>w.cat==='greeting'&&['namaskaram','nandi','shari','kshamikkanam','svagatam','hya','illa'].includes(w.rom)},
+    {id:'l2',name:'Yo y tú',desc:'Pronombres básicos',icon:'👤',color:'#534AB7',type:'mc',filter:w=>['nyaan','nee','ningal','avan','aval','ente','ninte'].includes(w.rom)},
+    {id:'l3',name:'Ser y tener',desc:'aanu, undu, illa',icon:'✨',color:'#D85A30',type:'mc',filter:w=>['aanu','illa','undu'].includes(w.rom)},
+    {id:'l4',name:'Querer y no querer',desc:'veenam, veenda',icon:'❤️',color:'#993556',type:'mc',filter:w=>['veenam','veenda','enikku','ninakku'].includes(w.rom)},
+    {id:'l5',name:'Repaso unidad 1',desc:'Frases completas',icon:'🔁',color:'#BA7517',type:'phrases',phraseFilter:(p,i)=>i<6},
+  ]},
+  {id:'u2',title:'Unidad 2',subtitle:'Mi mundo',color:'#3b82f6',lessons:[
+    {id:'l6',name:'Mi familia',desc:'Madre, padre, hermanos...',icon:'👨‍👩‍👧',color:'#7c3aed',type:'fc',filter:w=>w.cat==='family'},
+    {id:'l7',name:'Números 0–10',desc:'Cuenta en Malayalam',icon:'🔢',color:'#185FA5',type:'mc',filter:w=>w.cat==='number'&&['poojyam','onnu','randu','moonnu','naalu','anchu','aaru','ezhu','ettu','ombathu','pathu'].includes(w.rom)},
+    {id:'l8',name:'Colores',desc:'Todos los colores',icon:'🎨',color:'#993556',type:'mc',filter:w=>w.cat==='color'},
+    {id:'l9',name:'Mi casa y lugar',desc:'Lugares y direcciones',icon:'🏠',color:'#3B6D11',type:'mc',filter:w=>w.cat==='place'},
+    {id:'l10',name:'Repaso unidad 2',desc:'Escribe las respuestas',icon:'✍️',color:'#D85A30',type:'write',filter:w=>['family','number','color','place'].includes(w.cat)},
+  ]},
+  {id:'u3',title:'Unidad 3',subtitle:'Día a día',color:'#ea580c',lessons:[
+    {id:'l11',name:'Verbos de movimiento',desc:'Ir, venir, caminar...',icon:'🚶',color:'#D85A30',type:'fc',filter:w=>['varunnu','pokunnu','vannu','poyi','nadakkunnu','odunnu'].includes(w.rom)},
+    {id:'l12',name:'Comida y bebida',desc:'Lo que comemos en Kerala',icon:'🍛',color:'#BA7517',type:'mc',filter:w=>w.cat==='food'},
+    {id:'l13',name:'El tiempo',desc:'Hoy, mañana, días de la semana',icon:'📅',color:'#0F6E56',type:'mc',filter:w=>w.cat==='time'},
+    {id:'l14',name:'Preguntar',desc:'Qué, dónde, quién, cuándo',icon:'❓',color:'#534AB7',type:'mc',filter:w=>['enthu / entha','evide','aaru','eppol','engane','ethra','enthukond'].includes(w.rom)},
+    {id:'l15',name:'Repaso unidad 3',desc:'Frases del día a día',icon:'🔁',color:'#1a7a4a',type:'phrases',phraseFilter:(p,i)=>i>=6&&i<15},
+  ]},
+  {id:'u4',title:'Unidad 4',subtitle:'Expresarme',color:'#7c3aed',lessons:[
+    {id:'l16',name:'Cómo me siento',desc:'Feliz, triste, cansado...',icon:'😊',color:'#993556',type:'fc',filter:w=>['santhosham','sankhadam','kshinam','vishakkunnu','daahikkunnu','nallath','mosham'].includes(w.rom)},
+    {id:'l17',name:'Mi cuerpo y salud',desc:'Cuerpo humano y dolores',icon:'🏥',color:'#e24b4a',type:'mc',filter:w=>w.cat==='body'},
+    {id:'l18',name:'Verbos cotidianos',desc:'Comer, beber, dormir...',icon:'📝',color:'#D85A30',type:'mc',filter:w=>['thinnunnu','kudikkunnu','uranggunnu','vaayikkunnu','ezhuthunnu','padikkunnu','cheyyunnu'].includes(w.rom)},
+    {id:'l19',name:'Puedo y me gusta',desc:'kazhiyum, ishtamaanu...',icon:'💪',color:'#1D9E75',type:'mc',filter:w=>['kazhiyum','kazhiyilla','ishtamaanu','ishtamilla','parayunnu','kelkkunnu','kaanunnu'].includes(w.rom)},
+    {id:'l20',name:'Repaso final A1',desc:'Todo el vocabulario',icon:'🏆',color:'#c9922a',type:'phrases',phraseFilter:(p,i)=>i>=15},
+  ]},
+];
+
+let state={xp:0,streak:0,totalCorrect:0,totalWords:0,lessonType:null,lessonQueue:[],lessonIdx:0,lessonCorrect:0,lessonWrong:0,lessonXP:0,fcIdx:0,fcDeck:[],fcFlipped:false,currentAnswer:null,answered:false,lastPracticeDate:null,completedLessons:{},currentLessonId:null};
+
+function loadState(){try{const s=localStorage.getItem('kerala_v2');if(s)Object.assign(state,JSON.parse(s))}catch(e){}}
+function saveState(){try{localStorage.setItem('kerala_v2',JSON.stringify(state))}catch(e){}}
+
+function isLessonUnlocked(unitIdx,lessonIdx){
+  if(unitIdx===0&&lessonIdx===0)return true;
+  if(lessonIdx>0){
+    const prevLesson=UNITS[unitIdx].lessons[lessonIdx-1];
+    return!!state.completedLessons[prevLesson.id];
+  }
+  if(unitIdx>0){
+    const prevUnit=UNITS[unitIdx-1];
+    return!!state.completedLessons[prevUnit.lessons[prevUnit.lessons.length-1].id];
+  }
+  return false;
+}
+
+function renderUnits(){
+  const container=document.getElementById('units-container');
+  container.innerHTML=UNITS.map((unit,ui)=>`
+    <div class="unit-block">
+      <div class="unit-header">
+        <div class="unit-number" style="background:${unit.color}22;color:${unit.color}">${ui+1}</div>
+        <div><div class="unit-title">${unit.title}</div><div class="unit-subtitle">${unit.subtitle}</div></div>
+      </div>
+      <div class="lessons-row">
+        ${unit.lessons.map((lesson,li)=>{
+          const unlocked=isLessonUnlocked(ui,li);
+          const done=!!state.completedLessons[lesson.id];
+          return`<div class="lesson-card ${unlocked?'':'locked'} ${done?'done':''}" onclick="${unlocked?`startLesson('${lesson.id}')`:''}" >
+            <div class="accent-bar" style="background:${lesson.color}"></div>
+            <div class="lesson-icon" style="background:${lesson.color}22">${lesson.icon}</div>
+            <div class="lesson-info">
+              <div class="lesson-name">${lesson.name}</div>
+              <div class="lesson-desc">${lesson.desc}</div>
+              <div class="lesson-prog"><div class="lesson-prog-fill" style="width:${done?100:0}%;background:${lesson.color}"></div></div>
+            </div>
+            ${done?'<span style="font-size:20px">✓</span>':unlocked?'<span class="lesson-xp-badge">+XP</span>':'<span style="font-size:16px;color:#ccc">🔒</span>'}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateHomeStats(){
+  document.getElementById('stat-xp').textContent=state.xp;
+  document.getElementById('stat-streak').textContent=state.streak+'🔥';
+  const learned=Object.keys(state.completedLessons).length*8;
+  document.getElementById('stat-words').textContent=Math.min(ALL_WORDS.length,learned);
+  const st=document.getElementById('streak-title'),sd=document.getElementById('streak-desc');
+  if(state.streak===0){st.textContent='¡Empieza tu racha hoy!';sd.textContent='Practica cada día para mantener tu racha';}
+  else{st.textContent=state.streak+' días seguidos 🔥';sd.textContent='¡Sigue así, lo estás haciendo genial!';}
+}
+
+function showScreen(name,navBtn){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  if(navBtn)navBtn.classList.add('active');
+  if(name==='vocab'){renderVocab('all');document.getElementById('vocab-search').value='';}
+  if(name==='profile')renderProfile();
+  if(name==='home'){renderUnits();updateHomeStats();}
+}
+
+function goHome(){showScreen('home');document.querySelectorAll('.nav-item')[0].classList.add('active');}
+function showToast(msg){const t=document.getElementById('xp-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
+
+function getLessonDef(id){
+  for(const u of UNITS)for(const l of u.lessons)if(l.id===id)return l;
+  return null;
+}
+
+function startLesson(id){
+  const lesson=getLessonDef(id);
+  if(!lesson)return;
+  state.currentLessonId=id;
+  state.lessonType=lesson.type;
+  state.lessonCorrect=0;state.lessonWrong=0;state.lessonXP=0;state.answered=false;
+  let words=[];
+  if(lesson.filter)words=ALL_WORDS.filter(lesson.filter).slice(0,12);
+  let phrases=[];
+  if(lesson.phraseFilter)phrases=PHRASES.filter(lesson.phraseFilter);
+
+  if(lesson.type==='fc'){
+    state.fcDeck=words.sort(()=>Math.random()-0.5);
+    state.fcIdx=0;state.fcFlipped=false;state.lessonQueue=state.fcDeck;
+  }else if(lesson.type==='mc'||lesson.type==='write'){
+    state.lessonQueue=words.sort(()=>Math.random()-0.5).slice(0,10);state.lessonIdx=0;
+  }else if(lesson.type==='phrases'){
+    state.lessonQueue=phrases.sort(()=>Math.random()-0.5).slice(0,8);state.lessonIdx=0;
+  }
+
+  document.getElementById('feedback-bar').classList.remove('show');
+  showScreen('lesson');
+  renderExercise();
+}
+
+function renderExercise(){
+  const body=document.getElementById('lesson-body');
+  const type=state.lessonType;
+  const total=state.lessonQueue.length;
+  const idx=type==='fc'?state.fcIdx:state.lessonIdx;
+  const pct=Math.round((idx/Math.max(1,total))*100);
+  document.getElementById('lesson-prog-fill').style.width=pct+'%';
+  document.getElementById('lesson-prog-label').textContent=idx+' / '+total;
+  document.getElementById('lesson-xp-label').textContent='+'+state.lessonXP+' XP';
+  if(type==='fc')renderFlashcard(body);
+  else if(type==='mc')renderMC(body);
+  else if(type==='write')renderWrite(body);
+  else if(type==='phrases')renderPhrase(body);
+}
+
+function renderFlashcard(body){
+  const card=state.fcDeck[state.fcIdx];
+  if(!card){finishLesson();return;}
+  state.fcFlipped=false;
+  body.innerHTML=`
+    <div><span class="exercise-type-badge" style="background:#e8f5ee;color:#1a7a4a">🎴 Flashcard</span></div>
+    <div class="flashcard-scene" onclick="toggleFC()">
+      <div class="flashcard-obj" id="fc-obj">
+        <div class="flashcard-face flashcard-front">
+          <div class="fc-mal">${card.mal}</div>
+          <div class="fc-rom">${card.rom}</div>
+          <div class="fc-tap">Toca para ver la traducción</div>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          ${card.dot?`<div style="width:38px;height:38px;border-radius:50%;background:${card.dot};margin:0 auto 10px;border:2px solid #e5e7eb"></div>`:''}
+          <div class="fc-trans">${card.trans}</div>
+          ${card.ex?`<div class="fc-ex">${card.ex}</div>`:''}
+          ${card.note?`<div class="fc-note">${card.note}</div>`:''}
+        </div>
+      </div>
+    </div>
+    <div class="fc-nav">
+      <button class="fc-nav-btn" onclick="prevFC()">←</button>
+      <span class="fc-counter">${state.fcIdx+1} de ${state.fcDeck.length}</span>
+      <button class="fc-nav-btn" onclick="nextFC()">→</button>
+    </div>
+    <div class="fc-actions">
+      <button class="fc-action-btn skip" onclick="fcSkip()">↺ Repasar</button>
+      <button class="fc-action-btn know" onclick="fcKnow()">✓ Lo sé</button>
+    </div>`;
+}
+
+function toggleFC(){state.fcFlipped=!state.fcFlipped;const o=document.getElementById('fc-obj');if(o)o.classList.toggle('flipped',state.fcFlipped);}
+function nextFC(){if(state.fcIdx<state.fcDeck.length-1){state.fcIdx++;renderExercise();}else{finishLesson();}}
+function prevFC(){if(state.fcIdx>0){state.fcIdx--;renderExercise();}}
+function fcKnow(){state.lessonXP+=5;state.lessonCorrect++;state.xp+=5;showToast('+5 XP');nextFC();}
+function fcSkip(){if(state.fcIdx<state.fcDeck.length-1){state.fcIdx++;renderExercise();}else finishLesson();}
+
+function renderMC(body){
+  const card=state.lessonQueue[state.lessonIdx];
+  const isMal2Es=Math.random()>0.5;
+  const wrongs=ALL_WORDS.filter(c=>c.rom!==card.rom).sort(()=>Math.random()-0.5).slice(0,3);
+  let opts,question;
+  if(isMal2Es){
+    question=card.mal;
+    opts=[card.trans,...wrongs.map(w=>w.trans)].sort(()=>Math.random()-0.5);
+    state.currentAnswer={correct:card.trans,correctIdx:opts.indexOf(card.trans),card};
+  }else{
+    question=card.trans+' →';
+    opts=[card.rom,...wrongs.map(w=>w.rom)].sort(()=>Math.random()-0.5);
+    state.currentAnswer={correct:card.rom,correctIdx:opts.indexOf(card.rom),card};
+  }
+  const letters=['A','B','C','D'];
+  body.innerHTML=`
+    <div><span class="exercise-type-badge" style="background:#eff6ff;color:#3b82f6">🧠 Opción múltiple</span></div>
+    <div>
+      <div class="exercise-question">${question}</div>
+      ${isMal2Es?`<div class="exercise-subtitle">${card.rom}</div>`:''}
+    </div>
+    <div class="options-grid">
+      ${opts.map((o,i)=>`<button class="option-btn animate-slide" style="animation-delay:${i*.05}s" onclick="answerMC(${i})" id="opt-${i}">
+        <span class="option-letter">${letters[i]}</span>${o}</button>`).join('')}
+    </div>`;
+  state.answered=false;
+}
+
+function answerMC(idx){
+  if(state.answered)return;state.answered=true;
+  const{correctIdx,card}=state.currentAnswer;
+  document.querySelectorAll('.option-btn').forEach(b=>b.disabled=true);
+  document.querySelectorAll('.option-btn')[correctIdx].classList.add('correct');
+  if(idx===correctIdx){state.lessonCorrect++;state.lessonXP+=10;state.xp+=10;state.totalCorrect++;showFeedback(true,'¡Correcto!',card.rom+' = '+card.trans+(card.ex?' · '+card.ex:''));}
+  else{document.querySelectorAll('.option-btn')[idx].classList.add('wrong');state.lessonWrong++;state.lessonXP+=2;state.xp+=2;showFeedback(false,'Incorrecto','Era: '+card.rom+' = '+card.trans);}
+  saveState();
+}
+
+function renderWrite(body){
+  const card=state.lessonQueue[state.lessonIdx];
+  const isMal2Es=Math.random()>0.5;
+  if(isMal2Es){
+    state.currentAnswer={correct:card.trans.toLowerCase(),card};
+    body.innerHTML=`<div><span class="exercise-type-badge" style="background:#f5f3ff;color:#7c3aed">✍️ Escribe en español</span></div>
+      <div><div class="exercise-question">${card.mal}</div><div class="exercise-subtitle">${card.rom}</div></div>
+      <input class="write-input" id="write-input" type="text" placeholder="Traducción al español..." autocomplete="off" autocorrect="off" autocapitalize="off">
+      <button class="check-btn" onclick="checkWrite()">Comprobar</button>`;
+  }else{
+    state.currentAnswer={correct:card.rom.toLowerCase(),card};
+    body.innerHTML=`<div><span class="exercise-type-badge" style="background:#f5f3ff;color:#7c3aed">✍️ Escribe en Malayalam</span></div>
+      <div><div class="exercise-question">${card.trans}</div><div class="exercise-subtitle">¿Cómo se dice en malayalam?</div></div>
+      <input class="write-input" id="write-input" type="text" placeholder="Romanización..." autocomplete="off" autocorrect="off" autocapitalize="off">
+      <button class="check-btn" onclick="checkWrite()">Comprobar</button>`;
+  }
+  state.answered=false;
+  setTimeout(()=>{const el=document.getElementById('write-input');if(el)el.focus();},150);
+}
+
+function checkWrite(){
+  if(state.answered)return;
+  const input=document.getElementById('write-input');
+  if(!input||!input.value.trim())return;
+  state.answered=true;
+  const user=input.value.trim().toLowerCase();
+  const{correct,card}=state.currentAnswer;
+  const isOk=user===correct||correct.includes(user)||user.includes(correct.split('/')[0].trim().split(' ')[0]);
+  input.disabled=true;
+  if(isOk){input.classList.add('correct');state.lessonCorrect++;state.lessonXP+=15;state.xp+=15;state.totalCorrect++;showFeedback(true,'¡Perfecto!',card.rom+' = '+card.trans);}
+  else{input.classList.add('wrong');state.lessonWrong++;state.lessonXP+=2;state.xp+=2;showFeedback(false,'Casi...','Respuesta: '+correct);}
+  saveState();
+}
+
+function renderPhrase(body){
+  const phrase=state.lessonQueue[state.lessonIdx];
+  state.currentAnswer={correct:phrase.a.toLowerCase(),phrase};state.answered=false;
+  body.innerHTML=`<div><span class="exercise-type-badge" style="background:#fdf3e3;color:#c9922a">💬 Traduce la frase</span></div>
+    <div><div class="exercise-question">"${phrase.q}"</div><div class="exercise-subtitle">Traduce al español</div></div>
+    <input class="write-input" id="write-input" type="text" placeholder="Traducción..." autocomplete="off" autocorrect="off" autocapitalize="off">
+    <button class="check-btn" onclick="checkPhrase()">Comprobar</button>`;
+  setTimeout(()=>{const el=document.getElementById('write-input');if(el)el.focus();},150);
+}
+
+function checkPhrase(){
+  if(state.answered)return;
+  const input=document.getElementById('write-input');
+  if(!input||!input.value.trim())return;
+  state.answered=true;
+  const user=input.value.trim().toLowerCase();
+  const{correct,phrase}=state.currentAnswer;
+  const keywords=correct.split(' ').filter(w=>w.length>3);
+  const matches=keywords.filter(k=>user.includes(k)).length;
+  const isOk=matches>=Math.ceil(keywords.length*.55);
+  input.disabled=true;
+  if(isOk){input.classList.add('correct');state.lessonCorrect++;state.lessonXP+=20;state.xp+=20;state.totalCorrect++;showFeedback(true,'¡Excelente!',phrase.hint);}
+  else{input.classList.add('wrong');state.lessonWrong++;state.lessonXP+=2;state.xp+=2;showFeedback(false,'Inténtalo','Respuesta: '+phrase.a+' · '+phrase.hint);}
+  saveState();
+}
+
+function showFeedback(isOk,title,desc){
+  const bar=document.getElementById('feedback-bar');
+  document.getElementById('fb-icon').className='feedback-icon '+(isOk?'ok':'bad');
+  document.getElementById('fb-icon').textContent=isOk?'✓':'✗';
+  document.getElementById('fb-text').className='feedback-text '+(isOk?'ok':'bad');
+  document.getElementById('fb-title').textContent=title;
+  document.getElementById('fb-desc').textContent=desc;
+  document.getElementById('continue-btn').className='continue-btn '+(isOk?'ok':'bad');
+  bar.classList.add('show');
+  if(isOk)showToast('+'+state.lessonXP+' XP');
+}
+
+function nextExercise(){
+  document.getElementById('feedback-bar').classList.remove('show');
+  state.answered=false;
+  if(state.lessonType==='fc'){nextFC();return;}
+  state.lessonIdx++;
+  if(state.lessonIdx>=state.lessonQueue.length)finishLesson();
+  else renderExercise();
+}
+
+function finishLesson(){
+  const today=new Date().toDateString();
+  if(state.lastPracticeDate!==today){
+    state.streak=state.lastPracticeDate===new Date(Date.now()-86400000).toDateString()?state.streak+1:1;
+    state.lastPracticeDate=today;
+  }
+  if(state.currentLessonId&&state.lessonCorrect>state.lessonWrong){
+    state.completedLessons[state.currentLessonId]=true;
+  }
+  saveState();
+  const total=state.lessonCorrect+state.lessonWrong;
+  const pct=total>0?Math.round((state.lessonCorrect/total)*100):0;
+  const win=pct>=60;
+  document.getElementById('result-circle').textContent=win?'🏆':'💪';
+  document.getElementById('result-circle').className='result-circle '+(win?'win':'lose');
+  document.getElementById('result-title').textContent=win?'¡Lección completada!':'¡Buen intento!';
+  document.getElementById('result-subtitle').textContent=win?'¡Sigue así, lo estás haciendo muy bien!':'Repasa y vuelve a intentarlo. ¡Tú puedes!';
+  document.getElementById('res-correct').textContent=state.lessonCorrect;
+  document.getElementById('res-wrong').textContent=state.lessonWrong;
+  document.getElementById('res-xp').textContent='+'+state.lessonXP;
+  showScreen('result');
+  if(win)setTimeout(launchConfetti,300);
+}
+
+function restartLesson(){startLesson(state.currentLessonId);}
+
+let currentVocabFilter='all';
+function renderVocab(filter,search=''){
+  currentVocabFilter=filter;
+  let cards=filter==='all'?ALL_WORDS:ALL_WORDS.filter(c=>c.cat===filter);
+  if(search)cards=cards.filter(c=>c.mal.includes(search)||c.rom.toLowerCase().includes(search.toLowerCase())||c.trans.toLowerCase().includes(search.toLowerCase()));
+  document.getElementById('vocab-count').textContent=cards.length+' palabras';
+  const list=document.getElementById('vocab-list');
+  if(!cards.length){list.innerHTML='<div class="vocab-empty">No se encontraron palabras</div>';return;}
+  list.innerHTML=cards.map(c=>`
+    <div class="vocab-item">
+      <div class="vocab-cat-dot" style="background:${c.dot||CAT_COLORS[c.cat]||'#888'}${c.dot?';border:1px solid #ddd':''}"></div>
+      <span class="vocab-mal">${c.mal}</span>
+      <div class="vocab-right"><div class="vocab-trans">${c.trans}</div><div class="vocab-rom">${c.rom}</div></div>
+    </div>`).join('');
+}
+
+function filterVocab(filter,btn){
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  renderVocab(filter,document.getElementById('vocab-search').value);
+}
+
+function searchVocab(val){renderVocab(currentVocabFilter,val);}
+
+const ACHIEVEMENTS=[
+  {icon:'🌱',name:'Primer paso',desc:'Completa tu primera lección',bg:'#e8f5ee',unlocked:()=>Object.keys(state.completedLessons).length>=1},
+  {icon:'🔥',name:'En racha',desc:'Practica 3 días seguidos',bg:'#fff3e0',unlocked:()=>state.streak>=3},
+  {icon:'⭐',name:'Estudiante',desc:'Consigue 100 XP',bg:'#fff8e1',unlocked:()=>state.xp>=100},
+  {icon:'🧠',name:'Memorizador',desc:'10 respuestas correctas',bg:'#eff6ff',unlocked:()=>state.totalCorrect>=10},
+  {icon:'📚',name:'Mitad del camino',desc:'Completa 10 lecciones',bg:'#f5f3ff',unlocked:()=>Object.keys(state.completedLessons).length>=10},
+  {icon:'🏆',name:'Campeón A1',desc:'Completa todas las lecciones',bg:'#fdf3e3',unlocked:()=>Object.keys(state.completedLessons).length>=20},
+  {icon:'🌴',name:'Kerala en el corazón',desc:'Practica 7 días seguidos',bg:'#e8f5ee',unlocked:()=>state.streak>=7},
+  {icon:'💎',name:'Experto',desc:'Consigue 1000 XP',bg:'#eff6ff',unlocked:()=>state.xp>=1000},
+];
+
+function renderProfile(){
+  const level=Math.floor(state.xp/100)+1;
+  const xpInLevel=state.xp%100;
+  document.getElementById('p-streak').textContent=state.streak;
+  document.getElementById('p-xp').textContent=state.xp;
+  document.getElementById('p-correct').textContent=state.totalCorrect;
+  const learned=Math.min(ALL_WORDS.length,Object.keys(state.completedLessons).length*8);
+  document.getElementById('p-words').textContent=learned;
+  document.getElementById('profile-xp-current').textContent=state.xp+' XP';
+  document.getElementById('profile-level-label').textContent='Nivel '+level;
+  document.getElementById('profile-xp-fill').style.width=xpInLevel+'%';
+  document.getElementById('achievement-list').innerHTML=ACHIEVEMENTS.map(a=>{
+    const ok=a.unlocked();
+    return`<div class="achievement-item ${ok?'':'locked'}">
+      <div class="achievement-icon" style="background:${a.bg}">${a.icon}</div>
+      <div class="achievement-info"><h4>${a.name}</h4><p>${a.desc}</p></div>
+      ${ok?'<span style="color:var(--green);font-size:18px">✓</span>':'<span style="color:#ccc;font-size:15px">🔒</span>'}
+    </div>`;
+  }).join('');
+}
+
+function launchConfetti(){
+  const canvas=document.createElement('canvas');
+  canvas.className='confetti';document.body.appendChild(canvas);
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const p=Array.from({length:80},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height-canvas.height,r:Math.random()*6+3,color:['#1a7a4a','#c9922a','#3b82f6','#e24b4a','#7c3aed'][Math.floor(Math.random()*5)],vx:(Math.random()-.5)*3,vy:Math.random()*4+2,spin:(Math.random()-.5)*.2,angle:Math.random()*Math.PI*2}));
+  let f=0;
+  function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);p.forEach(q=>{q.x+=q.vx;q.y+=q.vy;q.angle+=q.spin;ctx.save();ctx.translate(q.x,q.y);ctx.rotate(q.angle);ctx.fillStyle=q.color;ctx.fillRect(-q.r/2,-q.r/2,q.r,q.r*1.6);ctx.restore();});f++;if(f<90)requestAnimationFrame(draw);else canvas.remove();}
+  draw();
+}
+
+loadState();renderUnits();updateHomeStats();
+</script>
+</body>
+</html>
