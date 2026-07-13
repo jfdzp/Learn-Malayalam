@@ -210,6 +210,79 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Rounded","SF Pro Displ
 .toast{position:fixed;top:54px;left:50%;transform:translateX(-50%) translateY(-14px);background:var(--gold);color:#3d2f00;padding:9px 18px;border-radius:var(--r-full);font-size:14px;font-weight:800;opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);pointer-events:none;z-index:999;white-space:nowrap;box-shadow:0 3px 0 var(--gold-dark)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
+
+/* MISSIONS */
+.missions{margin:16px 18px 0;background:var(--card);border:2px solid var(--border);border-radius:var(--r-lg);padding:14px 16px}
+.missions h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--gold);margin-bottom:11px;display:flex;align-items:center;gap:6px}
+.mission{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.mission:last-child{margin-bottom:0}
+.mission-ico{font-size:18px;flex-shrink:0}
+.mission-body{flex:1}
+.mission-name{font-size:12px;font-weight:700;margin-bottom:4px;color:var(--text2)}
+.mission.done .mission-name{color:var(--green)}
+.mission-bar{height:8px;background:var(--bg);border-radius:var(--r-full);overflow:hidden}
+.mission-fill{height:100%;background:var(--gold);border-radius:var(--r-full);transition:width .4s ease}
+.mission.done .mission-fill{background:var(--green)}
+.mission-count{font-size:11px;font-weight:800;color:var(--text3);flex-shrink:0;min-width:34px;text-align:right}
+/* REVIEW BUTTON */
+.review-btn{margin:14px 18px 0;width:calc(100% - 36px);padding:14px;border-radius:var(--r-lg);border:2px solid var(--red);border-bottom-width:4px;background:#2d1414;color:var(--red);font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.review-btn:active{transform:translateY(2px);border-bottom-width:2px}
+/* COMBO */
+.combo-badge{display:none;align-items:center;gap:4px;font-size:13px;font-weight:800;color:var(--orange);flex-shrink:0}
+.combo-badge.show{display:flex;animation:popIn .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+/* MATCH PAIRS */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.match-col{display:flex;flex-direction:column;gap:9px}
+.match-chip{padding:15px 10px;border-radius:var(--r-md);border:2px solid var(--border);border-bottom-width:4px;background:var(--card);color:var(--text);font-size:14px;font-weight:700;cursor:pointer;text-align:center;transition:var(--t)}
+.match-chip:active{transform:translateY(2px);border-bottom-width:2px}
+.match-chip.sel{border-color:var(--blue);background:#12303f;color:var(--blue)}
+.match-chip.matched{border-color:var(--green);background:#1a3312;color:var(--green);opacity:.45;pointer-events:none}
+.match-chip.err{border-color:var(--red);background:#3a1a1a;color:var(--red)}
+/* GAP */
+.gap-q{font-size:22px;font-weight:800;line-height:1.6;letter-spacing:-.3px}
+.gap-blank{display:inline-block;min-width:74px;border-bottom:3px solid var(--blue);color:var(--blue);text-align:center;padding:0 6px}
+.gap-opts{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+/* RESULT extras */
+.mist-box{width:100%;background:var(--card);border:2px solid var(--border);border-radius:var(--r-lg);padding:13px 15px;margin-bottom:14px;text-align:left}
+.mist-box h4{font-size:12px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.mist-item{font-size:13px;color:var(--text2);padding:4px 0;border-bottom:1px solid var(--border)}
+.mist-item:last-child{border-bottom:none}
+.mist-item b{color:var(--text)}
+.culture-card{width:100%;background:linear-gradient(150deg,#1c3a28,#15272e);border:2px solid var(--green);border-radius:var(--r-lg);padding:15px 17px;margin-bottom:14px;text-align:left}
+.culture-card h4{font-size:12px;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;display:flex;align-items:center;gap:6px}
+.culture-card p{font-size:12.5px;color:var(--text2);line-height:1.6}
+
+/* LETTERS */
+#screen-letters{background:var(--bg)}
+.lt-header{padding:50px 20px 14px;flex-shrink:0;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:10px}
+.lt-header h2{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.lt-header p{font-size:12px;color:var(--text2);margin-top:2px}
+.lt-back{font-size:20px;color:var(--text3);background:none;border:none;cursor:pointer;padding:4px;display:none}
+.lt-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 18px 95px}
+.lt-sec{font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin:16px 0 10px}
+.lt-sec:first-child{margin-top:0}
+.lt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.lt-cell{aspect-ratio:1;border-radius:var(--r-md);border:2px solid var(--border);border-bottom-width:4px;background:var(--card);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform .1s ease}
+.lt-cell:active{transform:translateY(2px);border-bottom-width:2px}
+.lt-cell.done{border-color:var(--green)}
+.lt-ch{font-size:26px;font-weight:700}
+.lt-rom{font-size:10px;color:var(--blue);font-weight:700}
+.lt-cell.done .lt-rom{color:var(--green)}
+/* practice */
+.lt-practice{display:none;flex-direction:column;gap:14px;padding:14px 18px 95px;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.lt-practice.active{display:flex}
+.lt-info{text-align:center}
+.lt-info .big{font-size:20px;font-weight:800}
+.lt-info .rom{color:var(--blue);font-weight:700;font-size:15px}
+.lt-info .ex{font-size:12px;color:var(--text2);margin-top:3px}
+.lt-canvas-wrap{position:relative;width:100%;max-width:340px;margin:0 auto;aspect-ratio:1;border-radius:var(--r-xl);border:2.5px dashed var(--border2);background:var(--card2);overflow:hidden}
+.lt-guide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:200px;color:#2c3d47;pointer-events:none;user-select:none;font-weight:600;line-height:1}
+canvas#lt-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.lt-controls{display:flex;gap:9px;max-width:340px;margin:0 auto;width:100%}
+.lt-ctrl{flex:1;padding:13px;border-radius:var(--r-md);border:2px solid var(--border);border-bottom-width:4px;background:var(--card);color:var(--text2);font-size:13px;font-weight:800;cursor:pointer}
+.lt-ctrl:active{transform:translateY(2px);border-bottom-width:2px}
+.lt-ctrl.ok{border-color:var(--green);color:var(--green)}
 </style>
 </head>
 <body>
@@ -232,6 +305,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Rounded","SF Pro Displ
         <span class="hstat xp">⚡ <span id="h-xp">0</span></span>
       </div>
     </div>
+    <div class="missions" id="missions"></div>
+    <button class="review-btn" id="review-btn" style="display:none" onclick="startReview()">🎯 Repasar mis errores (<span id="review-count">0</span>)</button>
     <div id="units-container"></div>
   </div>
 </div>
@@ -241,6 +316,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Rounded","SF Pro Displ
     <div class="lh-row">
       <button class="close-btn" onclick="goHome()">✕</button>
       <div class="lprog"><div class="lprog-fill" id="lprog-fill" style="width:0%"></div></div>
+      <div class="combo-badge" id="combo-badge">🔥 <span id="combo-n">0</span></div>
       <div class="lives">❤️ <span id="lives-count">3</span></div>
     </div>
   </div>
@@ -268,6 +344,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Rounded","SF Pro Displ
     <div class="res-card" style="background:var(--green)"><div class="res-card-head" style="background:var(--green)">Aciertos</div><div class="res-card-body" style="color:var(--green)" id="rc-ok">0</div></div>
     <div class="res-card" style="background:var(--red)"><div class="res-card-head" style="background:var(--red)">Errores</div><div class="res-card-body" style="color:var(--red)" id="rc-bad">0</div></div>
   </div>
+  <div class="mist-box" id="mist-box" style="display:none">
+    <h4>Palabras a repasar</h4>
+    <div id="mist-list"></div>
+  </div>
+  <div class="culture-card" id="culture-card" style="display:none">
+    <h4 id="culture-title"></h4>
+    <p id="culture-text"></p>
+  </div>
   <button class="res-btn primary" onclick="restartLesson()">Repetir lección</button>
   <button class="res-btn secondary" onclick="goHome()">Volver al camino</button>
 </div>
@@ -280,6 +364,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Rounded","SF Pro Displ
   </div>
   <div class="v-filters" id="v-filters"></div>
   <div class="v-list scrollable" id="v-list"></div>
+</div>
+
+<div id="screen-letters" class="screen">
+  <div class="lt-header">
+    <button class="lt-back" id="lt-back" onclick="ltBackToGrid()">←</button>
+    <div><h2 id="lt-title">Letras</h2><p id="lt-sub">El alfabeto malayalam · toca una letra para practicar</p></div>
+  </div>
+  <div class="lt-scroll" id="lt-grid-view"></div>
+  <div class="lt-practice" id="lt-practice">
+    <div class="lt-info">
+      <div class="big"><span id="ltp-ch"></span> · <span class="rom" id="ltp-rom"></span></div>
+      <div class="ex" id="ltp-ex"></div>
+    </div>
+    <div class="lt-canvas-wrap">
+      <div class="lt-guide" id="lt-guide"></div>
+      <canvas id="lt-canvas"></canvas>
+    </div>
+    <div class="lt-controls">
+      <button class="lt-ctrl" onclick="ltPrev()">←</button>
+      <button class="lt-ctrl" onclick="ltClear()">🗑️ Borrar</button>
+      <button class="lt-ctrl" onclick="ltNext()">→</button>
+    </div>
+    <div class="lt-controls">
+      <button class="lt-ctrl ok" onclick="ltDone()">✓ Practicada (+2 XP)</button>
+    </div>
+  </div>
 </div>
 
 <div id="screen-profile" class="screen">
@@ -311,6 +421,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Rounded","SF Pro Displ
 <nav class="bottom-nav" id="bottom-nav" style="display:none">
   <button class="nav-item active" onclick="showScreen('home',this)"><span class="nav-icon">🏠</span><span class="nav-label">Camino</span></button>
   <button class="nav-item" onclick="showScreen('vocab',this)"><span class="nav-icon">📖</span><span class="nav-label">Palabras</span></button>
+  <button class="nav-item" onclick="showScreen('letters',this)"><span class="nav-icon">✍️</span><span class="nav-label">Letras</span></button>
   <button class="nav-item" onclick="showScreen('profile',this)"><span class="nav-icon">👤</span><span class="nav-label">Perfil</span></button>
 </nav>
 
@@ -333,60 +444,137 @@ const UNITS=[
   {id:'l0a',name:'Saludos',icon:'👋',type:'fc',wf:w=>w.cat==='greeting'&&['namaskaram','nandi','shari','athe','illa','kshamikkanam','dayavayi','sukhamaano?','sukhamaanu'].includes(w.rom)},
   {id:'l0b',name:'Saludos · práctica',icon:'🧠',type:'mc',wf:w=>w.cat==='greeting'},
   {id:'l0c',name:'Cómo funciona el idioma',icon:'📐',type:'grammar',grammar:{title:'Las 4 reglas de oro',rules:['<b>Orden SOV:</b> Sujeto + Objeto + Verbo. En español: "yo bebo agua". En Malayalam: "yo agua bebo" → nyaan vellam kudikkunnu.','<b>Negación con -illa:</b> añade -illa para negar. ariyaam (sé) → ariyilla (no sé). kazhiyum (puedo) → kazhiyilla (no puedo).','<b>Preguntas con -o:</b> añade -o o -mo al final. veenam (quiero) → veenamo? (¿quieres?). No hace falta cambiar el orden.','<b>Pronombres con caso:</b> nyaan = yo (sujeto), enikku = a mí/para mí. Para deseos y sensaciones se usa enikku: enikku veenam = yo quiero.']}},
-  {id:'l0d',name:'Frases de supervivencia',icon:'🆘',type:'fc',wf:w=>['enikku manassilaayilla','onnukoodi parayoo','saaramilla','veendum kaanaam','theerchayaayum','orupakshe','nannaayi'].includes(w.rom)||w.rom==='pathukkhe'},
-  {id:'l0e',name:'Repaso · construye frases',icon:'🧩',type:'wordbank',pf:(p,i)=>[11,12,26,31,36,39].includes(i)},
+  {id:'l0d',name:'Frases de supervivencia',icon:'🆘',type:'fc',wf:w=>['enikku manassilaayilla','onnukoodi parayoo','saaramilla','veendum kaanaam','theerchayaayum','orupakshe','nannaayi','pathukkhe'].includes(w.rom)},
+  {id:'l0e',name:'Empareja · saludos',icon:'🃏',type:'match',wf:w=>w.cat==='greeting'},
+  {id:'l0f',name:'Construye frases',icon:'🧩',type:'wordbank',pf:(p,i)=>[11,12,26,31,36,39].includes(i)},
  ]},
  {id:'u1',title:'Unidad 1 · Yo y los míos',subtitle:'Pronombres, ser y familia',color:'#c47dfa',lessons:[
   {id:'l1a',name:'Pronombres',icon:'👤',type:'fc',wf:w=>w.cat==='pronoun'},
   {id:'l1b',name:'Ser, tener, querer',icon:'✨',type:'mc',wf:w=>['aanu','alla','undu','veenam','veenda','ishtamaanu','ishtamilla','ariyaam','ariyilla','kazhiyum','kazhiyilla'].includes(w.rom)},
   {id:'l1c',name:'Mi familia',icon:'👨‍👩‍👧',type:'fc',wf:w=>w.cat==='family'},
-  {id:'l1d',name:'Familia · práctica',icon:'🧠',type:'mc',wf:w=>w.cat==='family'},
-  {id:'l1e',name:'Construye frases',icon:'🧩',type:'wordbank',pf:(p,i)=>[0,7,8,15,17,13].includes(i)},
-  {id:'l1f',name:'Escribe · repaso',icon:'✍️',type:'write',wf:w=>w.cat==='pronoun'||w.cat==='family'},
+  {id:'l1d',name:'Empareja · familia',icon:'🃏',type:'match',wf:w=>w.cat==='family'},
+  {id:'l1e',name:'Completa el hueco',icon:'✂️',type:'gap',pf:(p,i)=>[0,7,8,15,17,13,18,21].includes(i)},
+  {id:'l1f',name:'Construye frases',icon:'🧩',type:'wordbank',pf:(p,i)=>[0,7,8,15,17,13].includes(i)},
  ]},
  {id:'u2',title:'Unidad 2 · Mi mundo',subtitle:'Números, colores, tiempo y lugares',color:'#49c0f8',lessons:[
   {id:'l2a',name:'Números 1–10',icon:'🔢',type:'fc',wf:w=>w.cat==='number'},
   {id:'l2b',name:'Colores',icon:'🎨',type:'mc',wf:w=>w.cat==='color'},
-  {id:'l2c',name:'Lugares y direcciones',icon:'🗺️',type:'fc',wf:w=>w.cat==='place'},
-  {id:'l2d',name:'El tiempo',icon:'📅',type:'mc',wf:w=>w.cat==='time'},
-  {id:'l2e',name:'Aquí y allí',icon:'📍',type:'mc',wf:w=>w.cat==='adverb'},
-  {id:'l2f',name:'Construye frases',icon:'🧩',type:'wordbank',pf:(p,i)=>[2,6,21,28,29,34].includes(i)},
+  {id:'l2c',name:'Empareja · números y colores',icon:'🃏',type:'match',wf:w=>w.cat==='number'||w.cat==='color'},
+  {id:'l2d',name:'Lugares y direcciones',icon:'🗺️',type:'fc',wf:w=>w.cat==='place'},
+  {id:'l2e',name:'El tiempo',icon:'📅',type:'mc',wf:w=>w.cat==='time'},
+  {id:'l2f',name:'Aquí y allí',icon:'📍',type:'mc',wf:w=>w.cat==='adverb'},
+  {id:'l2g',name:'Construye frases',icon:'🧩',type:'wordbank',pf:(p,i)=>[2,6,21,28,29,34].includes(i)},
  ]},
  {id:'u3',title:'Unidad 3 · Comer y beber',subtitle:'Comida, pedir y verbos básicos',color:'#ffc800',lessons:[
   {id:'l3a',name:'Comida y bebida',icon:'🍛',type:'fc',wf:w=>w.cat==='food'},
-  {id:'l3b',name:'Comida · práctica',icon:'🧠',type:'mc',wf:w=>w.cat==='food'},
+  {id:'l3b',name:'Empareja · comida',icon:'🃏',type:'match',wf:w=>w.cat==='food'},
   {id:'l3c',name:'Pedir cosas',icon:'🙏',type:'mc',wf:w=>['veenam','veenda','tharoo','oru','kurachu','dhaaralam','mathi','ethra'].includes(w.rom)},
   {id:'l3d',name:'Verbos de acción',icon:'⚡',type:'fc',wf:w=>['kazhikkua','kazhichu','kudikkunnu','varunnu','pokunnu','vannu','poyi','uranggunnu','nadakkunnu'].includes(w.rom)},
-  {id:'l3e',name:'Construye frases',icon:'🧩',type:'wordbank',pf:(p,i)=>[0,3,4,25,32,33].includes(i)},
-  {id:'l3f',name:'Escribe · repaso',icon:'✍️',type:'write',wf:w=>w.cat==='food'},
+  {id:'l3e',name:'Completa el hueco',icon:'✂️',type:'gap',pf:(p,i)=>[0,3,4,25,32,33,9,27].includes(i)},
+  {id:'l3f',name:'Construye frases',icon:'🧩',type:'wordbank',pf:(p,i)=>[0,3,4,25,32,33].includes(i)},
  ]},
  {id:'u4',title:'Unidad 4 · Cómo me siento',subtitle:'Emociones, cuerpo y salud',color:'#ff5252',lessons:[
   {id:'l4a',name:'Emociones',icon:'😊',type:'fc',wf:w=>w.cat==='emotion'},
   {id:'l4b',name:'Mi cuerpo',icon:'🫀',type:'mc',wf:w=>w.cat==='body'},
-  {id:'l4c',name:'En el médico',icon:'🏥',type:'mc',wf:w=>['vedana','pani','doctor','marunnu','aashupathri','thala','vayar','undu','veenam'].includes(w.rom)},
-  {id:'l4d',name:'Adjetivos útiles',icon:'💬',type:'fc',wf:w=>w.cat==='adj'},
-  {id:'l4e',name:'Construye frases',icon:'🧩',type:'wordbank',pf:(p,i)=>[9,13,18,20,23,30].includes(i)},
+  {id:'l4c',name:'Empareja · cuerpo',icon:'🃏',type:'match',wf:w=>w.cat==='body'||w.cat==='emotion'},
+  {id:'l4d',name:'En el médico',icon:'🏥',type:'mc',wf:w=>['vedana','pani','doctor','marunnu','aashupathri','thala','vayar','undu','veenam'].includes(w.rom)},
+  {id:'l4e',name:'Adjetivos útiles',icon:'💬',type:'fc',wf:w=>w.cat==='adj'},
+  {id:'l4f',name:'Construye frases',icon:'🧩',type:'wordbank',pf:(p,i)=>[9,13,18,20,23,30].includes(i)},
  ]},
  {id:'u5',title:'Unidad 5 · Por Kerala',subtitle:'Transporte, casa y naturaleza',color:'#ff9600',lessons:[
   {id:'l5a',name:'Transporte',icon:'🛺',type:'fc',wf:w=>w.cat==='transport'},
   {id:'l5b',name:'Mi casa',icon:'🏠',type:'mc',wf:w=>w.cat==='home'},
   {id:'l5c',name:'Naturaleza',icon:'🌿',type:'mc',wf:w=>w.cat==='nature'},
-  {id:'l5d',name:'Imperativos',icon:'📣',type:'mc',wf:w=>['varoo','nokkoo','kelkkoo','tharoo','nirthoo','pokaam'].includes(w.rom)},
-  {id:'l5e',name:'Construye frases',icon:'🧩',type:'wordbank',pf:(p,i)=>[10,16,22,35,37,38].includes(i)},
+  {id:'l5d',name:'Empareja · por Kerala',icon:'🃏',type:'match',wf:w=>['transport','home','nature'].includes(w.cat)},
+  {id:'l5e',name:'Imperativos',icon:'📣',type:'mc',wf:w=>['varoo','nokkoo','kelkkoo','tharoo','nirthoo','pokaam'].includes(w.rom)},
+  {id:'l5f',name:'Construye frases',icon:'🧩',type:'wordbank',pf:(p,i)=>[10,16,22,35,37,38].includes(i)},
  ]},
  {id:'u6',title:'Unidad 6 · Nivel A1',subtitle:'El gran repaso final',color:'#c47dfa',lessons:[
   {id:'l6a',name:'Verbos · todo',icon:'⚡',type:'mc',wf:w=>w.cat==='verb'},
   {id:'l6b',name:'Vocabulario general',icon:'📚',type:'mc',wf:w=>w.cat==='noun'||w.cat==='question'},
-  {id:'l6c',name:'Gran repaso',icon:'🔥',type:'mc',wf:w=>true},
-  {id:'l6d',name:'Frases · examen',icon:'🧩',type:'wordbank',pf:(p,i)=>true},
-  {id:'l6e',name:'Examen final A1',icon:'🎓',type:'write',wf:w=>true},
+  {id:'l6c',name:'Mega empareja',icon:'🃏',type:'match',wf:w=>true},
+  {id:'l6d',name:'Completa el hueco',icon:'✂️',type:'gap',pf:(p,i)=>true},
+  {id:'l6e',name:'Frases · examen',icon:'🧩',type:'wordbank',pf:(p,i)=>true},
+  {id:'l6f',name:'Examen final A1',icon:'🎓',type:'write',wf:w=>true},
  ]},
 ];
 
-let state={xp:0,streak:0,totalCorrect:0,totalStars:0,lessonType:null,lessonQueue:[],lessonPool:[],lessonIdx:0,lessonCorrect:0,lessonWrong:0,lessonXP:0,lives:3,fcIdx:0,fcDeck:[],fcFlipped:false,cur:null,answered:false,lastPracticeDate:null,completedLessons:{},currentLessonId:null,activityLog:{},onboardDone:false,wbSelected:[]};
+let state={xp:0,streak:0,totalCorrect:0,totalStars:0,lessonType:null,lessonQueue:[],lessonPool:[],lessonIdx:0,lessonCorrect:0,lessonWrong:0,lessonXP:0,lives:3,fcIdx:0,fcDeck:[],fcFlipped:false,cur:null,answered:false,lastPracticeDate:null,completedLessons:{},currentLessonId:null,activityLog:{},onboardDone:false,wbSelected:[],combo:0,errors:{},lessonMistakes:[],missionDay:null,mXP:0,mCorrect:0,mLessons:0,missionRewarded:false,lettersDone:{}};
 
 function loadState(){try{const s=localStorage.getItem('kerala_v4');if(s)Object.assign(state,JSON.parse(s))}catch(e){}}
 function saveState(){try{localStorage.setItem('kerala_v4',JSON.stringify(state))}catch(e){}}
+
+/* SOUNDS */
+let AC=null;
+function tone(f,t,d,type,g){
+  const o=AC.createOscillator(),v=AC.createGain();
+  o.type=type||'sine';o.frequency.value=f;
+  v.gain.setValueAtTime(g||.1,t);v.gain.exponentialRampToValueAtTime(.001,t+d);
+  o.connect(v);v.connect(AC.destination);o.start(t);o.stop(t+d);
+}
+function sfx(ok){
+  try{
+    AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    if(AC.state==='suspended')AC.resume();
+    const t=AC.currentTime;
+    if(ok){tone(523.25,t,.1);tone(659.25,t+.08,.1);tone(783.99,t+.16,.18);}
+    else{tone(220,t,.18,'sawtooth',.06);tone(180,t+.12,.22,'sawtooth',.06);}
+  }catch(e){}
+}
+
+/* XP + MISSIONS */
+function gainXP(n){state.xp+=n;state.lessonXP+=n;state.mXP+=n;}
+function checkMissionDay(){
+  const today=new Date().toDateString();
+  if(state.missionDay!==today){state.missionDay=today;state.mXP=0;state.mCorrect=0;state.mLessons=0;state.missionRewarded=false;saveState();}
+}
+function getMissions(){
+  checkMissionDay();
+  return[
+    {icon:'⚡',name:'Gana 40 XP',cur:Math.min(40,state.mXP),max:40},
+    {icon:'✅',name:'Acierta 15 respuestas',cur:Math.min(15,state.mCorrect),max:15},
+    {icon:'📘',name:'Completa 2 lecciones',cur:Math.min(2,state.mLessons),max:2},
+  ];
+}
+function checkMissionReward(){
+  const m=getMissions();
+  if(!state.missionRewarded&&m.every(x=>x.cur>=x.max)){
+    state.missionRewarded=true;state.xp+=25;state.mXP+=25;saveState();
+    showToast('🎁 Misiones completadas ¡+25 XP!');
+  }
+}
+function renderMissions(){
+  const m=getMissions();
+  document.getElementById('missions').innerHTML='<h3>🎯 Misiones de hoy</h3>'+m.map(x=>{
+    const done=x.cur>=x.max;
+    return`<div class="mission ${done?'done':''}">
+      <span class="mission-ico">${x.icon}</span>
+      <div class="mission-body"><div class="mission-name">${x.name}</div>
+      <div class="mission-bar"><div class="mission-fill" style="width:${Math.round(x.cur/x.max*100)}%"></div></div></div>
+      <span class="mission-count">${x.cur}/${x.max}</span></div>`;
+  }).join('');
+}
+
+/* ERROR TRACKING */
+function trackError(rom){state.errors[rom]=(state.errors[rom]||0)+1;}
+function trackCorrect(rom){if(state.errors[rom]){state.errors[rom]--;if(state.errors[rom]<=0)delete state.errors[rom];}}
+function renderReviewBtn(){
+  const n=Object.keys(state.errors).length;
+  const btn=document.getElementById('review-btn');
+  if(n>=3){btn.style.display='flex';document.getElementById('review-count').textContent=n+' palabras';}
+  else btn.style.display='none';
+}
+function startReview(){
+  const errWords=Object.entries(state.errors).sort((a,b)=>b[1]-a[1]).map(([rom])=>ALL_WORDS.find(w=>w.rom===rom)).filter(Boolean);
+  if(!errWords.length)return;
+  state.currentLessonId='review';state.lessonType='mc';
+  state.lessonCorrect=0;state.lessonWrong=0;state.lessonXP=0;state.answered=false;state.lives=3;state.combo=0;state.lessonMistakes=[];
+  state.lessonPool=errWords;
+  state.lessonQueue=errWords.slice(0,12);state.lessonIdx=0;
+  document.getElementById('fbar').classList.remove('show');
+  updateLives();updateCombo();
+  showScreen('lesson');renderExercise();
+}
 
 function startApp(){
   state.onboardDone=true;saveState();
@@ -394,7 +582,6 @@ function startApp(){
   document.getElementById('bottom-nav').style.display='flex';
   showScreen('home');
 }
-
 function isUnlocked(ui,li){
   if(ui===0&&li===0)return true;
   if(li>0)return!!state.completedLessons[UNITS[ui].lessons[li-1].id];
@@ -429,52 +616,77 @@ function renderUnits(){
     return html;
   }).join('')+'</div>';
 }
-
 function updateHomeStats(){
   document.getElementById('h-streak').textContent=state.streak;
   document.getElementById('h-xp').textContent=state.xp;
 }
-
 function showScreen(name,btn){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-'+name).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  else{const i=['home','vocab','profile'].indexOf(name);if(i>=0)document.querySelectorAll('.nav-item')[i].classList.add('active');}
+  else{const i=['home','vocab','letters','profile'].indexOf(name);if(i>=0)document.querySelectorAll('.nav-item')[i].classList.add('active');}
   if(name==='vocab'){renderFilters();renderVocab('all');document.getElementById('v-search').value='';}
   if(name==='profile')renderProfile();
-  if(name==='home'){renderUnits();updateHomeStats();}
+  if(name==='letters')renderLetters();
+  if(name==='home'){renderUnits();updateHomeStats();renderMissions();renderReviewBtn();}
 }
 function goHome(){document.getElementById('fbar').classList.remove('show');showScreen('home');}
-function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900);}
 
 function getLessonDef(id){for(const u of UNITS)for(const l of u.lessons)if(l.id===id)return l;return null;}
 
 function startLesson(id){
   const lesson=getLessonDef(id);if(!lesson)return;
   state.currentLessonId=id;state.lessonType=lesson.type;
-  state.lessonCorrect=0;state.lessonWrong=0;state.lessonXP=0;state.answered=false;state.lives=3;
+  state.lessonCorrect=0;state.lessonWrong=0;state.lessonXP=0;state.answered=false;state.lives=3;state.combo=0;state.lessonMistakes=[];
   let words=lesson.wf?ALL_WORDS.filter(lesson.wf):[];
   let phrases=lesson.pf?ALL_PHRASES.filter(lesson.pf):[];
   state.lessonPool=words.length?words:ALL_WORDS;
-
   if(lesson.type==='fc'){state.fcDeck=[...words].sort(()=>Math.random()-.5);state.fcIdx=0;state.lessonQueue=state.fcDeck;}
   else if(lesson.type==='mc'||lesson.type==='write'){state.lessonQueue=[...words].sort(()=>Math.random()-.5).slice(0,12);state.lessonIdx=0;}
-  else if(lesson.type==='wordbank'){state.lessonQueue=[...phrases].sort(()=>Math.random()-.5).slice(0,8);state.lessonIdx=0;}
+  else if(lesson.type==='wordbank'||lesson.type==='gap'){state.lessonQueue=[...phrases].sort(()=>Math.random()-.5).slice(0,8);state.lessonIdx=0;}
+  else if(lesson.type==='match'){
+    const shuffled=[...words].sort(()=>Math.random()-.5);
+    const rounds=[];
+    for(let i=0;i+5<=shuffled.length&&rounds.length<4;i+=5)rounds.push(shuffled.slice(i,i+5));
+    if(!rounds.length)rounds.push(shuffled.slice(0,Math.min(5,shuffled.length)));
+    state.lessonQueue=rounds;state.lessonIdx=0;
+  }
   else if(lesson.type==='grammar'){state.lessonQueue=[lesson.grammar];state.lessonIdx=0;}
-
   document.getElementById('fbar').classList.remove('show');
-  updateLives();
-  showScreen('lesson');
-  renderExercise();
+  updateLives();updateCombo();
+  showScreen('lesson');renderExercise();
 }
 
 function updateLives(){document.getElementById('lives-count').textContent=state.lives;}
-
+function updateCombo(){
+  const b=document.getElementById('combo-badge');
+  document.getElementById('combo-n').textContent=state.combo;
+  b.classList.toggle('show',state.combo>=2);
+}
+function onCorrect(baseXP,rom){
+  state.lessonCorrect++;state.totalCorrect++;state.mCorrect++;
+  state.combo++;updateCombo();
+  let bonus=state.combo>=3?2:0;
+  gainXP(baseXP+bonus);
+  if(rom)trackCorrect(rom);
+  if(state.combo>0&&state.combo%5===0)showToast('🔥 ¡'+state.combo+' seguidas!');
+  else showToast('+'+(baseXP+bonus)+' XP');
+  sfx(true);
+}
+function onWrong(rom,mistLabel){
+  state.lessonWrong++;state.combo=0;updateCombo();
+  gainXP(1);
+  if(rom)trackError(rom);
+  if(mistLabel)state.lessonMistakes.push(mistLabel);
+  sfx(false);
+  loseLife();
+}
 function loseLife(){
   if(state.lives>0)state.lives--;
   updateLives();
-  if(state.lives<=0){setTimeout(()=>{finishLesson(true);},1400);}
+  if(state.lives<=0)setTimeout(()=>finishLesson(true),1500);
 }
 
 function renderExercise(){
@@ -482,13 +694,15 @@ function renderExercise(){
   const type=state.lessonType;
   const total=state.lessonQueue.length;
   const idx=type==='fc'?state.fcIdx:state.lessonIdx;
-  document.getElementById('lprog-fill').style.width=Math.round((idx/Math.max(1,total))*100)+'%';
+  document.getElementById('lprog-fill').style.width=Math.round(idx/Math.max(1,total)*100)+'%';
   body.scrollTop=0;
   body.classList.remove('transitioning');void body.offsetWidth;body.classList.add('transitioning');
   if(type==='fc')renderFC(body);
   else if(type==='mc')renderMC(body);
   else if(type==='write')renderWrite(body);
   else if(type==='wordbank')renderWB(body);
+  else if(type==='gap')renderGap(body);
+  else if(type==='match')renderMatch(body);
   else if(type==='grammar')renderGrammar(body);
 }
 
@@ -526,22 +740,20 @@ function renderFC(body){
 function flipFC(){state.fcFlipped=!state.fcFlipped;document.getElementById('fc-obj').classList.toggle('flipped',state.fcFlipped);}
 function nextFC(){if(state.fcIdx<state.fcDeck.length-1){state.fcIdx++;renderExercise();}else finishLesson();}
 function prevFC(){if(state.fcIdx>0){state.fcIdx--;renderExercise();}}
-function fcKnow(){state.lessonXP+=5;state.xp+=5;state.lessonCorrect++;showToast('+5 XP');nextFC();}
+function fcKnow(){state.lessonCorrect++;gainXP(5);state.mCorrect++;showToast('+5 XP');nextFC();}
 
-/* MC — distractors from lesson pool first */
+/* MC */
 function pickWrongs(card,n){
   let pool=state.lessonPool.filter(c=>c.rom!==card.rom&&c.trans!==card.trans);
-  if(pool.length<n){
-    const extra=ALL_WORDS.filter(c=>c.cat===card.cat&&c.rom!==card.rom&&!pool.includes(c));
-    pool=pool.concat(extra);
+  if(pool.length<n)pool=pool.concat(ALL_WORDS.filter(c=>c.cat===card.cat&&c.rom!==card.rom&&c.trans!==card.trans&&!pool.includes(c)));
+  if(pool.length<n)pool=pool.concat(ALL_WORDS.filter(c=>c.rom!==card.rom&&c.trans!==card.trans&&!pool.includes(c)));
+  const seen=new Set([card.trans]);const out=[];
+  for(const c of pool.sort(()=>Math.random()-.5)){
+    if(!seen.has(c.trans)){out.push(c);seen.add(c.trans);}
+    if(out.length===n)break;
   }
-  if(pool.length<n){
-    const extra2=ALL_WORDS.filter(c=>c.rom!==card.rom&&!pool.includes(c));
-    pool=pool.concat(extra2);
-  }
-  return pool.sort(()=>Math.random()-.5).slice(0,n);
+  return out;
 }
-
 function renderMC(body){
   const card=state.lessonQueue[state.lessonIdx];
   const m2e=Math.random()>.5;
@@ -550,8 +762,7 @@ function renderMC(body){
   if(m2e){q=card.mal;sub=card.rom;opts=[card.trans,...wrongs.map(w=>w.trans)];}
   else{q=card.trans;sub='Elige la palabra en malayalam';opts=[card.rom,...wrongs.map(w=>w.rom)];}
   opts=opts.sort(()=>Math.random()-.5);
-  const correct=m2e?card.trans:card.rom;
-  state.cur={correctIdx:opts.indexOf(correct),card};
+  state.cur={correctIdx:opts.indexOf(m2e?card.trans:card.rom),card};
   const L=['A','B','C','D'];
   body.innerHTML=`
     <div class="ex-type">🧠 Elige la respuesta correcta</div>
@@ -559,62 +770,151 @@ function renderMC(body){
     <div class="opts">${opts.map((o,i)=>`<button class="opt" onclick="answerMC(${i})"><span class="opt-l">${L[i]}</span>${o}</button>`).join('')}</div>`;
   state.answered=false;
 }
-
 function answerMC(i){
   if(state.answered)return;state.answered=true;
   const{correctIdx,card}=state.cur;
   document.querySelectorAll('.opt').forEach(b=>b.disabled=true);
   document.querySelectorAll('.opt')[correctIdx].classList.add('correct');
-  if(i===correctIdx){state.lessonCorrect++;state.lessonXP+=10;state.xp+=10;state.totalCorrect++;showFB(true,'¡Correcto!',card.rom+' = '+card.trans);}
-  else{document.querySelectorAll('.opt')[i].classList.add('wrong');state.lessonWrong++;loseLife();showFB(false,'Incorrecto',card.rom+' = '+card.trans);}
+  if(i===correctIdx){onCorrect(10,card.rom);showFB(true,'¡Correcto!',card.rom+' = '+card.trans);}
+  else{document.querySelectorAll('.opt')[i].classList.add('wrong');onWrong(card.rom,'<b>'+card.rom+'</b> = '+card.trans);showFB(false,'Incorrecto',card.rom+' = '+card.trans);}
   saveState();
 }
 
-/* WORD BANK (Duolingo style) */
+/* WORD BANK — bidirectional */
+function stripP(s){return s.replace(/[¿?¡!.,\-]/g,' ').replace(/\s+/g,' ').trim();}
 function renderWB(body){
   const p=state.lessonQueue[state.lessonIdx];
-  const answerWords=p.a.toLowerCase().replace(/[¿?¡!.,]/g,'').split(' ').filter(Boolean);
-  // distractors: random words from other phrase answers
-  const allWords=[...new Set(ALL_PHRASES.flatMap(x=>x.a.toLowerCase().replace(/[¿?¡!.,]/g,'').split(' ')))].filter(w=>!answerWords.includes(w)&&w.length>1);
-  const distractors=allWords.sort(()=>Math.random()-.5).slice(0,Math.min(4,Math.max(2,8-answerWords.length)));
-  const bank=[...answerWords,...distractors].sort(()=>Math.random()-.5);
-  state.cur={answerWords,phrase:p};
+  const reverse=Math.random()>.5;
+  let questionTxt,answerTokens,bankSource;
+  if(reverse){
+    questionTxt='"'+p.a+'"';
+    answerTokens=stripP(p.q).split(' ');
+    bankSource=[...new Set(ALL_PHRASES.flatMap(x=>stripP(x.q).split(' ')))];
+  }else{
+    questionTxt='"'+p.q+'"';
+    answerTokens=stripP(p.a).split(' ');
+    bankSource=[...new Set(ALL_PHRASES.flatMap(x=>stripP(x.a).split(' ')))];
+  }
+  const lowAns=answerTokens.map(t=>t.toLowerCase());
+  const distractors=bankSource.filter(w=>!lowAns.includes(w.toLowerCase())&&w.length>1).sort(()=>Math.random()-.5).slice(0,Math.min(4,Math.max(2,9-answerTokens.length)));
+  const bank=[...answerTokens,...distractors].sort(()=>Math.random()-.5);
+  state.cur={answerTokens:lowAns,phrase:p,reverse};
   state.wbSelected=[];
   body.innerHTML=`
-    <div class="ex-type">🧩 Traduce esta frase</div>
-    <div><div class="ex-q">"${p.q}"</div><div class="ex-sub">Toca las palabras en orden</div></div>
+    <div class="ex-type">🧩 ${reverse?'Traduce al malayalam':'Traduce al español'}</div>
+    <div><div class="ex-q">${questionTxt}</div><div class="ex-sub">Toca las palabras en orden</div></div>
     <div class="wb-answer" id="wb-answer"></div>
-    <div class="wb-bank" id="wb-bank">${bank.map((w,i)=>`<button class="wb-chip" id="chip-${i}" onclick="wbPick(${i},'${w.replace(/'/g,"\\'")}')">${w}</button>`).join('')}</div>
+    <div class="wb-bank" id="wb-bank">${bank.map((w,i)=>`<button class="wb-chip" id="chip-${i}" data-w="${w.toLowerCase()}" onclick="wbPick(${i})">${w}</button>`).join('')}</div>
     <button class="check-btn" id="wb-check" onclick="checkWB()" disabled>Comprobar</button>`;
   state.answered=false;
 }
-
-function wbPick(i,word){
+function wbPick(i){
   const chip=document.getElementById('chip-'+i);
-  if(chip.classList.contains('used')){return;}
+  if(chip.classList.contains('used'))return;
   chip.classList.add('used');
-  state.wbSelected.push({i,word});
+  state.wbSelected.push({i,word:chip.dataset.w,label:chip.textContent});
   renderWBAnswer();
 }
 function wbRemove(idx){
-  const sel=state.wbSelected[idx];
-  document.getElementById('chip-'+sel.i).classList.remove('used');
+  document.getElementById('chip-'+state.wbSelected[idx].i).classList.remove('used');
   state.wbSelected.splice(idx,1);
   renderWBAnswer();
 }
 function renderWBAnswer(){
-  const a=document.getElementById('wb-answer');
-  a.innerHTML=state.wbSelected.map((s,idx)=>`<button class="wb-chip" onclick="wbRemove(${idx})">${s.word}</button>`).join('');
+  document.getElementById('wb-answer').innerHTML=state.wbSelected.map((s,idx)=>`<button class="wb-chip" onclick="wbRemove(${idx})">${s.label}</button>`).join('');
   document.getElementById('wb-check').disabled=state.wbSelected.length===0;
 }
 function checkWB(){
   if(state.answered)return;state.answered=true;
-  const{answerWords,phrase}=state.cur;
+  const{answerTokens,phrase,reverse}=state.cur;
   const user=state.wbSelected.map(s=>s.word);
-  const ok=user.length===answerWords.length&&user.every((w,i)=>w===answerWords[i]);
-  if(ok){state.lessonCorrect++;state.lessonXP+=15;state.xp+=15;state.totalCorrect++;showFB(true,'¡Excelente!',phrase.hint||'');}
-  else{state.lessonWrong++;loseLife();showFB(false,'Incorrecto','Respuesta: '+phrase.a+(phrase.hint?' · '+phrase.hint:''));}
+  const ok=user.length===answerTokens.length&&user.every((w,i)=>w===answerTokens[i]);
+  if(ok){onCorrect(15);showFB(true,'¡Excelente!',phrase.hint||'');}
+  else{onWrong(null,'<b>'+phrase.q+'</b> = '+phrase.a);showFB(false,'Incorrecto','Respuesta: '+(reverse?phrase.q:phrase.a)+(phrase.hint?' · '+phrase.hint:''));}
   saveState();
+}
+
+/* GAP FILL */
+function renderGap(body){
+  const p=state.lessonQueue[state.lessonIdx];
+  const tokens=stripP(p.q).split(' ');
+  const candidates=tokens.map((t,i)=>({t,i})).filter(x=>x.t.length>2);
+  const pick=candidates[Math.floor(Math.random()*candidates.length)]||{t:tokens[0],i:0};
+  const shown=tokens.map((t,i)=>i===pick.i?'<span class="gap-blank" id="gap-blank">___</span>':t).join(' ');
+  const others=[...new Set(ALL_PHRASES.flatMap(x=>stripP(x.q).split(' ')))].filter(w=>w.toLowerCase()!==pick.t.toLowerCase()&&w.length>2);
+  const opts=[pick.t,...others.sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5);
+  state.cur={correct:pick.t.toLowerCase(),phrase:p};
+  body.innerHTML=`
+    <div class="ex-type">✂️ Completa el hueco</div>
+    <div><div class="gap-q">${shown}</div><div class="ex-sub">"${p.a}"</div></div>
+    <div class="gap-opts">${opts.map((o,i)=>`<button class="wb-chip" id="gopt-${i}" onclick="answerGap(${i},'${o.toLowerCase().replace(/'/g,"\\'")}',this)">${o}</button>`).join('')}</div>`;
+  state.answered=false;
+}
+function answerGap(i,word,el){
+  if(state.answered)return;state.answered=true;
+  const{correct,phrase}=state.cur;
+  document.querySelectorAll('.gap-opts .wb-chip').forEach(b=>b.disabled=true);
+  const blank=document.getElementById('gap-blank');
+  if(word===correct){
+    blank.textContent=el.textContent;blank.style.color='var(--green)';blank.style.borderColor='var(--green)';
+    el.style.borderColor='var(--green)';el.style.color='var(--green)';
+    onCorrect(10);showFB(true,'¡Correcto!',phrase.q+' = '+phrase.a);
+  }else{
+    blank.textContent=correct;blank.style.color='var(--red)';blank.style.borderColor='var(--red)';
+    el.style.borderColor='var(--red)';el.style.color='var(--red)';
+    onWrong(null,'<b>'+phrase.q+'</b> = '+phrase.a);
+    showFB(false,'Incorrecto','La palabra era: '+correct);
+  }
+  saveState();
+}
+
+/* MATCH PAIRS */
+function renderMatch(body){
+  const pairs=state.lessonQueue[state.lessonIdx];
+  if(!pairs){finishLesson();return;}
+  const left=[...pairs].sort(()=>Math.random()-.5);
+  const right=[...pairs].sort(()=>Math.random()-.5);
+  state.cur={pairs,matched:0,selL:null,selR:null};
+  body.innerHTML=`
+    <div class="ex-type">🃏 Empareja las palabras</div>
+    <div class="ex-sub">Ronda ${state.lessonIdx+1} de ${state.lessonQueue.length}</div>
+    <div class="match-grid">
+      <div class="match-col">${left.map((c,i)=>`<button class="match-chip" id="ml-${i}" data-rom="${c.rom}" onclick="matchPick('L',${i})">${c.rom}</button>`).join('')}</div>
+      <div class="match-col">${right.map((c,i)=>`<button class="match-chip" id="mr-${i}" data-rom="${c.rom}" onclick="matchPick('R',${i})">${c.trans}</button>`).join('')}</div>
+    </div>`;
+  state.answered=false;
+}
+function matchPick(side,i){
+  const el=document.getElementById((side==='L'?'ml-':'mr-')+i);
+  if(el.classList.contains('matched'))return;
+  if(side==='L'){
+    if(state.cur.selL!==null)document.getElementById('ml-'+state.cur.selL)?.classList.remove('sel');
+    state.cur.selL=i;el.classList.add('sel');
+  }else{
+    if(state.cur.selR!==null)document.getElementById('mr-'+state.cur.selR)?.classList.remove('sel');
+    state.cur.selR=i;el.classList.add('sel');
+  }
+  if(state.cur.selL!==null&&state.cur.selR!==null){
+    const L=document.getElementById('ml-'+state.cur.selL),R=document.getElementById('mr-'+state.cur.selR);
+    if(L.dataset.rom===R.dataset.rom){
+      L.classList.remove('sel');R.classList.remove('sel');
+      L.classList.add('matched');R.classList.add('matched');
+      state.cur.matched++;sfx(true);
+      trackCorrect(L.dataset.rom);
+      if(state.cur.matched>=state.cur.pairs.length){
+        onCorrect(15);
+        setTimeout(()=>{state.lessonIdx++;if(state.lessonIdx>=state.lessonQueue.length)finishLesson();else renderExercise();},550);
+      }
+    }else{
+      L.classList.add('err');R.classList.add('err');
+      state.combo=0;updateCombo();sfx(false);
+      trackError(L.dataset.rom);
+      const w=ALL_WORDS.find(x=>x.rom===L.dataset.rom);
+      if(w&&!state.lessonMistakes.some(m=>m.includes(w.rom)))state.lessonMistakes.push('<b>'+w.rom+'</b> = '+w.trans);
+      setTimeout(()=>{L.classList.remove('err','sel');R.classList.remove('err','sel');},600);
+    }
+    state.cur.selL=null;state.cur.selR=null;
+  }
 }
 
 /* WRITE */
@@ -645,10 +945,10 @@ function checkWrite(){
   const user=normalize(input.value);
   const{correct,card}=state.cur;
   const variants=correct.split('/').map(v=>normalize(v));
-  const ok=variants.some(v=>user===v||v.startsWith(user)&&user.length>=Math.min(4,v.length)||user.includes(v.split(' ')[0])&&v.split(' ')[0].length>3);
+  const ok=variants.some(v=>user===v||(v.split(' ')[0].length>3&&user.includes(v.split(' ')[0])));
   input.disabled=true;
-  if(ok){input.classList.add('correct');state.lessonCorrect++;state.lessonXP+=15;state.xp+=15;state.totalCorrect++;showFB(true,'¡Perfecto!',card.rom+' = '+card.trans);}
-  else{input.classList.add('wrong');state.lessonWrong++;loseLife();showFB(false,'Casi...','Respuesta: '+correct);}
+  if(ok){input.classList.add('correct');onCorrect(15,card.rom);showFB(true,'¡Perfecto!',card.rom+' = '+card.trans);}
+  else{input.classList.add('wrong');onWrong(card.rom,'<b>'+card.rom+'</b> = '+card.trans);showFB(false,'Casi...','Respuesta: '+correct);}
   saveState();
 }
 
@@ -661,7 +961,7 @@ function renderGrammar(body){
     ${g.rules.map((r,i)=>`<div class="gram-box"><h4>Regla ${i+1}</h4><p>${r}</p></div>`).join('')}
     <button class="check-btn" onclick="finishGrammar()">Entendido</button>`;
 }
-function finishGrammar(){state.lessonCorrect=4;state.lessonXP+=20;state.xp+=20;saveState();finishLesson();}
+function finishGrammar(){state.lessonCorrect=4;gainXP(20);saveState();finishLesson();}
 
 /* FEEDBACK */
 function showFB(ok,title,desc){
@@ -670,9 +970,7 @@ function showFB(ok,title,desc){
   document.getElementById('fb-ico').textContent=ok?'✓':'✗';
   document.getElementById('fb-title').textContent=title;
   document.getElementById('fb-desc').textContent=desc;
-  if(ok)showToast('+'+(state.lessonType==='wordbank'||state.lessonType==='write'?15:10)+' XP');
 }
-
 function nextExercise(){
   document.getElementById('fbar').classList.remove('show');
   state.answered=false;
@@ -694,9 +992,13 @@ function finishLesson(failed){
   const total=state.lessonCorrect+state.lessonWrong;
   const pct=total>0?Math.round(state.lessonCorrect/total*100):80;
   const stars=failed?0:pct>=90?3:pct>=70?2:pct>=50?1:0;
-  const prev=state.completedLessons[state.currentLessonId]||0;
-  if(stars>prev)state.completedLessons[state.currentLessonId]=stars;
+  if(state.currentLessonId!=='review'){
+    const prev=state.completedLessons[state.currentLessonId]||0;
+    if(stars>prev)state.completedLessons[state.currentLessonId]=stars;
+  }
+  if(!failed&&stars>0)state.mLessons++;
   state.totalStars=Object.values(state.completedLessons).reduce((a,b)=>a+b,0);
+  checkMissionReward();
   saveState();
   document.getElementById('res-ico').textContent=failed?'💔':stars>0?'🏆':'💪';
   document.getElementById('res-title').textContent=failed?'Sin vidas':stars===3?'¡Perfecto!':stars===2?'¡Muy bien!':stars===1?'¡Completada!':'¡Casi!';
@@ -704,31 +1006,40 @@ function finishLesson(failed){
   document.getElementById('rc-xp').textContent='+'+state.lessonXP;
   document.getElementById('rc-ok').textContent=state.lessonCorrect;
   document.getElementById('rc-bad').textContent=state.lessonWrong;
+  const mb=document.getElementById('mist-box');
+  if(state.lessonMistakes.length){
+    mb.style.display='block';
+    document.getElementById('mist-list').innerHTML=[...new Set(state.lessonMistakes)].slice(0,6).map(m=>`<div class="mist-item">${m}</div>`).join('');
+  }else mb.style.display='none';
+  const cc=document.getElementById('culture-card');
+  if(typeof CULTURE!=='undefined'&&stars>0){
+    const c=CULTURE[Math.floor(Math.random()*CULTURE.length)];
+    cc.style.display='block';
+    document.getElementById('culture-title').innerHTML=c.icon+' ¿Sabías que...? · '+c.title;
+    document.getElementById('culture-text').textContent=c.text;
+  }else cc.style.display='none';
   ['rs1','rs2','rs3'].forEach((id,i)=>{
-    const el=document.getElementById(id);
-    el.classList.remove('lit');
+    const el=document.getElementById(id);el.classList.remove('lit');
     if(i<stars)setTimeout(()=>el.classList.add('lit'),400+i*300);
   });
   showScreen('result');
   if(stars>0)setTimeout(launchConfetti,400);
 }
-function restartLesson(){startLesson(state.currentLessonId);}
+function restartLesson(){if(state.currentLessonId==='review')startReview();else startLesson(state.currentLessonId);}
 
 /* VOCAB */
 let curFilter='all';
 function renderFilters(){
   const f=document.getElementById('v-filters');
-  const cats=Object.keys(CAT_META);
   f.innerHTML='<button class="chip active" onclick="filterVocab(\'all\',this)">Todas</button>'+
-    cats.map(c=>`<button class="chip" onclick="filterVocab('${c}',this)">${CAT_META[c].name}</button>`).join('');
+    Object.keys(CAT_META).map(c=>`<button class="chip" onclick="filterVocab('${c}',this)">${CAT_META[c].name}</button>`).join('');
 }
 function renderVocab(filter,search=''){
   curFilter=filter;
   let cards=filter==='all'?ALL_WORDS:ALL_WORDS.filter(c=>c.cat===filter);
   if(search){const s=search.toLowerCase();cards=cards.filter(c=>c.mal.includes(search)||c.rom.toLowerCase().includes(s)||c.trans.toLowerCase().includes(s));}
   document.getElementById('v-count').textContent=cards.length+' palabras';
-  const list=document.getElementById('v-list');
-  list.innerHTML=cards.length?cards.map(c=>`
+  document.getElementById('v-list').innerHTML=cards.length?cards.map(c=>`
     <div class="v-item">
       <div class="v-dot" style="background:${c.dot||CAT_META[c.cat]?.color||'#888'}"></div>
       <span class="v-mal">${c.mal}</span>
@@ -744,12 +1055,13 @@ const ACHIEVEMENTS=[
   {icon:'🔥',name:'En racha',desc:'3 días seguidos',u:()=>state.streak>=3},
   {icon:'⚡',name:'Estudiante',desc:'100 XP',u:()=>state.xp>=100},
   {icon:'🧠',name:'Memorizador',desc:'50 aciertos',u:()=>state.totalCorrect>=50},
+  {icon:'🎯',name:'Sin fallos',desc:'Combo de 10 seguidas',u:()=>state.bestCombo>=10},
   {icon:'📚',name:'Media maratón',desc:'15 lecciones',u:()=>Object.keys(state.completedLessons).length>=15},
   {icon:'⭐',name:'Perfeccionista',desc:'15 estrellas',u:()=>state.totalStars>=15},
   {icon:'👑',name:'Corona dorada',desc:'3 estrellas en una lección',u:()=>Object.values(state.completedLessons).some(s=>s===3)},
   {icon:'🌴',name:'Kerala lover',desc:'7 días seguidos',u:()=>state.streak>=7},
   {icon:'💎',name:'Experto',desc:'1000 XP',u:()=>state.xp>=1000},
-  {icon:'🎓',name:'Nivel A1',desc:'3 estrellas en el examen final',u:()=>(state.completedLessons['l6e']||0)>=3},
+  {icon:'🎓',name:'Nivel A1',desc:'3 estrellas en el examen final',u:()=>(state.completedLessons['l6f']||0)>=3},
 ];
 function renderProfile(){
   const lvl=Math.floor(state.xp/100)+1;
@@ -784,6 +1096,74 @@ function launchConfetti(){
   const P=Array.from({length:90},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height-cv.height,r:Math.random()*6+3,c:['#58cc02','#ffc800','#49c0f8','#ff5252','#c47dfa'][~~(Math.random()*5)],vx:(Math.random()-.5)*3,vy:Math.random()*4+2,s:(Math.random()-.5)*.2,a:Math.random()*6.28}));
   let f=0;(function d(){ctx.clearRect(0,0,cv.width,cv.height);P.forEach(q=>{q.x+=q.vx;q.y+=q.vy;q.a+=q.s;ctx.save();ctx.translate(q.x,q.y);ctx.rotate(q.a);ctx.fillStyle=q.c;ctx.fillRect(-q.r/2,-q.r/2,q.r,q.r*1.6);ctx.restore();});if(++f<90)requestAnimationFrame(d);else cv.remove();})();
 }
+
+// Track best combo
+const _origOnCorrect=onCorrect;
+onCorrect=function(x,r){_origOnCorrect(x,r);if(!state.bestCombo||state.combo>state.bestCombo)state.bestCombo=state.combo;};
+
+
+/* ===== LETTERS (trazado) ===== */
+let ltList=[],ltIdx=0,ltDrawing=false,ltCtx=null;
+function ltAll(){return [...LETTERS.vowels.map(l=>({...l,sec:'v'})),...LETTERS.consonants.map(l=>({...l,sec:'c'})),...LETTERS.signs.map(l=>({...l,sec:'s'}))];}
+function renderLetters(){
+  document.getElementById('lt-practice').classList.remove('active');
+  document.getElementById('lt-grid-view').style.display='block';
+  document.getElementById('lt-back').style.display='none';
+  document.getElementById('lt-title').textContent='Letras';
+  document.getElementById('lt-sub').textContent='El alfabeto malayalam · toca una letra para practicar';
+  const g=document.getElementById('lt-grid-view');
+  const cell=(l,i,list)=>`<button class="lt-cell ${state.lettersDone[l.ch]?'done':''}" onclick="ltOpen('${list}',${i})">
+    <span class="lt-ch">${l.ch}</span><span class="lt-rom">${l.rom}</span>${state.lettersDone[l.ch]?'<span style="font-size:9px">✅</span>':''}</button>`;
+  g.innerHTML=
+    '<div class="lt-sec">Vocales · '+LETTERS.vowels.filter(l=>state.lettersDone[l.ch]).length+'/'+LETTERS.vowels.length+'</div>'+
+    '<div class="lt-grid">'+LETTERS.vowels.map((l,i)=>cell(l,i,'vowels')).join('')+'</div>'+
+    '<div class="lt-sec">Consonantes · '+LETTERS.consonants.filter(l=>state.lettersDone[l.ch]).length+'/'+LETTERS.consonants.length+'</div>'+
+    '<div class="lt-grid">'+LETTERS.consonants.map((l,i)=>cell(l,i,'consonants')).join('')+'</div>'+
+    '<div class="lt-sec">Signos vocálicos · '+LETTERS.signs.filter(l=>state.lettersDone[l.ch]).length+'/'+LETTERS.signs.length+'</div>'+
+    '<div class="lt-grid">'+LETTERS.signs.map((l,i)=>cell(l,i,'signs')).join('')+'</div>';
+}
+function ltOpen(list,i){
+  ltList=LETTERS[list];ltIdx=i;
+  document.getElementById('lt-grid-view').style.display='none';
+  document.getElementById('lt-practice').classList.add('active');
+  document.getElementById('lt-back').style.display='block';
+  document.getElementById('lt-title').textContent='Practicar';
+  document.getElementById('lt-sub').textContent='Dibuja sobre la letra con el dedo';
+  ltShow();
+}
+function ltShow(){
+  const l=ltList[ltIdx];
+  document.getElementById('ltp-ch').textContent=l.ch;
+  document.getElementById('ltp-rom').textContent=l.rom;
+  document.getElementById('ltp-ex').textContent=l.ex||'';
+  document.getElementById('lt-guide').textContent=l.ch;
+  ltSetup();
+}
+function ltSetup(){
+  const cv=document.getElementById('lt-canvas');
+  const wrap=cv.parentElement;
+  const dpr=window.devicePixelRatio||1;
+  const size=wrap.clientWidth;
+  cv.width=size*dpr;cv.height=size*dpr;
+  ltCtx=cv.getContext('2d');
+  ltCtx.scale(dpr,dpr);
+  ltCtx.lineWidth=9;ltCtx.lineCap='round';ltCtx.lineJoin='round';ltCtx.strokeStyle='#49c0f8';
+  cv.onpointerdown=e=>{ltDrawing=true;const r=cv.getBoundingClientRect();ltCtx.beginPath();ltCtx.moveTo(e.clientX-r.left,e.clientY-r.top);cv.setPointerCapture(e.pointerId);};
+  cv.onpointermove=e=>{if(!ltDrawing)return;const r=cv.getBoundingClientRect();ltCtx.lineTo(e.clientX-r.left,e.clientY-r.top);ltCtx.stroke();};
+  cv.onpointerup=()=>{ltDrawing=false;};
+  cv.onpointercancel=()=>{ltDrawing=false;};
+  ltClear();
+}
+function ltClear(){if(ltCtx){const cv=document.getElementById('lt-canvas');ltCtx.clearRect(0,0,cv.width,cv.height);}}
+function ltNext(){ltIdx=(ltIdx+1)%ltList.length;ltShow();}
+function ltPrev(){ltIdx=(ltIdx-1+ltList.length)%ltList.length;ltShow();}
+function ltDone(){
+  const l=ltList[ltIdx];
+  if(!state.lettersDone[l.ch]){state.lettersDone[l.ch]=true;state.xp+=2;state.mXP+=2;showToast('✍️ +2 XP');saveState();}
+  else showToast('Ya practicada ✓');
+  ltNext();
+}
+function ltBackToGrid(){renderLetters();}
 
 loadState();
 if(state.onboardDone){

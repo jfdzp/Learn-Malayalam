@@ -1740,3 +1740,51 @@ const ALL_PHRASES = [
   "hint": "valare=muy, nannaayi=bien"
  }
 ];
+
+const CULTURE = [
+ {"icon":"🍵","title":"El chaya de Kerala","text":"El té (chaaya) es el ritual social por excelencia. Los 'chaya kada' (puestos de té) son el centro de la vida del pueblo, donde se discute de política, cine y fútbol. Se sirve dulce, con leche, y 'estirado' entre dos vasos para hacer espuma."},
+ {"icon":"🛶","title":"Los backwaters","text":"Kerala tiene una red de 900 km de canales, lagos y lagunas. Las casas flotantes (kettuvallam) eran barcos de arroz reconvertidos. Viajar en barco por Alappuzha es una de las experiencias más famosas de la India."},
+ {"icon":"🎉","title":"Onam","text":"El festival más importante de Kerala. Celebra el regreso del rey mítico Mahabali. Se hacen alfombras de flores (pookkalam), carreras de barcos serpiente y el 'sadya': un banquete de más de 20 platos servido sobre hoja de plátano."},
+ {"icon":"🥥","title":"La tierra de los cocos","text":"'Kerala' significa literalmente 'tierra de cocoteros' (kera = coco). El coco está en todo: el aceite, la comida, el agua y hasta las cuerdas. Un keralita medio consume coco en las tres comidas del día."},
+ {"icon":"🐘","title":"Elefantes sagrados","text":"Los elefantes son parte de la identidad de Kerala. En el festival de Thrissur Pooram desfilan más de 50 elefantes decorados con oro. El templo de Guruvayur tiene su propio 'campamento' de elefantes."},
+ {"icon":"💃","title":"Kathakali","text":"El teatro-danza clásico de Kerala. Los actores tardan horas en maquillarse con colores que indican el carácter del personaje: verde para héroes, rojo y negro para villanos. Las historias vienen del Mahabharata y el Ramayana."},
+ {"icon":"📚","title":"El estado más letrado","text":"Kerala tiene la tasa de alfabetización más alta de la India (96%). Fue el primer estado del mundo en elegir democráticamente un gobierno comunista (1957), y su modelo de educación y sanidad es estudiado mundialmente."},
+ {"icon":"🌶️","title":"La costa de las especias","text":"Los romanos, árabes, portugueses, holandeses y británicos llegaron a Kerala buscando pimienta negra, cardamomo y jengibre. Kochi fue uno de los puertos de especias más importantes del mundo durante 2000 años."},
+ {"icon":"🥋","title":"Kalaripayattu","text":"Considerado uno de los artes marciales más antiguos del mundo, nació en Kerala hace más de 3000 años. Se dice que influyó en el kung-fu cuando el monje Bodhidharma viajó de la India a China."},
+ {"icon":"🎬","title":"Mollywood","text":"El cine malayalam es famoso por su realismo y calidad narrativa, muy distinto del espectáculo de Bollywood. Películas como 'Drishyam' han sido rehechas en múltiples idiomas de la India."},
+ {"icon":"⛵","title":"Vallam Kali","text":"Las carreras de barcos serpiente (chundan vallam) son el deporte tradicional de los backwaters. Cada barco lleva más de 100 remeros cantando al unísono. La más famosa es la Nehru Trophy en Alappuzha."},
+ {"icon":"🍛","title":"El sadya","text":"El banquete tradicional se sirve sobre hoja de plátano y se come con la mano derecha. El orden de los platos y su posición en la hoja siguen reglas estrictas. Puede incluir más de 25 preparaciones diferentes."}
+];
+
+const LETTERS = {
+ vowels: [
+  {ch:"അ",rom:"a",ex:"amma (madre)"},{ch:"ആ",rom:"aa",ex:"aana (elefante)"},
+  {ch:"ഇ",rom:"i",ex:"ila (hoja)"},{ch:"ഈ",rom:"ii",ex:"eecha (mosca)"},
+  {ch:"ഉ",rom:"u",ex:"uppu (sal)"},{ch:"ഊ",rom:"uu",ex:"oonjal (columpio)"},
+  {ch:"ഋ",rom:"ru",ex:"rushi (sabio)"},{ch:"എ",rom:"e",ex:"eli (ratón)"},
+  {ch:"ഏ",rom:"ee",ex:"eeni (escalera)"},{ch:"ഐ",rom:"ai",ex:"aikyam (unidad)"},
+  {ch:"ഒ",rom:"o",ex:"onnu (uno)"},{ch:"ഓ",rom:"oo",ex:"odam (barca)"},
+  {ch:"ഔ",rom:"au",ex:"aushadham (medicina)"}
+ ],
+ consonants: [
+  {ch:"ക",rom:"ka",ex:"kada (tienda)"},{ch:"ഖ",rom:"kha",ex:""},{ch:"ഗ",rom:"ga",ex:""},
+  {ch:"ഘ",rom:"gha",ex:""},{ch:"ങ",rom:"nga",ex:""},{ch:"ച",rom:"cha",ex:"chaaya (té)"},
+  {ch:"ഛ",rom:"chha",ex:""},{ch:"ജ",rom:"ja",ex:"janal (ventana)"},{ch:"ഝ",rom:"jha",ex:""},
+  {ch:"ഞ",rom:"nja",ex:"nyaan (yo)"},{ch:"ട",rom:"ta",ex:""},{ch:"ഠ",rom:"tta",ex:""},
+  {ch:"ഡ",rom:"da",ex:""},{ch:"ഢ",rom:"dda",ex:""},{ch:"ണ",rom:"na",ex:""},
+  {ch:"ത",rom:"tha",ex:"thala (cabeza)"},{ch:"ഥ",rom:"thha",ex:""},{ch:"ദ",rom:"dha",ex:""},
+  {ch:"ധ",rom:"ddha",ex:""},{ch:"ന",rom:"na",ex:"nandi (gracias)"},{ch:"പ",rom:"pa",ex:"paalu (leche)"},
+  {ch:"ഫ",rom:"pha",ex:""},{ch:"ബ",rom:"ba",ex:"bus (autobús)"},{ch:"ഭ",rom:"bha",ex:"bhasha (idioma)"},
+  {ch:"മ",rom:"ma",ex:"maram (árbol)"},{ch:"യ",rom:"ya",ex:"yaathra (viaje)"},
+  {ch:"ര",rom:"ra",ex:""},{ch:"ല",rom:"la",ex:""},{ch:"വ",rom:"va",ex:"vellam (agua)"},
+  {ch:"ശ",rom:"sha",ex:""},{ch:"ഷ",rom:"sha",ex:""},{ch:"സ",rom:"sa",ex:"samayam (tiempo)"},
+  {ch:"ഹ",rom:"ha",ex:""},{ch:"ള",rom:"la",ex:""},{ch:"ഴ",rom:"zha",ex:"mazha (lluvia)"},
+  {ch:"റ",rom:"ra",ex:""}
+ ],
+ signs: [
+  {ch:"ാ",rom:"aa",ex:""},{ch:"ി",rom:"i",ex:""},{ch:"ീ",rom:"ii",ex:""},
+  {ch:"ു",rom:"u",ex:""},{ch:"ൂ",rom:"uu",ex:""},{ch:"ൃ",rom:"ru",ex:""},
+  {ch:"െ",rom:"e",ex:""},{ch:"േ",rom:"ee",ex:""},{ch:"ൗ",rom:"au",ex:""},
+  {ch:"ം",rom:"am",ex:""},{ch:"ഃ",rom:"ah",ex:""}
+ ]
+};
