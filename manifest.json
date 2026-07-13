@@ -5,8 +5,8 @@
   "start_url": "https://jfdzp.github.io/Learn-Malayalam/",
   "scope": "https://jfdzp.github.io/Learn-Malayalam/",
   "display": "standalone",
-  "background_color": "#1a7a4a",
-  "theme_color": "#1a7a4a",
+  "background_color": "#131f24",
+  "theme_color": "#131f24",
   "orientation": "portrait",
   "icons": [
     {
