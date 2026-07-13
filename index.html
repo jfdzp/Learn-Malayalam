@@ -1165,6 +1165,8 @@ function ltDone(){
 }
 function ltBackToGrid(){renderLetters();}
 
+if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
+
 loadState();
 if(state.onboardDone){
   document.getElementById('screen-onboard').classList.remove('active');
