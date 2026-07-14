@@ -147,7 +147,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Rounded","SF Pro Displ
 .fbar.ok .fb-btn{background:var(--green);color:#0e2a05;box-shadow:0 4px 0 var(--green-dark)}
 .fbar.bad .fb-btn{background:var(--red);color:#2d0a0a;box-shadow:0 4px 0 var(--red-dark)}
 .fb-btn:active{transform:translateY(2px);box-shadow:none!important}
-#screen-result{background:var(--bg);align-items:center;justify-content:center;padding:36px 26px;text-align:center}
+#screen-result{background:var(--bg);align-items:center;justify-content:flex-start;padding:56px 26px 40px;text-align:center;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .res-ico{font-size:76px;margin-bottom:16px;animation:float 3s ease-in-out infinite}
 .res-stars{display:flex;justify-content:center;gap:10px;margin-bottom:20px}
 .res-star{font-size:40px;opacity:.15;transform:scale(.8);transition:all .4s cubic-bezier(.34,1.56,.64,1)}
@@ -283,6 +283,12 @@ canvas#lt-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:n
 .lt-ctrl{flex:1;padding:13px;border-radius:var(--r-md);border:2px solid var(--border);border-bottom-width:4px;background:var(--card);color:var(--text2);font-size:13px;font-weight:800;cursor:pointer}
 .lt-ctrl:active{transform:translateY(2px);border-bottom-width:2px}
 .lt-ctrl.ok{border-color:var(--green);color:var(--green)}
+
+/* LETTER STROKE ANIMATION */
+.lt-guide svg{width:100%;height:100%}
+.lt-anim-text{fill:transparent;stroke:var(--blue);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1400;stroke-dashoffset:1400;animation:ltDraw 3s ease-in-out forwards,ltFill .6s ease 3s forwards}
+@keyframes ltDraw{to{stroke-dashoffset:0}}
+@keyframes ltFill{to{fill:#2c3d47}}
 </style>
 </head>
 <body>
@@ -387,6 +393,7 @@ canvas#lt-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:n
       <button class="lt-ctrl" onclick="ltNext()">→</button>
     </div>
     <div class="lt-controls">
+      <button class="lt-ctrl" onclick="ltAnimate()">▶ Ver trazado</button>
       <button class="lt-ctrl ok" onclick="ltDone()">✓ Practicada (+2 XP)</button>
     </div>
   </div>
@@ -426,6 +433,7 @@ canvas#lt-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:n
 </nav>
 
 <script src="data.js"></script>
+<script src="strokes.js"></script>
 <script>
 const CAT_META={
   greeting:{name:'Saludos',color:'#58cc02'},pronoun:{name:'Pronombres',color:'#c47dfa'},
@@ -1120,7 +1128,8 @@ function renderLetters(){
     '<div class="lt-sec">Consonantes · '+LETTERS.consonants.filter(l=>state.lettersDone[l.ch]).length+'/'+LETTERS.consonants.length+'</div>'+
     '<div class="lt-grid">'+LETTERS.consonants.map((l,i)=>cell(l,i,'consonants')).join('')+'</div>'+
     '<div class="lt-sec">Signos vocálicos · '+LETTERS.signs.filter(l=>state.lettersDone[l.ch]).length+'/'+LETTERS.signs.length+'</div>'+
-    '<div class="lt-grid">'+LETTERS.signs.map((l,i)=>cell(l,i,'signs')).join('')+'</div>';
+    '<div class="lt-grid">'+LETTERS.signs.map((l,i)=>cell(l,i,'signs')).join('')+'</div>'+
+    '<p style="margin-top:18px;font-size:10px;color:var(--text3);text-align:center">Trazados y orden de escritura: Malayalam Mash · Santhosh Thottingal / SMC · Licencia MIT</p>';
 }
 function ltOpen(list,i){
   ltList=LETTERS[list];ltIdx=i;
@@ -1131,12 +1140,25 @@ function ltOpen(list,i){
   document.getElementById('lt-sub').textContent='Dibuja sobre la letra con el dedo';
   ltShow();
 }
+function ltHasStrokes(ch){return typeof STROKES!=='undefined'&&STROKES[ch];}
+function ltGuideSVG(ch,animPaths){
+  const s=STROKES[ch];
+  const gray=s.p.map(d=>'<path d="'+d+'" fill="none" stroke="#2c3d47" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>').join('');
+  const blue=animPaths?s.p.map((d,i)=>'<path class="lt-anim-stroke" data-i="'+i+'" d="'+d+'" fill="none" stroke="#49c0f8" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>').join(''):'';
+  return '<svg viewBox="'+s.vb+'" preserveAspectRatio="xMidYMid meet" style="width:86%;height:86%">'+gray+blue+'</svg>';
+}
+function ltRenderGuide(l){
+  const g=document.getElementById('lt-guide');
+  if(ltHasStrokes(l.ch))g.innerHTML=ltGuideSVG(l.ch,false);
+  else g.textContent=l.ch;
+}
 function ltShow(){
+  if(ltAnimTimer){clearTimeout(ltAnimTimer);ltAnimTimer=null;}
   const l=ltList[ltIdx];
   document.getElementById('ltp-ch').textContent=l.ch;
   document.getElementById('ltp-rom').textContent=l.rom;
   document.getElementById('ltp-ex').textContent=l.ex||'';
-  document.getElementById('lt-guide').textContent=l.ch;
+  ltRenderGuide(l);
   ltSetup();
 }
 function ltSetup(){
@@ -1164,6 +1186,30 @@ function ltDone(){
   ltNext();
 }
 function ltBackToGrid(){renderLetters();}
+let ltAnimTimer=null;
+function ltAnimate(){
+  const l=ltList[ltIdx];
+  const g=document.getElementById('lt-guide');
+  if(ltAnimTimer){clearTimeout(ltAnimTimer);ltAnimTimer=null;}
+  ltClear();
+  if(ltHasStrokes(l.ch)){
+    g.innerHTML=ltGuideSVG(l.ch,true);
+    let delay=250;
+    const paths=g.querySelectorAll('.lt-anim-stroke');
+    paths.forEach(p=>{
+      const len=p.getTotalLength();
+      p.style.strokeDasharray=len;
+      p.style.strokeDashoffset=len;
+      const dur=Math.min(2200,Math.max(500,len/2.2));
+      p.animate([{strokeDashoffset:len},{strokeDashoffset:0}],{duration:dur,delay,fill:'forwards',easing:'ease-in-out'});
+      delay+=dur+180;
+    });
+    ltAnimTimer=setTimeout(()=>{ltRenderGuide(l);ltAnimTimer=null;},delay+1400);
+  }else{
+    g.innerHTML='<svg viewBox="0 0 100 100"><text x="50" y="50" text-anchor="middle" dominant-baseline="central" font-size="60" font-weight="600" class="lt-anim-text">'+l.ch+'</text></svg>';
+    ltAnimTimer=setTimeout(()=>{g.textContent=l.ch;ltAnimTimer=null;},4200);
+  }
+}
 
 if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
 
