@@ -1,7 +1,7 @@
 // Kerala App — Service Worker (modo offline)
 // Estrategia: sirve desde caché al instante y actualiza en segundo plano.
-const CACHE = 'kerala-cache-v3';
-const ASSETS = ['./', './index.html', './data.js', './strokes.js', './manifest.json'];
+const CACHE = 'kerala-cache-v5';
+const ASSETS = ['./', './index.html', './data.js', './strokes.js', './manifest.json', './icon-180.png', './icon-512.png'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(

@@ -321,6 +321,29 @@ canvas#lt-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:n
 .bub-es{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.4}
 .bub.enter{animation:bubIn .3s cubic-bezier(.34,1.3,.64,1)}
 @keyframes bubIn{0%{opacity:0;transform:translateY(10px) scale(.96)}100%{opacity:1;transform:translateY(0) scale(1)}}
+
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(6,14,17,.75);z-index:500;align-items:flex-end;justify-content:center}
+.modal-bg.show{display:flex}
+.modal{width:100%;max-width:480px;max-height:82vh;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--card2);border:1.5px solid var(--border);border-bottom:none;border-radius:22px 22px 0 0;padding:20px 20px 34px;animation:fbUp .25s cubic-bezier(.4,0,.2,1)}
+.modal h3{font-size:18px;font-weight:800;margin-bottom:14px}
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;font-size:14px;color:var(--text2);font-weight:600}
+.gear-btn{position:absolute;top:52px;right:20px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;width:38px;height:38px;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.gear-btn svg{width:18px;height:18px}
+.p-header{position:relative}
+.unit-prog{height:5px;background:rgba(0,0,0,.25);border-radius:99px;overflow:hidden;margin-top:8px}
+.unit-prog-fill{height:100%;background:rgba(255,255,255,.85);border-radius:99px}
+.wd-mal{font-size:44px;font-weight:700;text-align:center;margin-bottom:4px}
+.wd-rom{text-align:center;color:var(--blue);font-weight:700;font-size:16px;margin-bottom:2px}
+.wd-trans{text-align:center;font-size:17px;font-weight:800;margin-bottom:10px}
+.wd-ex{font-size:12.5px;color:var(--text2);text-align:center;font-style:italic;margin-bottom:12px}
+.conj-table{width:100%;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:11px 13px;margin-bottom:12px;font-size:13px}
+.conj-table div{display:flex;justify-content:space-between;padding:4px 0;color:var(--text2)}
+.conj-table b{color:var(--text)}
+.cult-item{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer}
+.cult-item h4{font-size:13px;font-weight:800;display:flex;align-items:center;gap:7px}
+.cult-item h4 svg{width:15px;height:15px;color:var(--green)}
+.cult-item p{display:none;font-size:12.5px;color:var(--text2);line-height:1.6;margin-top:8px}
+.cult-item.open p{display:block}
 </style>
 </head>
 <body>
@@ -331,7 +354,9 @@ canvas#lt-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:n
   <div class="ob-icon" data-ic="leaf"></div>
   <h1 class="ob-title">Kerala</h1>
   <p class="ob-sub">Aprende Malayalam desde cero hasta nivel A1.<br>Más de 200 palabras, frases reales y ejercicios interactivos estilo Duolingo.</p>
+  <input class="write-input" id="ob-name" type="text" placeholder="Tu nombre" maxlength="20" style="margin-bottom:14px;text-align:center">
   <button class="ob-btn" onclick="startApp()">Empezar a aprender</button>
+  <button style="margin-top:14px;background:none;border:none;color:var(--blue);font-size:13px;font-weight:700;cursor:pointer" onclick="startPlacement()">Ya sé algo de malayalam — hacer test de nivel</button>
 </div>
 
 <div id="screen-home" class="screen">
@@ -345,6 +370,8 @@ canvas#lt-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:n
     </div>
     <div class="missions" id="missions"></div>
     <button class="review-btn" id="review-btn" style="display:none" onclick="startReview()"><span data-ic="target"></span> Repasar mis errores (<span id="review-count">0</span>)</button>
+    <button class="review-btn" id="daily-btn" style="display:none;border-color:var(--blue);color:var(--blue);background:#12303A" onclick="startDailyReview()"><span data-ic="clock"></span> Repaso del día (<span id="daily-count">0</span>)</button>
+    <button class="review-btn" id="flash-btn" style="border-color:var(--gold);color:var(--gold);background:#2B2415" onclick="startFlash()"><span data-ic="bolt"></span> Ronda relámpago · 60s</button>
     <div id="units-container"></div>
   </div>
 </div>
@@ -363,6 +390,7 @@ canvas#lt-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:n
     <div class="fb-row">
       <div class="fb-ico" id="fb-ico"></div>
       <div class="fb-tt"><h4 id="fb-title"></h4><p id="fb-desc"></p></div>
+      <a id="fb-report" href="#" target="_blank" style="margin-left:auto;font-size:11px;color:var(--text3);text-decoration:underline;flex-shrink:0">Reportar</a>
     </div>
     <button class="fb-btn" id="fb-btn" onclick="nextExercise()">Continuar</button>
   </div>
@@ -407,7 +435,8 @@ canvas#lt-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:n
 <div id="screen-letters" class="screen">
   <div class="lt-header">
     <button class="lt-back" id="lt-back" onclick="ltBackToGrid()">←</button>
-    <div><h2 id="lt-title">Letras</h2><p id="lt-sub">El alfabeto malayalam · toca una letra para practicar</p></div>
+    <div style="flex:1"><h2 id="lt-title">Letras</h2><p id="lt-sub">El alfabeto malayalam · toca una letra para practicar</p></div>
+    <button class="lt-ctrl" style="flex:none;padding:9px 13px" onclick="startLetterQuiz()"><span data-ic="bulb"></span> Quiz</button>
   </div>
   <div class="lt-scroll" id="lt-grid-view"></div>
   <div class="lt-practice" id="lt-practice">
@@ -434,8 +463,9 @@ canvas#lt-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:n
 <div id="screen-profile" class="screen">
   <div class="p-scroll scrollable">
     <div class="p-header">
-      <div class="p-avatar">J</div>
-      <div class="p-name">Joel</div>
+      <button class="gear-btn" data-ic="cog" id="gear" onclick="openSettings()"></button>
+      <div class="p-avatar">A</div>
+      <div class="p-name">Aprendiz</div>
       <div class="p-sub">Aprendiz de malayalam · കേരളം Kerala</div>
       <div class="p-lvl-row"><span id="p-xp-cur">0 XP</span><span id="p-lvl">Nivel 1</span></div>
       <div class="p-xp-bar"><div class="p-xp-fill" id="p-xp-fill" style="width:0%"></div></div>
@@ -446,6 +476,7 @@ canvas#lt-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:n
       <div class="p-card"><div class="p-ico" data-ic="check" style="color:var(--green)"></div><div class="p-val" id="pp-correct">0</div><div class="p-lbl">Aciertos</div></div>
       <div class="p-card"><div class="p-ico" data-ic="star" style="color:var(--gold)"></div><div class="p-val" id="pp-stars">0</div><div class="p-lbl">Estrellas</div></div>
     </div>
+    <div class="p-stats" id="pp-extra" style="padding-top:10px"></div>
     <div class="p-section">
       <h3>Actividad · últimas 4 semanas</h3>
       <div class="act-grid" id="act-grid"></div>
@@ -454,7 +485,31 @@ canvas#lt-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:n
       <h3>Logros</h3>
       <div class="ach-list" id="ach-list"></div>
     </div>
+    <div class="p-section">
+      <h3>Kerala · notas culturales</h3>
+      <div id="culture-list"></div>
+    </div>
   </div>
+</div>
+
+<div class="modal-bg" id="settings-modal" onclick="if(event.target===this)closeModal('settings-modal')">
+  <div class="modal">
+    <h3>Ajustes</h3>
+    <div class="set-row"><span>Nombre</span><input class="write-input" id="set-name" type="text" maxlength="20" style="width:130px;padding:8px 10px;font-size:14px"></div>
+    <div class="set-row"><span>Sonidos</span><button class="lt-ctrl" style="flex:none;padding:8px 14px" id="set-sound" onclick="toggleSound()">Activados</button></div>
+    <div class="set-row"><span>Objetivo diario</span><select id="set-goal" onchange="setGoal(this.value)" class="write-input" style="width:110px;padding:8px 10px;font-size:14px"><option value="20">20 XP</option><option value="40">40 XP</option><option value="60">60 XP</option></select></div>
+    <div class="set-row"><span>Protectores de racha</span><b id="set-freezes">0</b></div>
+    <div style="border-top:1.5px solid var(--border);margin:14px 0;padding-top:14px">
+      <button class="lt-ctrl" style="width:100%;margin-bottom:8px" onclick="exportProgress()">Exportar progreso (copia de seguridad)</button>
+      <button class="lt-ctrl" style="width:100%;margin-bottom:8px" onclick="importPrompt()">Importar progreso</button>
+      <textarea id="backup-box" style="display:none;width:100%;height:70px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:11px;padding:8px;margin-bottom:8px"></textarea>
+      <button class="lt-ctrl" style="width:100%;border-color:var(--red);color:var(--red)" onclick="resetProgress()">Reiniciar todo el progreso</button>
+    </div>
+    <button class="check-btn" onclick="saveSettings()">Guardar y cerrar</button>
+  </div>
+</div>
+<div class="modal-bg" id="word-modal" onclick="if(event.target===this)closeModal('word-modal')">
+  <div class="modal" id="word-modal-body"></div>
 </div>
 
 <nav class="bottom-nav" id="bottom-nav" style="display:none">
@@ -510,7 +565,8 @@ crown:'<path d="M4 17.5h16M4 17.5 3 8.5l5 3.5L12 5.5l4 6.5 5-3.5-1 9"/>',
 trophy:'<path d="M8 4.5h8V10a4 4 0 0 1-8 0V4.5z"/><path d="M8 6H5.2A2.8 2.8 0 0 0 8 9.8M16 6h2.8A2.8 2.8 0 0 1 16 9.8"/><path d="M12 14v3.5M8.5 20.5h7"/>',
 target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/>',
 gem:'<path d="M6 4h12l3.5 5-9.5 11.5L2.5 9 6 4z"/><path d="M2.5 9h19M9.5 4 12 20.5 14.5 4"/>',
-flag:'<path d="M6 21V4.5"/><path d="M6 5c4-2 8 2 12 0v9c-4 2-8-2-12 0"/>'
+flag:'<path d="M6 21V4.5"/><path d="M6 5c4-2 8 2 12 0v9c-4 2-8-2-12 0"/>',
+cog:'<circle cx="12" cy="12" r="3"/><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M5.9 5.9l1.6 1.6M16.5 16.5l1.6 1.6M18.1 5.9l-1.6 1.6M7.5 16.5l-1.6 1.6"/>'
 };
 function ic(n){return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+(ICONS[n]||'')+'</svg>';}
 function iconize(){document.querySelectorAll('[data-ic]').forEach(el=>{el.innerHTML=ic(el.dataset.ic);});}
@@ -536,34 +592,66 @@ const UNITS=[
   {id:'l0d',name:'Frases de supervivencia',icon:'cross',type:'fc',wf:w=>['enikku manassilaayilla','onnukoodi parayoo','saaramilla','veendum kaanaam','theerchayaayum','orupakshe','nannaayi','pathukkhe'].includes(w.rom)},
   {id:'l0e',name:'Empareja · saludos',icon:'cards',type:'match',wf:w=>w.cat==='greeting'},
   {id:'l0f',name:'Construye frases',icon:'chips',type:'wordbank',pf:(p,i)=>[11,12,26,31,36,39].includes(i)},
+  {id:'ex0',name:'Examen · Unidad 0',icon:'gradcap',type:'exam',wf:w=>w.cat==='greeting',pf:(p,i)=>[11,12,26,31,36,39].includes(i),story:'stex0'},
  ]},
  {id:'u1',title:'Unidad 1 · Yo y los míos',subtitle:'Pronombres, ser y familia',color:'#A78BFA',lessons:[
   {id:'l1a',name:'Pronombres',icon:'user',type:'fc',wf:w=>w.cat==='pronoun'},
   {id:'l1b',name:'Ser, tener, querer',icon:'sparkle',type:'mc',wf:w=>['aanu','alla','undu','veenam','veenda','ishtamaanu','ishtamilla','ariyaam','ariyilla','kazhiyum','kazhiyilla'].includes(w.rom)},
   {id:'l1c',name:'Mi familia',icon:'users',type:'fc',wf:w=>w.cat==='family'},
   {id:'l1d',name:'Empareja · familia',icon:'cards',type:'match',wf:w=>w.cat==='family'},
+  {id:'g1',name:'Gramática · negar y preguntar',icon:'book',type:'grammar',grammar:{title:'Negación y preguntas',rules:['<b>Negar con -illa:</b> undu (hay) → <b>illa</b> (no hay). ariyaam (sé) → ariy<b>illa</b> (no sé). kazhiyum (puedo) → kazhiy<b>illa</b> (no puedo). ishtamaanu (me gusta) → ishtam<b>illa</b> (no me gusta).','<b>Negar el verbo ser:</b> aanu (es) tiene su propia negación: <b>alla</b> (no es). "Athu ente alla" = eso no es mío.','<b>Preguntar con -o:</b> añade -o al final: undu → und<b>o</b>? (¿hay?), veenam → veenam<b>o</b>? (¿quieres?), aanu → aan<b>o</b>? (¿es?).','<b>Rechazar con veenda:</b> veenam (quiero) → <b>veenda</b> (no quiero). Es irregular, apréndelo como pareja.']}},
+  {id:'t1',name:'Practica · transforma',icon:'bolt',type:'transform',items:[
+    {q:'ariyaam',task:'Convierte a negativo',a:'ariyilla',opts:['ariyilla','ariyaano','ariyum','ariyalla']},
+    {q:'kazhiyum',task:'Convierte a negativo',a:'kazhiyilla',opts:['kazhiyilla','kazhiyo','kazhinja','kazhiyalla']},
+    {q:'veenam',task:'Convierte a pregunta',a:'veenamo?',opts:['veenamo?','veenilla?','veendao?','veenumo?']},
+    {q:'undu',task:'Convierte a pregunta',a:'undo?',opts:['undo?','undilla?','unnamo?','aano?']},
+    {q:'aanu',task:'Convierte a negativo',a:'alla',opts:['alla','aanilla','illa','aano']},
+    {q:'veenam',task:'Convierte a negativo',a:'veenda',opts:['veenda','veenilla','veenamalla','veeno']},
+    {q:'ishtamaanu',task:'Convierte a negativo',a:'ishtamilla',opts:['ishtamilla','ishtamalla','ishtamo','ishtavum']},
+    {q:'sukhamaanu',task:'Convierte a pregunta',a:'sukhamaano?',opts:['sukhamaano?','sukhamilla?','sukhamum?','sukhano?']}]},
   {id:'l1e',name:'Completa el hueco',icon:'scissors',type:'gap',pf:(p,i)=>[0,7,8,15,17,13,18,21].includes(i)},
   {id:'l1f',name:'Construye frases',icon:'chips',type:'wordbank',pf:(p,i)=>[0,7,8,15,17,13].includes(i)},
   {id:'ls1',name:'Historia · La familia de Anu',icon:'chat',type:'story',story:'st1'},
+  {id:'ex1',name:'Examen · Unidad 1',icon:'gradcap',type:'exam',wf:w=>w.cat==='pronoun'||w.cat==='family',pf:(p,i)=>[0,7,8,15,17,13].includes(i),story:'stex1'},
  ]},
  {id:'u2',title:'Unidad 2 · Mi mundo',subtitle:'Números, colores, tiempo y lugares',color:'#4FB6D9',lessons:[
   {id:'l2a',name:'Números 1–10',icon:'hash',type:'fc',wf:w=>w.cat==='number'},
   {id:'l2b',name:'Colores',icon:'palette',type:'mc',wf:w=>w.cat==='color'},
   {id:'l2c',name:'Empareja · números y colores',icon:'cards',type:'match',wf:w=>w.cat==='number'||w.cat==='color'},
+  {id:'g2',name:'Gramática · casos y plural',icon:'book',type:'grammar',grammar:{title:'Casos y plural',rules:['<b>-il = en:</b> veedu (casa) → veet<b>il</b> (en casa). Kerala → Kerala-<b>il</b> (en Kerala). kadal (mar) → kadal<b>il</b> (en el mar).','<b>-kku = a/para:</b> enikku = a mí. joli (trabajo) → joli-<b>kku</b> (al trabajo). "Achan joli-kku poyi" = papá fue al trabajo.','<b>-nte = de (posesión):</b> e<b>nte</b> = mío, ni<b>nte</b> = tuyo. Amma-yude veedu = la casa de mamá (con -ude tras vocal).','<b>Plural con -kal:</b> pusthakam (libro) → pusthaka<b>ngal</b> (libros). veedu → veedu<b>kal</b> (casas). kutti (niño) → kutti<b>kal</b> (niños).']}},
+  {id:'t2',name:'Practica · casos',icon:'bolt',type:'transform',items:[
+    {q:'veedu',task:'Di "en casa"',a:'veetil',opts:['veetil','veedukku','veedinte','veedukal']},
+    {q:'kadal',task:'Di "en el mar"',a:'kadalil',opts:['kadalil','kadalkku','kadalinte','kadalkal']},
+    {q:'pusthakam',task:'Haz el plural',a:'pusthakangal',opts:['pusthakangal','pusthakil','pusthakkku','pusthakante']},
+    {q:'veedu',task:'Haz el plural',a:'veedukal',opts:['veedukal','veetil','veedukku','veedum']},
+    {q:'nyaan',task:'Di "a mí / para mí"',a:'enikku',opts:['enikku','ente','ninakku','nyaanil']},
+    {q:'nee',task:'Di "tuyo"',a:'ninte',opts:['ninte','ente','ninakku','neeil']}]},
   {id:'l2d',name:'Lugares y direcciones',icon:'pin',type:'fc',wf:w=>w.cat==='place'},
   {id:'l2e',name:'El tiempo',icon:'clock',type:'mc',wf:w=>w.cat==='time'},
   {id:'l2f',name:'Aquí y allí',icon:'pin',type:'mc',wf:w=>w.cat==='adverb'},
   {id:'l2g',name:'Construye frases',icon:'chips',type:'wordbank',pf:(p,i)=>[2,6,21,28,29,34].includes(i)},
   {id:'ls2',name:'Historia · En el mercado',icon:'chat',type:'story',story:'st2'},
+  {id:'ex2',name:'Examen · Unidad 2',icon:'gradcap',type:'exam',wf:w=>['number','color','place','time','adverb'].includes(w.cat),pf:(p,i)=>[2,6,21,28,29,34].includes(i),story:'stex2'},
  ]},
  {id:'u3',title:'Unidad 3 · Comer y beber',subtitle:'Comida, pedir y verbos básicos',color:'#E8B44C',lessons:[
   {id:'l3a',name:'Comida y bebida',icon:'bowl',type:'fc',wf:w=>w.cat==='food'},
   {id:'l3b',name:'Empareja · comida',icon:'cards',type:'match',wf:w=>w.cat==='food'},
   {id:'l3c',name:'Pedir cosas',icon:'question',type:'mc',wf:w=>['veenam','veenda','tharoo','oru','kurachu','dhaaralam','mathi','ethra'].includes(w.rom)},
   {id:'l3d',name:'Verbos de acción',icon:'bolt',type:'fc',wf:w=>['kazhikkua','kazhichu','kudikkunnu','varunnu','pokunnu','vannu','poyi','uranggunnu','nadakkunnu'].includes(w.rom)},
+  {id:'g3',name:'Gramática · tiempos verbales',icon:'book',type:'grammar',grammar:{title:'Presente, pasado y futuro',rules:['<b>Presente con -unnu:</b> var<b>unnu</b> (vengo/viene), pok<b>unnu</b> (voy), kudikk<b>unnu</b> (bebo). Sirve para todas las personas: nyaan varunnu, aval varunnu.','<b>Pasado (irregular):</b> varunnu → <b>vannu</b> (vine), pokunnu → <b>poyi</b> (fui), kazhikkunnu → <b>kazhichu</b> (comí), kudikkunnu → <b>kudichu</b> (bebí). Se aprenden de memoria.','<b>Futuro con -um:</b> var<b>um</b> (vendré), pok<b>um</b> (iré), kazhikk<b>um</b> (comeré). "Naale nyaan varum" = mañana vendré.','<b>Sin conjugar por persona:</b> a diferencia del español, el verbo NO cambia con yo/tú/él. nyaan varum, nee varum, aval varum — mismo verbo siempre.']}},
+  {id:'t3',name:'Practica · tiempos',icon:'bolt',type:'transform',items:[
+    {q:'varunnu (vengo)',task:'Pasado: vine',a:'vannu',opts:['vannu','varum','vaarunnu','varilla']},
+    {q:'pokunnu (voy)',task:'Pasado: fui',a:'poyi',opts:['poyi','pokum','pokunnu','pochu']},
+    {q:'varunnu (vengo)',task:'Futuro: vendré',a:'varum',opts:['varum','vannu','varo','varilla']},
+    {q:'kazhikkunnu (como)',task:'Pasado: comí',a:'kazhichu',opts:['kazhichu','kazhikkum','kazhiyum','kazhinju']},
+    {q:'kudikkunnu (bebo)',task:'Pasado: bebí',a:'kudichu',opts:['kudichu','kudikkum','kudiyilla','kudinju']},
+    {q:'pokunnu (voy)',task:'Futuro: iré',a:'pokum',opts:['pokum','poyi','pokunno','pokilla']},
+    {q:'kaanunnu (veo)',task:'Pasado: vi',a:'kandu',opts:['kandu','kaanum','kaanilla','kanju']},
+    {q:'cheyyunnu (hago)',task:'Futuro: haré',a:'cheyyum',opts:['cheyyum','cheythu','cheyyo','cheyilla']}]},
   {id:'l3e',name:'Completa el hueco',icon:'scissors',type:'gap',pf:(p,i)=>[0,3,4,25,32,33,9,27].includes(i)},
   {id:'l3f',name:'Construye frases',icon:'chips',type:'wordbank',pf:(p,i)=>[0,3,4,25,32,33].includes(i)},
   {id:'ls3',name:'Historia · En el chaya kada',icon:'chat',type:'story',story:'st3'},
+  {id:'ex3',name:'Examen · Unidad 3',icon:'gradcap',type:'exam',wf:w=>w.cat==='food',pf:(p,i)=>[0,3,4,25,32,33].includes(i),story:'stex3'},
  ]},
  {id:'u4',title:'Unidad 4 · Cómo me siento',subtitle:'Emociones, cuerpo y salud',color:'#F0705E',lessons:[
   {id:'l4a',name:'Emociones',icon:'smile',type:'fc',wf:w=>w.cat==='emotion'},
@@ -573,6 +661,7 @@ const UNITS=[
   {id:'l4e',name:'Adjetivos útiles',icon:'star',type:'fc',wf:w=>w.cat==='adj'},
   {id:'l4f',name:'Construye frases',icon:'chips',type:'wordbank',pf:(p,i)=>[9,13,18,20,23,30].includes(i)},
   {id:'ls4',name:'Historia · En el médico',icon:'chat',type:'story',story:'st4'},
+  {id:'ex4',name:'Examen · Unidad 4',icon:'gradcap',type:'exam',wf:w=>['emotion','body','adj'].includes(w.cat),pf:(p,i)=>[9,13,18,20,23,30].includes(i),story:'stex4'},
  ]},
  {id:'u5',title:'Unidad 5 · Por Kerala',subtitle:'Transporte, casa y naturaleza',color:'#E8A04C',lessons:[
   {id:'l5a',name:'Transporte',icon:'boat',type:'fc',wf:w=>w.cat==='transport'},
@@ -582,6 +671,7 @@ const UNITS=[
   {id:'l5e',name:'Imperativos',icon:'volume',type:'mc',wf:w=>['varoo','nokkoo','kelkkoo','tharoo','nirthoo','pokaam'].includes(w.rom)},
   {id:'l5f',name:'Construye frases',icon:'chips',type:'wordbank',pf:(p,i)=>[10,16,22,35,37,38].includes(i)},
   {id:'ls5',name:'Historia · El tuk-tuk',icon:'chat',type:'story',story:'st5'},
+  {id:'ex5',name:'Examen · Unidad 5',icon:'gradcap',type:'exam',wf:w=>['transport','home','nature'].includes(w.cat),pf:(p,i)=>[10,16,22,35,37,38].includes(i),story:'stex5'},
  ]},
  {id:'u6',title:'Unidad 6 · Nivel A1',subtitle:'El gran repaso final',color:'#A78BFA',lessons:[
   {id:'l6a',name:'Verbos · todo',icon:'bolt',type:'mc',wf:w=>w.cat==='verb'},
@@ -589,7 +679,7 @@ const UNITS=[
   {id:'l6c',name:'Mega empareja',icon:'cards',type:'match',wf:w=>true},
   {id:'l6d',name:'Completa el hueco',icon:'scissors',type:'gap',pf:(p,i)=>true},
   {id:'l6e',name:'Frases · examen',icon:'chips',type:'wordbank',pf:(p,i)=>true},
-  {id:'l6f',name:'Examen final A1',icon:'gradcap',type:'write',wf:w=>true},
+  {id:'ex6',name:'Examen final A1',icon:'gradcap',type:'exam',wf:w=>true,pf:(p,i)=>true,story:'stex6'},
  ]},
 ];
 
@@ -607,6 +697,7 @@ function tone(f,t,d,type,g){
   o.connect(v);v.connect(AC.destination);o.start(t);o.stop(t+d);
 }
 function sfx(ok){
+  if(state.sound===false)return;
   try{
     AC=AC||new (window.AudioContext||window.webkitAudioContext)();
     if(AC.state==='suspended')AC.resume();
@@ -625,7 +716,7 @@ function checkMissionDay(){
 function getMissions(){
   checkMissionDay();
   return[
-    {icon:'bolt',name:'Gana 40 XP',cur:Math.min(40,state.mXP),max:40},
+    {icon:'bolt',name:'Gana '+(state.goalXP||40)+' XP',cur:Math.min(state.goalXP||40,state.mXP),max:state.goalXP||40},
     {icon:'check',name:'Acierta 15 respuestas',cur:Math.min(15,state.mCorrect),max:15},
     {icon:'book',name:'Completa 2 lecciones',cur:Math.min(2,state.mLessons),max:2},
   ];
@@ -651,7 +742,62 @@ function renderMissions(){
 
 /* ERROR TRACKING */
 function trackError(rom){state.errors[rom]=(state.errors[rom]||0)+1;}
-function trackCorrect(rom){if(state.errors[rom]){state.errors[rom]--;if(state.errors[rom]<=0)delete state.errors[rom];}}
+function trackCorrect(rom){if(!state.wordSeen)state.wordSeen={};state.wordSeen[rom]=Date.now();if(state.errors[rom]){state.errors[rom]--;if(state.errors[rom]<=0)delete state.errors[rom];}}
+function getStaleWords(){
+  if(!state.wordSeen)return[];
+  const cutoff=Date.now()-3*864e5;
+  return Object.entries(state.wordSeen).filter(([r,t])=>t<cutoff&&!state.errors[r]).map(([r])=>ALL_WORDS.find(w=>w.rom===r)).filter(Boolean);
+}
+let flashTimer=null,flashLeft=0;
+function startFlash(){
+  const pool=[...ALL_WORDS].sort(()=>Math.random()-.5);
+  state.currentLessonId='_flash';state.lessonType='flash';
+  state.lessonCorrect=0;state.lessonWrong=0;state.lessonXP=0;state.answered=false;state.lives=3;state.combo=0;state.lessonMistakes=[];state.noLives=true;
+  state.lessonPool=pool;state.lessonQueue=pool;state.lessonIdx=0;flashLeft=60;
+  document.getElementById('fbar').classList.remove('show');
+  updateLives();updateCombo();showScreen('lesson');
+  clearInterval(flashTimer);
+  flashTimer=setInterval(()=>{
+    flashLeft--;
+    const el=document.getElementById('flash-timer');
+    if(el)el.textContent=flashLeft+'s';
+    if(flashLeft<=0){clearInterval(flashTimer);flashTimer=null;finishLesson();}
+  },1000);
+  renderExercise();
+}
+function renderFlash(body){
+  const card=state.lessonQueue[state.lessonIdx%state.lessonQueue.length];
+  const wrongs=pickWrongs(card,3);
+  const opts=[card.trans,...wrongs.map(w=>w.trans)].sort(()=>Math.random()-.5);
+  state.cur={correct:card.trans,card};
+  body.innerHTML=`
+    <div class="ex-type" style="justify-content:space-between"><span>${ic('bolt')} Ronda relámpago</span><span style="color:var(--gold)" id="flash-timer">${flashLeft}s</span></div>
+    <div><div class="ex-q">${card.mal}</div><div class="ex-sub">${card.rom}</div></div>
+    <div class="opts">${opts.map((o,i)=>`<button class="opt" onclick="answerFlash('${o.replace(/'/g,"\\'")}')"><span class="opt-l">${['A','B','C','D'][i]}</span>${o}</button>`).join('')}</div>`;
+}
+function answerFlash(val){
+  if(flashLeft<=0)return;
+  const{correct,card}=state.cur;
+  if(val===correct){state.lessonCorrect++;state.totalCorrect++;state.mCorrect++;gainXP(3);trackCorrect(card.rom);sfx(true);}
+  else{state.lessonWrong++;trackError(card.rom);sfx(false);}
+  state.lessonIdx++;
+  renderExercise();
+}
+function startDailyReview(){
+  const stale=getStaleWords().sort(()=>Math.random()-.5);
+  if(stale.length<5)return;
+  state.currentLessonId='review';state.lessonType='mc';
+  state.lessonCorrect=0;state.lessonWrong=0;state.lessonXP=0;state.answered=false;state.lives=3;state.combo=0;state.lessonMistakes=[];state.noLives=true;
+  state.lessonPool=stale;state.lessonQueue=stale.slice(0,10);state.lessonIdx=0;
+  document.getElementById('fbar').classList.remove('show');
+  updateLives();updateCombo();showScreen('lesson');renderExercise();
+}
+function renderDailyBtn(){
+  const n=getStaleWords().length;
+  const btn=document.getElementById('daily-btn');
+  if(n>=5){btn.style.display='flex';document.getElementById('daily-count').textContent=n+' palabras';}
+  else btn.style.display='none';
+}
 function renderReviewBtn(){
   const n=Object.keys(state.errors).length;
   const btn=document.getElementById('review-btn');
@@ -661,6 +807,7 @@ function renderReviewBtn(){
 function startReview(){
   const errWords=Object.entries(state.errors).sort((a,b)=>b[1]-a[1]).map(([rom])=>ALL_WORDS.find(w=>w.rom===rom)).filter(Boolean);
   if(!errWords.length)return;
+  state.noLives=true;
   state.currentLessonId='review';state.lessonType='mc';
   state.lessonCorrect=0;state.lessonWrong=0;state.lessonXP=0;state.answered=false;state.lives=3;state.combo=0;state.lessonMistakes=[];
   state.lessonPool=errWords;
@@ -671,6 +818,8 @@ function startReview(){
 }
 
 function startApp(){
+  const inp=document.getElementById('ob-name');
+  if(inp&&inp.value.trim())state.userName=inp.value.trim().slice(0,20);
   state.onboardDone=true;saveState();
   document.getElementById('screen-onboard').classList.remove('active');
   document.getElementById('bottom-nav').style.display='flex';
@@ -689,7 +838,9 @@ function renderUnits(){
   c.innerHTML='<div class="duo-map">'+UNITS.map((unit,ui)=>{
     let html=`<div class="duo-unit">
       <div class="duo-unit-header" style="background:${unit.color}">
-        <div class="duo-uh-left"><h3>${unit.title}</h3><p>${unit.subtitle}</p></div>
+        <div class="duo-uh-left" style="flex:1"><h3>${unit.title}</h3><p>${unit.subtitle}</p>
+          <div class="unit-prog"><div class="unit-prog-fill" style="width:${Math.round(unit.lessons.filter(l=>state.completedLessons[l.id]).length/unit.lessons.length*100)}%"></div></div>
+        </div>
         <div class="duo-uh-num">${ui}</div>
       </div>
       <div class="duo-nodes">`;
@@ -723,9 +874,10 @@ function showScreen(name,btn){
   if(name==='vocab'){renderFilters();renderVocab('all');document.getElementById('v-search').value='';}
   if(name==='profile')renderProfile();
   if(name==='letters')renderLetters();
-  if(name==='home'){renderUnits();updateHomeStats();renderMissions();renderReviewBtn();}
+  if(name==='home'){renderUnits();updateHomeStats();renderMissions();renderReviewBtn();renderDailyBtn();iconize();}
+  if(name==='letters'||name==='profile')iconize();
 }
-function goHome(){document.getElementById('fbar').classList.remove('show');showScreen('home');}
+function goHome(){if(flashTimer){clearInterval(flashTimer);flashTimer=null;}document.getElementById('fbar').classList.remove('show');showScreen('home');}
 function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900);}
 
 function getLessonDef(id){for(const u of UNITS)for(const l of u.lessons)if(l.id===id)return l;return null;}
@@ -734,6 +886,7 @@ function startLesson(id){
   const lesson=getLessonDef(id);if(!lesson)return;
   state.currentLessonId=id;state.lessonType=lesson.type;
   state.lessonCorrect=0;state.lessonWrong=0;state.lessonXP=0;state.answered=false;state.lives=3;state.combo=0;state.lessonMistakes=[];
+  state.noLives=(state.completedLessons[id]>0&&lesson.type!=='exam');
   let words=lesson.wf?ALL_WORDS.filter(lesson.wf):[];
   let phrases=lesson.pf?ALL_PHRASES.filter(lesson.pf):[];
   state.lessonPool=words.length?words:ALL_WORDS;
@@ -748,13 +901,33 @@ function startLesson(id){
     state.lessonQueue=rounds;state.lessonIdx=0;
   }
   else if(lesson.type==='grammar'){state.lessonQueue=[lesson.grammar];state.lessonIdx=0;}
+  else if(lesson.type==='transform'){state.lessonQueue=[...lesson.items].sort(()=>Math.random()-.5);state.lessonIdx=0;}
   else if(lesson.type==='story'){const st=STORIES.find(s=>s.id===lesson.story);state.lessonQueue=[st];state.lessonIdx=0;state.storyLine=0;state.storyPhase='d';state.storyQ=0;}
+  else if(lesson.type==='exam'){
+    const words=ALL_WORDS.filter(lesson.wf);
+    const phrases=lesson.pf?ALL_PHRASES.filter(lesson.pf):[];
+    state.lessonPool=words;
+    const W=[...words].sort(()=>Math.random()-.5);
+    const P=[...phrases].sort(()=>Math.random()-.5);
+    const q=[];
+    for(let i=0;i<3;i++){if(W.length)q.push({t:'mc',d:W.pop()});}
+    for(let i=0;i<2;i++){if(W.length)q.push({t:'write',d:W.pop()});}
+    for(let i=0;i<2;i++){if(P.length)q.push({t:'wb',d:P.pop()});}
+    for(let i=0;i<2;i++){if(P.length)q.push({t:'gap',d:P.pop()});}
+    if(P.length&&!['ex0','ex1'].includes(id))q.push({t:'sentw',d:P.pop()});
+    if(words.length>=5)q.push({t:'match',d:[...words].sort(()=>Math.random()-.5).slice(0,5)});
+    while(q.length<10&&W.length)q.push({t:'mc',d:W.pop()});
+    state.lessonQueue=q.sort(()=>Math.random()-.5);
+    state.lessonIdx=0;state.examPhase='q';
+    state.examStory=STORIES.find(s=>s.id===lesson.story)||null;
+    state.storyLine=0;state.storyPhase='d';state.storyQ=0;
+  }
   document.getElementById('fbar').classList.remove('show');
   updateLives();updateCombo();
   showScreen('lesson');renderExercise();
 }
 
-function updateLives(){document.getElementById('lives-count').textContent=state.lives;}
+function updateLives(){document.getElementById('lives-count').textContent=state.noLives?'∞':state.lives;}
 function updateCombo(){
   const b=document.getElementById('combo-badge');
   document.getElementById('combo-n').textContent=state.combo;
@@ -779,14 +952,40 @@ function onWrong(rom,mistLabel){
   loseLife();
 }
 function loseLife(){
+  if(state.noLives)return;
   if(state.lives>0)state.lives--;
   updateLives();
   if(state.lives<=0)setTimeout(()=>finishLesson(true),1500);
 }
 
+function examAdvance(){
+  state.lessonIdx++;
+  if(state.lessonIdx>=state.lessonQueue.length){
+    if(state.examStory){state.examPhase='story';state.storyPhase='d';state.storyLine=0;state.storyQ=0;renderExercise();}
+    else finishLesson();
+  }else renderExercise();
+}
 function renderExercise(){
   const body=document.getElementById('lesson-body');
   const type=state.lessonType;
+  if(type==='exam'){
+    const st=state.examStory;
+    let pct;
+    if(state.examPhase==='story'&&st)pct=70+(state.storyPhase==='d'?Math.round(state.storyLine/st.lines.length*15):15+Math.round(state.storyQ/st.qs.length*15));
+    else pct=Math.round(state.lessonIdx/Math.max(1,state.lessonQueue.length)*70);
+    document.getElementById('lprog-fill').style.width=pct+'%';
+    body.scrollTop=0;
+    body.classList.remove('transitioning');void body.offsetWidth;body.classList.add('transitioning');
+    if(state.examPhase==='story'){renderStory(body);return;}
+    const it=state.lessonQueue[state.lessonIdx];
+    if(it.t==='mc')renderMC(body,it.d);
+    else if(it.t==='write')renderWrite(body,it.d);
+    else if(it.t==='wb')renderWB(body,it.d);
+    else if(it.t==='gap')renderGap(body,it.d);
+    else if(it.t==='sentw')renderSentW(body,it.d);
+    else renderMatch(body,it.d);
+    return;
+  }
   const total=state.lessonQueue.length;
   const idx=type==='fc'?state.fcIdx:state.lessonIdx;
   let pct=Math.round(idx/Math.max(1,total)*100);
@@ -801,6 +1000,9 @@ function renderExercise(){
   else if(type==='gap')renderGap(body);
   else if(type==='match')renderMatch(body);
   else if(type==='grammar')renderGrammar(body);
+  else if(type==='transform')renderTransform(body);
+  else if(type==='ltquiz')renderLtQuiz(body);
+  else if(type==='flash')renderFlash(body);
   else if(type==='story')renderStory(body);
 }
 
@@ -831,13 +1033,21 @@ function renderFC(body){
       <button class="fc-btn" onclick="nextFC()">${ic('arrr')}</button>
     </div>
     <div class="fc-actions">
-      <button class="fc-act" onclick="nextFC()">Repasar</button>
+      <button class="fc-act" onclick="fcReview()">Repasar</button>
       <button class="fc-act know" onclick="fcKnow()">${ic('check')} Lo sé</button>
     </div>`;
 }
 function flipFC(){state.fcFlipped=!state.fcFlipped;document.getElementById('fc-obj').classList.toggle('flipped',state.fcFlipped);}
 function nextFC(){if(state.fcIdx<state.fcDeck.length-1){state.fcIdx++;renderExercise();}else finishLesson();}
 function prevFC(){if(state.fcIdx>0){state.fcIdx--;renderExercise();}}
+function fcReview(){
+  const c=state.fcDeck[state.fcIdx];
+  state.fcDeck.push(c);
+  trackError(c.rom);
+  showToast('La verás de nuevo');
+  state.fcDeck.splice(state.fcIdx,1);
+  if(state.fcIdx>=state.fcDeck.length)finishLesson();else renderExercise();
+}
 function fcKnow(){state.lessonCorrect++;gainXP(5);state.mCorrect++;showToast('+5 XP');nextFC();}
 
 /* MC */
@@ -852,8 +1062,8 @@ function pickWrongs(card,n){
   }
   return out;
 }
-function renderMC(body){
-  const card=state.lessonQueue[state.lessonIdx];
+function renderMC(body,cardArg){
+  const card=cardArg||state.lessonQueue[state.lessonIdx];
   const m2e=Math.random()>.5;
   const wrongs=pickWrongs(card,3);
   let opts,q,sub='';
@@ -880,8 +1090,8 @@ function answerMC(i){
 
 /* WORD BANK — bidirectional */
 function stripP(s){return s.replace(/[¿?¡!.,\-]/g,' ').replace(/\s+/g,' ').trim();}
-function renderWB(body){
-  const p=state.lessonQueue[state.lessonIdx];
+function renderWB(body,pArg){
+  const p=pArg||state.lessonQueue[state.lessonIdx];
   const reverse=Math.random()>.5;
   let questionTxt,answerTokens,bankSource;
   if(reverse){
@@ -933,8 +1143,8 @@ function checkWB(){
 }
 
 /* GAP FILL */
-function renderGap(body){
-  const p=state.lessonQueue[state.lessonIdx];
+function renderGap(body,pArg){
+  const p=pArg||state.lessonQueue[state.lessonIdx];
   const tokens=stripP(p.q).split(' ');
   const candidates=tokens.map((t,i)=>({t,i})).filter(x=>x.t.length>2);
   const pick=candidates[Math.floor(Math.random()*candidates.length)]||{t:tokens[0],i:0};
@@ -967,15 +1177,15 @@ function answerGap(i,word,el){
 }
 
 /* MATCH PAIRS */
-function renderMatch(body){
-  const pairs=state.lessonQueue[state.lessonIdx];
+function renderMatch(body,pairsArg){
+  const pairs=pairsArg||state.lessonQueue[state.lessonIdx];
   if(!pairs){finishLesson();return;}
   const left=[...pairs].sort(()=>Math.random()-.5);
   const right=[...pairs].sort(()=>Math.random()-.5);
-  state.cur={pairs,matched:0,selL:null,selR:null};
+  state.cur={pairs,matched:0,selL:null,selR:null,errCounted:false};
   body.innerHTML=`
     <div class="ex-type">${ic('cards')} Empareja las palabras</div>
-    <div class="ex-sub">Ronda ${state.lessonIdx+1} de ${state.lessonQueue.length}</div>
+    <div class="ex-sub">${state.lessonType==='exam'?'Une las 5 parejas':`Ronda ${state.lessonIdx+1} de ${state.lessonQueue.length}`}</div>
     <div class="match-grid">
       <div class="match-col">${left.map((c,i)=>`<button class="match-chip" id="ml-${i}" data-rom="${c.rom}" onclick="matchPick('L',${i})">${c.rom}</button>`).join('')}</div>
       <div class="match-col">${right.map((c,i)=>`<button class="match-chip" id="mr-${i}" data-rom="${c.rom}" onclick="matchPick('R',${i})">${c.trans}</button>`).join('')}</div>
@@ -1001,11 +1211,12 @@ function matchPick(side,i){
       trackCorrect(L.dataset.rom);
       if(state.cur.matched>=state.cur.pairs.length){
         onCorrect(15);
-        setTimeout(()=>{state.lessonIdx++;if(state.lessonIdx>=state.lessonQueue.length)finishLesson();else renderExercise();},550);
+        setTimeout(()=>{if(state.lessonType==='exam')examAdvance();else{state.lessonIdx++;if(state.lessonIdx>=state.lessonQueue.length)finishLesson();else renderExercise();}},550);
       }
     }else{
       L.classList.add('err');R.classList.add('err');
       state.combo=0;updateCombo();sfx(false);
+      if(!state.cur.errCounted){state.lessonWrong++;state.cur.errCounted=true;}
       trackError(L.dataset.rom);
       const w=ALL_WORDS.find(x=>x.rom===L.dataset.rom);
       if(w&&!state.lessonMistakes.some(m=>m.includes(w.rom)))state.lessonMistakes.push('<b>'+w.rom+'</b> = '+w.trans);
@@ -1016,37 +1227,87 @@ function matchPick(side,i){
 }
 
 /* WRITE */
-function renderWrite(body){
-  const card=state.lessonQueue[state.lessonIdx];
+function renderWrite(body,cardArg){
+  const card=cardArg||state.lessonQueue[state.lessonIdx];
   const m2e=Math.random()>.5;
   if(m2e){
     state.cur={correct:card.trans.toLowerCase(),card};
     body.innerHTML=`<div class="ex-type">${ic('pencil')} Escribe en español</div>
       <div><div class="ex-q">${card.mal}</div><div class="ex-sub">${card.rom}</div></div>
-      <input class="write-input" id="wi" type="text" placeholder="Traducción..." autocomplete="off" autocorrect="off" autocapitalize="off" onkeydown="if(event.key==='Enter')checkWrite()">
+      <input class="write-input" id="wi" type="text" placeholder="Traducción..." autocomplete="off" autocorrect="off" autocapitalize="off" onfocus="setTimeout(()=>this.scrollIntoView({block:'center',behavior:'smooth'}),300)" onkeydown="if(event.key==='Enter')checkWrite()">
       <button class="check-btn" onclick="checkWrite()">Comprobar</button>`;
   }else{
     state.cur={correct:card.rom.toLowerCase(),card};
     body.innerHTML=`<div class="ex-type">${ic('pencil')} Escribe en malayalam</div>
       <div><div class="ex-q">${card.trans}</div><div class="ex-sub">Escribe la romanización</div></div>
-      <input class="write-input" id="wi" type="text" placeholder="Romanización..." autocomplete="off" autocorrect="off" autocapitalize="off" onkeydown="if(event.key==='Enter')checkWrite()">
+      <input class="write-input" id="wi" type="text" placeholder="Romanización..." autocomplete="off" autocorrect="off" autocapitalize="off" onfocus="setTimeout(()=>this.scrollIntoView({block:'center',behavior:'smooth'}),300)" onkeydown="if(event.key==='Enter')checkWrite()">
       <button class="check-btn" onclick="checkWrite()">Comprobar</button>`;
   }
   state.answered=false;
 }
 function normalize(s){return s.toLowerCase().trim().replace(/[¿?¡!.,]/g,'').replace(/\s+/g,' ');}
+function fold(s){return normalize(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
 function checkWrite(){
   if(state.answered)return;
   const input=document.getElementById('wi');
   if(!input||!input.value.trim())return;
   state.answered=true;
-  const user=normalize(input.value);
+  const user=fold(input.value);
   const{correct,card}=state.cur;
-  const variants=correct.split('/').map(v=>normalize(v));
-  const ok=variants.some(v=>user===v||(v.split(' ')[0].length>3&&user.includes(v.split(' ')[0])));
+  const variants=correct.split('/').map(v=>fold(v)).flatMap(v=>{
+    const noParen=v.replace(/\([^)]*\)/g,'').trim();
+    return noParen&&noParen!==v?[v,noParen]:[v];
+  });
+  const ok=variants.some(v=>user===v);
   input.disabled=true;
   if(ok){input.classList.add('correct');onCorrect(15,card.rom);showFB(true,'¡Perfecto!',card.rom+' = '+card.trans);}
   else{input.classList.add('wrong');onWrong(card.rom,'<b>'+card.rom+'</b> = '+card.trans);showFB(false,'Casi...','Respuesta: '+correct);}
+  saveState();
+}
+
+/* SENTENCE WRITE (exam) */
+function renderSentW(body,p){
+  state.cur={p};
+  body.innerHTML=`
+    <div class="ex-type">${ic('pencil')} Traduce la frase completa</div>
+    <div><div class="ex-q">"${p.q}"</div><div class="ex-sub">Escribe la traducción en español</div></div>
+    <input class="write-input" id="wi" type="text" placeholder="Traducción completa..." autocomplete="off" autocorrect="off" autocapitalize="off" onfocus="setTimeout(()=>this.scrollIntoView({block:'center',behavior:'smooth'}),300)" onkeydown="if(event.key==='Enter')checkSentW()">
+    <button class="check-btn" onclick="checkSentW()">Comprobar</button>`;
+  state.answered=false;
+}
+function checkSentW(){
+  if(state.answered)return;
+  const input=document.getElementById('wi');
+  if(!input||!input.value.trim())return;
+  state.answered=true;
+  const{p}=state.cur;
+  const ok=fold(input.value)===fold(p.a);
+  input.disabled=true;
+  if(ok){input.classList.add('correct');onCorrect(20);showFB(true,'¡Excelente!',p.hint||'');}
+  else{input.classList.add('wrong');onWrong(null,'<b>'+p.q+'</b> = '+p.a);showFB(false,'Casi...','Respuesta: '+p.a);}
+  saveState();
+}
+
+/* TRANSFORM */
+function renderTransform(body){
+  const it=state.lessonQueue[state.lessonIdx];
+  const order=it.opts.map((o,i)=>i).sort(()=>Math.random()-.5);
+  state.cur={it,order};
+  const L=['A','B','C','D'];
+  body.innerHTML=`
+    <div class="ex-type">${ic('bolt')} ${it.task}</div>
+    <div class="ex-q">${it.q} <span style="color:var(--blue)">→ ?</span></div>
+    <div class="opts">${order.map((oi,i)=>`<button class="opt" onclick="answerTransform(${i})"><span class="opt-l">${L[i]}</span>${it.opts[oi]}</button>`).join('')}</div>`;
+  state.answered=false;
+}
+function answerTransform(i){
+  if(state.answered)return;state.answered=true;
+  const{it,order}=state.cur;
+  const correctPos=order.indexOf(0);
+  document.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+  document.querySelectorAll('.opt')[correctPos].classList.add('correct');
+  if(i===correctPos){onCorrect(10);showFB(true,'¡Correcto!',it.q+' → '+it.a);}
+  else{document.querySelectorAll('.opt')[i].classList.add('wrong');onWrong(null,'<b>'+it.q+'</b> → '+it.a);showFB(false,'Incorrecto',it.q+' → '+it.a);}
   saveState();
 }
 
@@ -1064,18 +1325,18 @@ function finishGrammar(){state.lessonCorrect=4;gainXP(20);saveState();finishLess
 
 /* STORIES */
 function renderStory(body){
-  const st=state.lessonQueue[0];
+  const st=state.lessonType==='exam'?state.examStory:state.lessonQueue[0];
   if(state.storyPhase==='d'){
     const shown=st.lines.slice(0,state.storyLine+1);
     const last=st.lines.length-1;
     body.innerHTML=`
-      <div class="ex-type">${ic('chat')} Historia</div>
+      <div class="ex-type">${ic('chat')} ${st.exam?'Comprensión lectora':'Historia'}</div>
       <div><div class="ex-q">${st.title}</div><div class="story-place">${st.place}</div></div>
       <div class="bubs">${shown.map((l,i)=>`
         <div class="bub ${l.sp}${i===shown.length-1?' enter':''}">
           <div class="bub-name">${l.name}</div>
           <div class="bub-mal">${l.mal}</div>
-          <div class="bub-es">${l.es}</div>
+          ${l.es?`<div class="bub-es">${l.es}</div>`:''}
         </div>`).join('')}</div>
       <button class="check-btn" onclick="storyNext()">${state.storyLine>=last?'Ver preguntas':'Continuar'}</button>`;
     body.scrollTop=body.scrollHeight;
@@ -1092,7 +1353,7 @@ function renderStory(body){
   }
 }
 function storyNext(){
-  const st=state.lessonQueue[0];
+  const st=state.lessonType==='exam'?state.examStory:state.lessonQueue[0];
   if(state.storyLine<st.lines.length-1){state.storyLine++;renderStory(document.getElementById('lesson-body'));}
   else{state.storyPhase='q';gainXP(10);renderExercise();}
 }
@@ -1109,6 +1370,12 @@ function answerStory(i){
 
 /* FEEDBACK */
 function showFB(ok,title,desc){
+  const rep=document.getElementById('fb-report');
+  if(rep){
+    const info=(state.cur&&state.cur.card)?state.cur.card.rom+' = '+state.cur.card.trans:(desc||'');
+    rep.href='https://github.com/jfdzp/Learn-Malayalam/issues/new?title='+encodeURIComponent('Error en ejercicio')+'&body='+encodeURIComponent('Ejercicio: '+info+'\n\nDescribe el problema:');
+    rep.style.display=ok?'none':'block';
+  }
   const bar=document.getElementById('fbar');
   bar.className='fbar show '+(ok?'ok':'bad');
   document.getElementById('fb-ico').innerHTML=ic(ok?'check':'x');
@@ -1119,7 +1386,13 @@ function nextExercise(){
   document.getElementById('fbar').classList.remove('show');
   state.answered=false;
   if(state.lives<=0){finishLesson(true);return;}
-  if(state.lessonType==='story'){state.storyQ++;if(state.storyQ>=state.lessonQueue[0].qs.length)finishLesson();else renderExercise();return;}
+  if(state.lessonType==='story'||(state.lessonType==='exam'&&state.examPhase==='story')){
+    state.storyQ++;
+    const st=state.lessonType==='exam'?state.examStory:state.lessonQueue[0];
+    if(state.storyQ>=st.qs.length)finishLesson();else renderExercise();
+    return;
+  }
+  if(state.lessonType==='exam'){examAdvance();return;}
   if(state.lessonType==='fc'){nextFC();return;}
   state.lessonIdx++;
   if(state.lessonIdx>=state.lessonQueue.length)finishLesson();
@@ -1130,14 +1403,20 @@ function finishLesson(failed){
   document.getElementById('fbar').classList.remove('show');
   const today=new Date().toDateString();
   if(state.lastPracticeDate!==today){
-    state.streak=state.lastPracticeDate===new Date(Date.now()-864e5).toDateString()?state.streak+1:1;
+    const yesterday=new Date(Date.now()-864e5).toDateString();
+    const dayBefore=new Date(Date.now()-1728e5).toDateString();
+    if(state.lastPracticeDate===yesterday)state.streak++;
+    else if(state.lastPracticeDate===dayBefore&&(state.freezes||0)>0){state.freezes--;state.streak++;showToast('Protector de racha usado');}
+    else state.streak=1;
+    if(state.streak>0&&state.streak%7===0&&(state.freezes||0)<2){state.freezes=(state.freezes||0)+1;showToast('Has ganado un protector de racha');}
+    if(state.streak>(state.bestStreak||0))state.bestStreak=state.streak;
     state.lastPracticeDate=today;
   }
   state.activityLog[today]=(state.activityLog[today]||0)+1;
   const total=state.lessonCorrect+state.lessonWrong;
   const pct=total>0?Math.round(state.lessonCorrect/total*100):80;
   const stars=failed?0:pct>=90?3:pct>=70?2:pct>=50?1:0;
-  if(state.currentLessonId!=='review'){
+  if(state.currentLessonId!=='review'&&!String(state.currentLessonId).startsWith('_')){
     const prev=state.completedLessons[state.currentLessonId]||0;
     if(stars>prev)state.completedLessons[state.currentLessonId]=stars;
   }
@@ -1167,10 +1446,121 @@ function finishLesson(failed){
     const el=document.getElementById(id);el.classList.remove('lit');
     if(i<stars)setTimeout(()=>el.classList.add('lit'),400+i*300);
   });
+  if(state.currentLessonId==='_placement'){
+    const passed1=state.lessonCorrect>=5,passed2=state.lessonCorrect>=7;
+    if(passed1){['ex0'].forEach(x=>{if(!state.completedLessons[x])state.completedLessons[x]=1;});}
+    if(passed2){['ex1'].forEach(x=>{if(!state.completedLessons[x])state.completedLessons[x]=1;});}
+    saveState();
+    if(passed2)showToast('Nivel alto: Unidades 0-1 desbloqueadas');
+    else if(passed1)showToast('Unidad 0 superada — empiezas en la 1');
+    else showToast('Empezamos desde el principio');
+  }
+  const nid=(!failed&&stars>0&&state.currentLessonId!=='review'&&!String(state.currentLessonId).startsWith('_'))?getNextLessonId(state.currentLessonId):null;
+  state.resNext=nid;
+  const pbtn=document.querySelector('#screen-result .res-btn.primary');
+  pbtn.textContent=nid?'Siguiente lección':'Repetir lección';
+  pbtn.onclick=nid?resPrimary:restartLesson;
   showScreen('result');
   if(stars>0)setTimeout(launchConfetti,400);
 }
-function restartLesson(){if(state.currentLessonId==='review')startReview();else startLesson(state.currentLessonId);}
+function restartLesson(){if(String(state.currentLessonId).startsWith('_'))goHome();else if(state.currentLessonId==='review')startReview();else startLesson(state.currentLessonId);}
+function getNextLessonId(cur){
+  const flat=[];UNITS.forEach(u=>u.lessons.forEach(l=>flat.push(l.id)));
+  const i=flat.indexOf(cur);
+  return i>=0&&i<flat.length-1?flat[i+1]:null;
+}
+function resPrimary(){
+  const nid=state.resNext;
+  if(nid)startLesson(nid);else restartLesson();
+}
+
+
+/* SETTINGS */
+function openSettings(){
+  document.getElementById('set-name').value=state.userName||'';
+  document.getElementById('set-sound').textContent=state.sound===false?'Desactivados':'Activados';
+  document.getElementById('set-goal').value=String(state.goalXP||40);
+  document.getElementById('set-freezes').textContent=state.freezes||0;
+  document.getElementById('backup-box').style.display='none';
+  document.getElementById('settings-modal').classList.add('show');
+}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+function toggleSound(){state.sound=state.sound===false?true:false;document.getElementById('set-sound').textContent=state.sound===false?'Desactivados':'Activados';saveState();}
+function setGoal(v){state.goalXP=parseInt(v);saveState();}
+function saveSettings(){
+  const n=document.getElementById('set-name').value.trim();
+  if(n)state.userName=n.slice(0,20);
+  saveState();closeModal('settings-modal');
+  if(document.getElementById('screen-profile').classList.contains('active'))renderProfile();
+}
+function exportProgress(){
+  const code=btoa(unescape(encodeURIComponent(JSON.stringify({v:1,d:state}))));
+  const box=document.getElementById('backup-box');
+  box.style.display='block';box.value=code;box.onfocus=null;
+  box.select();
+  try{navigator.clipboard.writeText(code);showToast('Código copiado al portapapeles');}catch(e){showToast('Copia el código del cuadro');}
+}
+function importPrompt(){
+  const box=document.getElementById('backup-box');
+  box.style.display='block';box.value='';box.placeholder='Pega aquí tu código y vuelve a pulsar Importar';
+  box.onfocus=()=>{};
+  if(box._armed){
+    try{
+      const parsed=JSON.parse(decodeURIComponent(escape(atob(box.value.trim()))));
+      if(parsed&&parsed.d){Object.assign(state,parsed.d);saveState();showToast('Progreso importado');closeModal('settings-modal');showScreen('home');}
+      else showToast('Código no válido');
+    }catch(e){showToast('Código no válido');}
+    box._armed=false;
+  }else{box._armed=true;showToast('Pega el código y pulsa Importar otra vez');}
+}
+function resetProgress(){
+  if(!confirm('¿Seguro? Se borrará TODO tu progreso.'))return;
+  localStorage.removeItem('kerala_v4');location.reload();
+}
+
+/* PLACEMENT TEST */
+function startPlacement(){
+  const inp=document.getElementById('ob-name');
+  if(inp&&inp.value.trim())state.userName=inp.value.trim().slice(0,20);
+  state.onboardDone=true;saveState();
+  document.getElementById('screen-onboard').classList.remove('active');
+  document.getElementById('bottom-nav').style.display='flex';
+  const pool=ALL_WORDS.filter(w=>['greeting','pronoun','family','food','number'].includes(w.cat)).sort(()=>Math.random()-.5);
+  state.currentLessonId='_placement';state.lessonType='mc';
+  state.lessonCorrect=0;state.lessonWrong=0;state.lessonXP=0;state.answered=false;state.lives=3;state.combo=0;state.lessonMistakes=[];state.noLives=true;
+  state.lessonPool=pool;state.lessonQueue=pool.slice(0,8);state.lessonIdx=0;
+  updateLives();updateCombo();showScreen('lesson');renderExercise();
+}
+
+/* WORD DETAIL */
+function wdOpen(rom){
+  const w=ALL_WORDS.find(x=>x.rom===rom);if(!w)return;
+  const conj=typeof CONJ!=='undefined'&&CONJ[rom];
+  const issue='https://github.com/jfdzp/Learn-Malayalam/issues/new?title='+encodeURIComponent('Error en palabra: '+rom)+'&body='+encodeURIComponent('Palabra: '+w.mal+' ('+rom+')\nTraducción actual: '+w.trans+'\n\nDescribe el error:');
+  document.getElementById('word-modal-body').innerHTML=`
+    <div class="wd-mal">${w.mal}</div>
+    <div class="wd-rom">${w.rom}</div>
+    <div class="wd-trans">${w.trans}</div>
+    ${w.ex?`<div class="wd-ex">${w.ex}</div>`:''}
+    ${conj?`<div class="conj-table">
+      <div><span>Infinitivo</span><b>${conj.inf}</b></div>
+      <div><span>Presente</span><b>${conj.pres}</b></div>
+      <div><span>Pasado</span><b>${conj.past}</b></div>
+      <div><span>Futuro</span><b>${conj.fut}</b></div>
+    </div>`:''}
+    <button class="check-btn" style="margin-bottom:9px" onclick="closeModal('word-modal');startCatPractice('${w.cat}')">Practicar ${CAT_META[w.cat]?CAT_META[w.cat].name.toLowerCase():'categoría'}</button>
+    <a href="${issue}" target="_blank" style="display:block;text-align:center;font-size:12px;color:var(--text3);text-decoration:underline">Reportar un error en esta palabra</a>`;
+  document.getElementById('word-modal').classList.add('show');
+}
+function startCatPractice(cat){
+  const pool=ALL_WORDS.filter(w=>w.cat===cat).sort(()=>Math.random()-.5);
+  if(pool.length<4)return;
+  state.currentLessonId='_cat';state.lessonType='mc';
+  state.lessonCorrect=0;state.lessonWrong=0;state.lessonXP=0;state.answered=false;state.lives=3;state.combo=0;state.lessonMistakes=[];state.noLives=true;
+  state.lessonPool=pool;state.lessonQueue=pool.slice(0,8);state.lessonIdx=0;
+  document.getElementById('fbar').classList.remove('show');
+  updateLives();updateCombo();showScreen('lesson');renderExercise();
+}
 
 /* VOCAB */
 let curFilter='all';
@@ -1182,10 +1572,10 @@ function renderFilters(){
 function renderVocab(filter,search=''){
   curFilter=filter;
   let cards=filter==='all'?ALL_WORDS:ALL_WORDS.filter(c=>c.cat===filter);
-  if(search){const s=search.toLowerCase();cards=cards.filter(c=>c.mal.includes(search)||c.rom.toLowerCase().includes(s)||c.trans.toLowerCase().includes(s));}
+  if(search){const s=fold(search);cards=cards.filter(c=>c.mal.includes(search)||fold(c.rom).includes(s)||fold(c.trans).includes(s));}
   document.getElementById('v-count').textContent=cards.length+' palabras';
   document.getElementById('v-list').innerHTML=cards.length?cards.map(c=>`
-    <div class="v-item">
+    <div class="v-item" onclick="wdOpen('${c.rom.replace(/'/g,"\\'")}')" style="cursor:pointer">
       <div class="v-dot" style="background:${c.dot||CAT_META[c.cat]?.color||'#888'}"></div>
       <span class="v-mal">${c.mal}</span>
       <div class="v-right"><div class="v-trans">${c.trans}</div><div class="v-rom">${c.rom}</div></div>
@@ -1206,14 +1596,32 @@ const ACHIEVEMENTS=[
   {icon:'crown',name:'Corona dorada',desc:'3 estrellas en una lección',u:()=>Object.values(state.completedLessons).some(s=>s===3)},
   {icon:'sun',name:'Kerala lover',desc:'7 días seguidos',u:()=>state.streak>=7},
   {icon:'gem',name:'Experto',desc:'1000 XP',u:()=>state.xp>=1000},
-  {icon:'gradcap',name:'Nivel A1',desc:'3 estrellas en el examen final',u:()=>(state.completedLessons['l6f']||0)>=3},
+  {icon:'gradcap',name:'Nivel A1',desc:'3 estrellas en el examen final',u:()=>(state.completedLessons['ex6']||0)>=3},
 ];
 function renderProfile(){
   const lvl=Math.floor(state.xp/100)+1;
+  const nm=state.userName||'Aprendiz';
+  document.querySelector('.p-name').textContent=nm;
+  document.querySelector('.p-avatar').textContent=nm[0].toUpperCase();
   document.getElementById('pp-streak').textContent=state.streak;
   document.getElementById('pp-xp').textContent=state.xp;
   document.getElementById('pp-correct').textContent=state.totalCorrect;
   document.getElementById('pp-stars').textContent=state.totalStars;
+  const extra=document.getElementById('pp-extra');
+  if(extra){
+    const seen=state.wordSeen?Object.keys(state.wordSeen).length:0;
+    const dominated=state.wordSeen?Object.keys(state.wordSeen).filter(r=>!state.errors[r]).length:0;
+    extra.innerHTML=`
+      <div class="p-card"><div class="p-ico" style="color:var(--orange)">${ic('flame')}</div><div class="p-val">${state.bestStreak||state.streak||0}</div><div class="p-lbl">Mejor racha</div></div>
+      <div class="p-card"><div class="p-ico" style="color:var(--blue)">${ic('bolt')}</div><div class="p-val">${state.bestCombo||0}</div><div class="p-lbl">Mejor combo</div></div>
+      <div class="p-card"><div class="p-ico" style="color:var(--green)">${ic('book')}</div><div class="p-val">${seen}</div><div class="p-lbl">Palabras vistas</div></div>
+      <div class="p-card"><div class="p-ico" style="color:var(--gold)">${ic('star')}</div><div class="p-val">${dominated}</div><div class="p-lbl">Dominadas</div></div>`;
+  }
+  const cl=document.getElementById('culture-list');
+  if(cl&&typeof CULTURE!=='undefined'&&!cl.dataset.done){
+    cl.dataset.done='1';
+    cl.innerHTML=CULTURE.map((c,i)=>`<div class="cult-item" onclick="this.classList.toggle('open')"><h4>${ic('leaf')} ${c.title}</h4><p>${c.text}</p></div>`).join('');
+  }
   document.getElementById('p-xp-cur').textContent=state.xp+' XP';
   document.getElementById('p-lvl').textContent='Nivel '+lvl;
   document.getElementById('p-xp-fill').style.width=(state.xp%100)+'%';
@@ -1250,6 +1658,37 @@ onCorrect=function(x,r){_origOnCorrect(x,r);if(!state.bestCombo||state.combo>sta
 /* ===== LETTERS (trazado) ===== */
 let ltList=[],ltIdx=0,ltDrawing=false,ltCtx=null;
 function ltAll(){return [...LETTERS.vowels.map(l=>({...l,sec:'v'})),...LETTERS.consonants.map(l=>({...l,sec:'c'})),...LETTERS.signs.map(l=>({...l,sec:'s'}))];}
+function startLetterQuiz(){
+  const pool=ltAll().filter(l=>l.rom);
+  const qs=[...pool].sort(()=>Math.random()-.5).slice(0,10);
+  state.currentLessonId='_ltquiz';state.lessonType='ltquiz';
+  state.lessonCorrect=0;state.lessonWrong=0;state.lessonXP=0;state.answered=false;state.lives=3;state.combo=0;state.lessonMistakes=[];state.noLives=true;
+  state.lessonQueue=qs;state.lessonIdx=0;state._ltPool=pool;
+  document.getElementById('fbar').classList.remove('show');
+  updateLives();updateCombo();showScreen('lesson');renderExercise();
+}
+function renderLtQuiz(body){
+  const l=state.lessonQueue[state.lessonIdx];
+  const wrongs=state._ltPool.filter(x=>x.rom!==l.rom).sort(()=>Math.random()-.5).slice(0,3);
+  const opts=[l.rom,...wrongs.map(w=>w.rom)].sort(()=>Math.random()-.5);
+  state.cur={correct:l.rom,l};
+  const L=['A','B','C','D'];
+  body.innerHTML=`
+    <div class="ex-type">${ic('pencil')} ¿Qué letra es?</div>
+    <div style="text-align:center;font-size:84px;font-weight:700;padding:14px 0">${l.ch}</div>
+    <div class="opts">${opts.map((o,i)=>`<button class="opt" onclick="answerLtQuiz(${i},'${o}')"><span class="opt-l">${L[i]}</span>${o}</button>`).join('')}</div>`;
+  state.answered=false;
+}
+function answerLtQuiz(i,val){
+  if(state.answered)return;state.answered=true;
+  const{correct,l}=state.cur;
+  const btns=document.querySelectorAll('.opt');
+  btns.forEach(b=>b.disabled=true);
+  btns.forEach(b=>{if(b.textContent.slice(1)===correct)b.classList.add('correct');});
+  if(val===correct){onCorrect(8);showFB(true,'¡Correcto!',l.ch+' = '+l.rom+(l.ex?' · '+l.ex:''));}
+  else{btns[i].classList.add('wrong');onWrong(null,'<b>'+l.ch+'</b> = '+l.rom);showFB(false,'Incorrecto',l.ch+' = '+l.rom);}
+  saveState();
+}
 function renderLetters(){
   document.getElementById('lt-practice').classList.remove('active');
   document.getElementById('lt-grid-view').style.display='block';
@@ -1266,6 +1705,8 @@ function renderLetters(){
     '<div class="lt-grid">'+LETTERS.consonants.map((l,i)=>cell(l,i,'consonants')).join('')+'</div>'+
     '<div class="lt-sec">Signos vocálicos · '+LETTERS.signs.filter(l=>state.lettersDone[l.ch]).length+'/'+LETTERS.signs.length+'</div>'+
     '<div class="lt-grid">'+LETTERS.signs.map((l,i)=>cell(l,i,'signs')).join('')+'</div>'+
+    (LETTERS.ligatures?'<div class="lt-sec">Ligaduras · '+LETTERS.ligatures.filter(l=>state.lettersDone[l.ch]).length+'/'+LETTERS.ligatures.length+'</div>'+
+    '<div class="lt-grid">'+LETTERS.ligatures.map((l,i)=>cell(l,i,'ligatures')).join('')+'</div>':'')+
     '<p style="margin-top:18px;font-size:10px;color:var(--text3);text-align:center">Trazados y orden de escritura: Malayalam Mash · Santhosh Thottingal / SMC · Licencia MIT</p>';
 }
 function ltOpen(list,i){
@@ -1348,7 +1789,19 @@ function ltAnimate(){
   }
 }
 
-if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js').then(reg=>{
+      reg.addEventListener('updatefound',()=>{
+        const nw=reg.installing;
+        if(nw)nw.addEventListener('statechange',()=>{
+          if(nw.state==='installed'&&navigator.serviceWorker.controller)showToast('Actualización lista: cierra y abre la app');
+        });
+      });
+    }).catch(()=>{});
+  });
+}
+if(typeof ALL_WORDS==='undefined'){document.body.innerHTML='<div style="padding:60px 30px;text-align:center;color:#EEF6F4;font-family:sans-serif"><h2>Faltan datos</h2><p style="color:#8FA6A6;margin-top:10px">No se pudo cargar data.js. Comprueba tu conexión y recarga.</p></div>';throw new Error('data.js missing');}
 
 iconize();
 loadState();
